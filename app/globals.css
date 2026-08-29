@@ -1,0 +1,527 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   GVEDA — BOTANICAL SCIENCE FOR MODERN SKIN
+   OFFICIAL TYPOGRAPHY (@font-face)
+   ========================================================================== */
+
+/* ── Montserrat (Primary Typeface - 90%+) ── */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Static fallbacks for Montserrat */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/static/Montserrat-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/static/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Cormorant Garamond (Secondary Typeface — Editorial Accent Only) ── */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Static fallbacks for Cormorant Garamond */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/Cormorant_Garamond/static/CormorantGaramond-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+/* ==========================================================================
+   ROOT DESIGN TOKENS (GVEDA Official Brand Guidelines v1.2)
+   ========================================================================== */
+
+:root {
+  color-scheme: light !important;
+
+  /* ── 90% Primary Brand Canvas ── */
+  --warm-ivory: #F7F5F1;         /* Website, presentations, main brand background */
+  --soft-white: #FAFAF8;         /* Packaging base, surface & card containers */
+  --surface-alt: #FFFFFF;        /* Pure clean surface */
+  
+  --background: #F7F5F1;
+  --surface: #FAFAF8;
+
+  /* ── 10% Contrast & Accent ── */
+  --rich-black: #111111;         /* Logo, typography, icons */
+  --botanical-gold: #BD9F7D;     /* Muted Botanical Gold (Leaf, dividers, subtle highlights) */
+
+  --foreground: #111111;
+  --primary: #111111;
+  --primary-hover: #222222;
+  --secondary: #BD9F7D;
+  --secondary-dark: #9F8262;
+  --secondary-hover: #A88D6D;
+  --secondary-light: #F4EFEA;
+  --accent: #BD9F7D;
+  --accent-gold: #BD9F7D;
+  --gold: #BD9F7D;
+
+  /* ── Typography Colors ── */
+  --text-heading: #111111;
+  --text-body: #111111;
+  --text-body-secondary: #3D3D3D;
+  --text-muted: #737373;
+  --text-light: #949494;
+
+  /* ── Structural Borders & Dividers ── */
+  --border: rgba(17, 17, 17, 0.08);
+  --border-subtle: rgba(17, 17, 17, 0.05);
+  --border-gold: rgba(189, 159, 125, 0.35);
+
+  /* ── Controlled Rounded UI ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Soft Botanical Shadows ── */
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 12px 36px rgba(17, 17, 17, 0.04);
+
+  /* ── Layout ── */
+  --container: 1400px;
+}
+
+
+/* ==========================================================================
+   TAILWIND THEME TOKENS (v4 @theme)
+   ========================================================================== */
+
+@theme {
+  /* Colors */
+  --color-warm-ivory: #F7F5F1;
+  --color-soft-white: #FAFAF8;
+  --color-rich-black: #111111;
+  --color-botanical-gold: #BD9F7D;
+  --color-gold: #BD9F7D;
+
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-light: var(--secondary-light);
+
+  --color-accent: var(--accent);
+  --color-accent-gold: var(--accent-gold);
+
+  --color-heading: var(--text-heading);
+  --color-body: var(--text-body);
+  --color-muted: var(--text-muted);
+
+  --color-border: var(--border);
+  --color-border-gold: var(--border-gold);
+
+  /* Typography */
+  --font-primary: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-heading: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-secondary: "Cormorant Garamond", Georgia, serif;
+  --font-editorial: "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+}
+
+
+/* ==========================================================================
+   BASE STYLES & HIERARCHY
+   ========================================================================== */
+
+html {
+  color-scheme: light !important;
+  scroll-behavior: smooth;
+  background-color: var(--background);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-primary);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── Typography Hierarchy ── */
+  /* H1: Bold (700) */
+  h1 {
+    font-family: var(--font-heading) !important;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  /* H2: SemiBold (600) */
+  h2 {
+    font-family: var(--font-heading) !important;
+    font-weight: 600;
+    color: var(--text-heading);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  /* H3: Medium (500) */
+  h3 {
+    font-family: var(--font-heading) !important;
+    font-weight: 500;
+    color: var(--text-heading);
+    line-height: 1.35;
+  }
+
+  /* H4-H6: Medium (500) */
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading) !important;
+    font-weight: 500;
+    color: var(--text-heading);
+    line-height: 1.4;
+  }
+
+  /* Body: Regular (400) */
+  p {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    color: var(--text-body);
+    line-height: 1.7;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  input,
+  button,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+}
+
+
+/* ==========================================================================
+   REUSABLE UTILITIES & EDITORIAL STYLES
+   ========================================================================== */
+
+/* ── Editorial Font (Emotional Accent Only - 1 word or 3-6 words) ── */
+.font-editorial,
+.editorial-accent,
+.text-editorial {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ── Caption / Eyebrow: Light (300) ── */
+.caption,
+.text-caption,
+.eyebrow {
+  font-family: var(--font-primary);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ── Subtle Dividers ── */
+.divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.divider-gold {
+  border: 0;
+  border-top: 1px solid var(--border-gold);
+}
+
+/* ── Clean GVEDA Cards (90% Soft White / Ivory) ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+}
+
+.card-soft {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ── Text Selection ── */
+::selection {
+  background: var(--rich-black);
+  color: var(--warm-ivory);
+}
+
+/* ── Neutral overrides to preserve brand harmony ── */
+.text-neutral-950,
+.text-neutral-900,
+.text-neutral-800 {
+  color: var(--text-heading) !important;
+}
+
+.text-neutral-700,
+.text-neutral-600,
+.text-neutral-500 {
+  color: var(--text-body-secondary) !important;
+}
+
+.text-neutral-400,
+.text-neutral-300,
+.text-neutral-200 {
+  color: var(--text-muted) !important;
+}
+
+.border-neutral-200,
+.border-neutral-300,
+.border-neutral-800,
+.border-white {
+  border-color: var(--border) !important;
+}
+
+/* ── Scrollbar (Clean hidden aesthetic) ── */
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+
+/* ==========================================================================
+   PRELOADER & MICRO-ANIMATIONS
+   ========================================================================== */
+
+.preloader-spinner {
+  width: 12px;
+  height: 12px;
+  margin: 40px auto;
+  border-radius: 50%;
+  box-shadow:
+    rgba(189, 159, 125, 0.6) 0px -24px 0px,
+    rgba(189, 159, 125, 0.8) 17px -17px 0px,
+    rgb(189, 159, 125) 24px 0px 0px,
+    rgba(189, 159, 125, 0.5) 17px 17px 0px,
+    rgba(189, 159, 125, 0.4) 0px 24px 0px,
+    rgba(189, 159, 125, 0.4) -17px 17px 0px,
+    rgba(189, 159, 125, 0.4) -24px 0px 0px,
+    rgba(189, 159, 125, 0.4) -17px -17px 0px;
+  transform-origin: 50% center;
+  animation: preloader-spin 0.75s steps(8) infinite;
+}
+
+@keyframes preloader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Product Card Hover Reveal */
+.product-card-hover-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(0) scale(1.08);
+  backface-visibility: hidden;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  will-change: clip-path, transform, opacity;
+  transition:
+    clip-path 0.5s cubic-bezier(0.87, 0, 0.13, 1),
+    transform 0.5s cubic-bezier(0.87, 0, 0.13, 1),
+    opacity 0.4s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.group:hover .product-card-hover-image {
+  transform: translateZ(0) scale(1);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  opacity: 1;
+}
+
+/* Hide native iOS Safari video play buttons */
+video::-webkit-media-controls,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-overlay-play-button,
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
