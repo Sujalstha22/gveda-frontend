@@ -9,7 +9,7 @@ export default function PreloaderLogo({ logoRef }: PreloaderLogoProps) {
   return (
     <div
       ref={logoRef}
-      className="relative w-48 sm:w-64 md:w-80 max-w-[80vw] h-auto pointer-events-none select-none"
+      className="relative w-[50vw] sm:w-[35vw] md:w-[26vw] lg:w-[18vw] h-auto pointer-events-none select-none"
     >
       <svg
         viewBox="82 194 628 224"

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_LINKS } from './navData';
 
+import Button from '@/shared/ui/Button';
+
 interface MobileDrawerProps {
   open: boolean;
   onClose: () => void;
@@ -104,8 +106,17 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
             })}
           </nav>
 
-          <div className="pt-6 border-t border-border/40">
-            <p className="font-primary text-xs text-muted tracking-wider uppercase">
+          <div className="pt-6 border-t border-border/40 flex flex-col gap-4">
+            <Link href="/login" onClick={onClose} className="w-full">
+              <Button
+                variant="primary"
+                size="md"
+                className="w-full tracking-widest text-xs py-3"
+              >
+                LOGIN
+              </Button>
+            </Link>
+            <p className="font-primary text-xs text-muted tracking-wider uppercase text-center">
               Botanical Science for Modern Skin
             </p>
           </div>

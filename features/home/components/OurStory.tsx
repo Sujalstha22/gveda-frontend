@@ -9,31 +9,33 @@ export default function OurStory() {
     return (
         <section
             aria-label="Our Story"
-            className="relative  w-full pt-16 overflow-hidden"
+            className="relative bg-secondary/20 w-full  overflow-hidden select-none"
         >
-            <div className="w-full px-6 sm:px-10 lg:px-16">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24 items-center">
+            <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-[5vw] items-center">
 
-                    <div className="relative w-full aspect-4/3 sm:aspect-16/11 lg:aspect-4/4 rounded-lg overflow-hidden group ">
+                    {/* ── Left Visual ── */}
+                    <div className="relative w-full aspect-4/3 sm:aspect-16/11 lg:aspect-square rounded-2xl lg:rounded-[1vw] overflow-hidden group shadow-2xs">
                         <Image
                             src="/images/home/abt2.png"
                             alt="GVEDA botanical formulation and laboratory extraction"
                             fill
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                            className="object-cover object-center"
+                            sizes="(max-width: 1024px) 100vw, 45vw"
+                            className="object-cover object-center "
                         />
                     </div>
 
-                    <div className="flex flex-col items-start justify-center max-w-xl">
-                        <span className="font-editorial italic text-2xl sm:text-3xl text-botanical-gold font-normal mb-1">
+                    {/* ── Right Content ── */}
+                    <div className="flex flex-col items-start justify-center w-full max-w-xl lg:max-w-none lg:pr-[2vw]">
+                        <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                             Discover
                         </span>
 
-                        <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl text-primary mb-6 sm:mb-8">
+                        <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
                             Our Story
                         </h2>
 
-                        <div className="space-y-4 font-primary font-normal text-base sm:text-md text-primary/80 mb-8 sm:mb-10">
+                        <div className="space-y-4 lg:space-y-[1vw] font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.7] text-primary/80 mb-8 sm:mb-10 lg:mb-[2.2vw]">
                             <p>
                                 Born from a reverence for ancient botanical remedies and the
                                 precision of modern dermatology, GVEDA blends the purity of
@@ -49,11 +51,10 @@ export default function OurStory() {
                             </p>
                         </div>
 
-                        <Link href="/our-story">
+                        <Link href="/about">
                             <Button
                                 variant="ghost"
                                 size="md"
-                                className="px-8 sm:px-10 py-3 text-xs sm:text-sm font-primary font-medium tracking-[0.14em] uppercase rounded-full hover:shadow-subtle"
                             >
                                 Know More
                             </Button>

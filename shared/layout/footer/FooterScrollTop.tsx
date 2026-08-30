@@ -10,18 +10,17 @@ export default function FooterScrollTop() {
   };
 
   return (
-    <div className="flex justify-end items-center mb-8 sm:mb-12">
+    <div className="flex justify-end items-center mb-6 sm:mb-8 lg:mb-[2vw]">
       <button
         type="button"
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className="group flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-primary/80 hover:text-primary cursor-pointer transition-colors"
+        className="group flex items-center gap-2 lg:gap-[0.4vw] text-xs lg:text-[0.7vw] font-medium tracking-widest uppercase text-primary/80 hover:text-primary cursor-pointer transition-colors"
       >
         <span>TOP</span>
-        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-black/20 flex items-center justify-center transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">
+        <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-[2.2vw] lg:h-[2.2vw] rounded-full border border-black/20 flex items-center justify-center transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">
           <svg
-            width="14"
-            height="14"
+            className="w-3.5 h-3.5 lg:w-[0.8vw] lg:h-[0.8vw]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -37,3 +36,4 @@ export default function FooterScrollTop() {
     </div>
   );
 }
+

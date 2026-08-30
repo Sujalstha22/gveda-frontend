@@ -2,22 +2,24 @@ import React from 'react';
 
 const Intro = () => {
     return (
-        <section className="w-full pb-12 pt-20 sm:pt-28  px-6 sm:px-12 md:px-16 select-none bg-secondary/20">
-            <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-                {/* ── Editorial Heading with subtle highlight box ── */}
-                <h2 className="font-editorial  font-normal text-3xl sm:text-4xl md:text-5xl lg:text-[3vw] text-primary ">
+        <section
+            aria-label="Welcome Intro"
+            className="w-full py-16 sm:py-20 lg:py-[5vw] px-4 sm:px-8 lg:px-[5vw] select-none bg-secondary/20"
+        >
+            <div className="w-full lg:max-w-[65vw] mx-auto flex flex-col items-center text-center">
+                {/* ── Heading ── */}
+                <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary">
                     Welcome to{' '}
-                    <span className="inline-block px-3 italic sm:px-4 py-0.5 sm:py-1  text-secondary font-editorial rounded-xs">
+                    <span className="font-editorial italic text-secondary font-normal">
                         Gveda Botanical Science
                     </span>
                 </h2>
 
                 {/* ── Brand Copy ── */}
-                <div className="flex flex-col gap-4 max-w-2xl sm:max-w-3xl mx-auto mt-6 sm:mt-8">
-                    <p className="font-primary font-normal text-xs sm:text-sm md:text-base text-primary/75 leading-relaxed tracking-wide">
-                        At Gveda, we unite sacred botanical wisdom with modern dermatological science to nourish, protect, and restore your skin and hair&apos;s natural vitality. Our pure, biocompatible formulations are thoughtfully crafted to deliver an exceptional, calming ritual for modern beauty.   Grounded in holistic wellness and clinical efficacy, every botanical active is ethically harvested and cold-pressed to preserve its living nutrients. We believe true luxury lies in simplicity—creating timeless rituals that nurture your skin barrier and reveal your enduring, luminous radiance.
+                <div className="w-full max-w-3xl lg:max-w-[55vw] mx-auto mt-6 sm:mt-8 lg:mt-[1.8vw]">
+                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.95vw] lg:leading-[1.75] text-primary/75 leading-relaxed">
+                        At Gveda, we unite sacred botanical wisdom with modern dermatological science to nourish, protect, and restore your skin and hair&apos;s natural vitality. Our pure, biocompatible formulations are thoughtfully crafted to deliver an exceptional, calming ritual for modern beauty. Grounded in holistic wellness and clinical efficacy, every botanical active is ethically harvested and cold-pressed to preserve its living nutrients. We believe true luxury lies in simplicity—creating timeless rituals that nurture your skin barrier and reveal your enduring, luminous radiance.
                     </p>
-
                 </div>
             </div>
         </section>

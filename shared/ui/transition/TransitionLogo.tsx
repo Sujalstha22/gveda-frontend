@@ -9,7 +9,7 @@ export default function TransitionLogo({ logoRef }: TransitionLogoProps) {
   return (
     <div
       ref={logoRef}
-      className="w-[min(20vw,360px)] pointer-events-none select-none"
+      className="w-[45vw] sm:w-[32vw] md:w-[24vw] lg:w-[16vw] pointer-events-none select-none"
     >
       <svg
         viewBox="82 194 628 224"

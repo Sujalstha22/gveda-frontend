@@ -100,7 +100,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         document.querySelectorAll<HTMLVideoElement>('video').forEach((vid) => {
           vid.muted = true;
           vid.playsInline = true;
-          vid.play().catch(() => {});
+          vid.play().catch(() => { });
         });
       }
 
@@ -141,12 +141,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-9999 overflow-hidden bg-warm-ivory"
+      className="fixed inset-0 z-[9999] overflow-hidden bg-warm-ivory"
       style={{ background: 'var(--warm-ivory, #F7F5F1)' }}
     >
       <div
         ref={contentRef}
-        className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none"
+        className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-[5vw] text-center select-none"
       >
         {/* Centered GVEDA Logo */}
         <PreloaderLogo logoRef={logoRef} />

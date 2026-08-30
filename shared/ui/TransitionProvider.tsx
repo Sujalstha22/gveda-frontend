@@ -49,7 +49,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           gsap.set(el, { display: 'block', yPercent: 100 });
           gsap.to(el, {
             yPercent: 0,
-            duration: 0.75,
+            duration: 0.42,
             ease: 'power3.inOut',
             onComplete: () => {
               window.scrollTo(0, 0);
@@ -99,9 +99,9 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           if (drawPaths.length > 0) {
             tl.to(drawPaths, {
               strokeDashoffset: 0,
-              duration: 2.2,
+              duration: 1.24,
               ease: 'power2.inOut',
-              stagger: 0.22,
+              stagger: 0.12,
             });
           }
           // 2. Fade in solid fills (Rich Black letters + Botanical Gold leaf)
@@ -110,19 +110,19 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               fillPaths,
               {
                 opacity: 1,
-                duration: 0.55,
+                duration: 0.31,
                 ease: 'power2.out',
               },
-              '-=0.35'
+              '-=0.20'
             );
           }
           // 3. Hold to admire the completed mark
-          tl.to({}, { duration: 0.5 })
+          tl.to({}, { duration: 0.28 })
             // 4. Fade out logo gracefully
             .to(logo, {
               opacity: 0,
               y: -16,
-              duration: 0.45,
+              duration: 0.25,
               ease: 'power2.in',
             })
             // 5. Slide curtain up to reveal page
@@ -130,10 +130,10 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               el,
               {
                 yPercent: -100,
-                duration: 1.05,
+                duration: 0.59,
                 ease: 'expo.inOut',
               },
-              '-=0.1'
+              '-=0.06'
             )
             // 6. Smooth reveal of destination page
             .to(
@@ -142,11 +142,11 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
                 opacity: 1,
                 scale: 1,
                 y: 0,
-                duration: 1.05,
+                duration: 0.59,
                 ease: 'power4.out',
                 clearProps: 'all',
               },
-              '-=0.85'
+              '-=0.48'
             );
         }}
         auto

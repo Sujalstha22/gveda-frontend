@@ -5,13 +5,15 @@ import WhyUs from "@/features/about/components/WhyUs";
 import AboutIngredients from "@/features/about/components/AboutIngredients";
 // import Values from "@/features/about/components/Values";
 import ZoomAnimation from "@/features/home/components/ZoomAnimation";
+import OurStory from "@/features/home/components/OurStory";
 
 export default function AboutPage() {
     return (
         <main>
             <AboutHero />
             <Intro />
-            <ZoomAnimation />
+            <OurStory />
+            {/* <ZoomAnimation /> */}
             <AboutIngredients />
             <AboutHome />
             <WhyUs />

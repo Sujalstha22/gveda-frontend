@@ -52,51 +52,51 @@ export default function Faq() {
 
     return (
         <section
-            className="relative w-full py-20  overflow-hidden select-none bg-secondary/20"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-secondary/20"
         >
-            <div className="w-full max-w-4xl mx-auto px-6 sm:px-10">
+            <div className="w-full max-w-4xl lg:max-w-[58vw] mx-auto px-4 sm:px-8 lg:px-0">
 
-                <div className="flex flex-col items-center text-center mb-10 sm:mb-14">
-                    <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1">
+                {/* ── Section Header ── */}
+                <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[3.5vw] w-full lg:max-w-[50vw] mx-auto">
+                    <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                         Clarity & Care
                     </span>
-                    <h2 className=" text-4xl sm:text-5xl  text-primary font-medium ">
+                    <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
                         Frequently Asked Questions
                     </h2>
-                    <p className="font-primary font-normal text-sm sm:text-base text-primary/75 max-w-2xl mt-3 sm:mt-4 leading-relaxed">
+                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 w-full max-w-2xl lg:max-w-none mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
                         Everything you need to know about our clean botanical formulations and daily wellness rituals.
                     </p>
                 </div>
 
                 {/* ── Accordion List ── */}
-                <div className="flex flex-col gap-3.5 sm:gap-4">
+                <div className="flex flex-col gap-3.5 sm:gap-4 lg:gap-[0.8vw]">
                     {FAQ_DATA.map((item, index) => {
                         const isOpen = openIndex === index;
 
                         return (
                             <div
                                 key={item.id}
-                                className="w-full bg-white/95 rounded-xl border border-black/5 overflow-hidden transition-all duration-300 hover:border-black/10"
+                                className="w-full bg-white/95 rounded-xl lg:rounded-[0.7vw] border border-black/5 overflow-hidden transition-all duration-300 hover:border-black/10"
                             >
                                 <button
                                     type="button"
                                     onClick={() => toggleItem(index)}
                                     aria-expanded={isOpen}
-                                    className="w-full flex items-center justify-between gap-4 p-5  text-left cursor-pointer transition-colors"
+                                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 lg:p-[1.2vw] text-left cursor-pointer transition-colors"
                                 >
-                                    <h3 className="font-primary font-medium text-base text-primary pr-2">
+                                    <h3 className="font-primary font-medium text-base sm:text-lg lg:text-[1vw] lg:leading-snug text-primary pr-2">
                                         {item.question}
                                     </h3>
 
                                     {/* Chevron Button */}
                                     <div
-                                        className="w-6 h-6 rounded-full bg-secondary/15 flex items-center justify-center shrink-0 text-primary/70 transition-colors"
+                                        className="w-6 h-6 lg:w-[1.6vw] lg:h-[1.6vw] rounded-full bg-secondary/15 flex items-center justify-center shrink-0 text-primary/70 transition-colors"
                                         aria-hidden="true"
                                     >
                                         <motion.svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            width="12"
-                                            height="12"
+                                            className="w-3 h-3 lg:w-[0.75vw] lg:h-[0.75vw]"
                                             viewBox="0 0 24 24"
                                             fill="none"
                                             stroke="currentColor"
@@ -121,8 +121,8 @@ export default function Faq() {
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                         >
-                                            <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
-                                                <p className="font-primary font-normal text-xs sm:text-sm  text-primary/75 leading-relaxed border-t border-black/5 pt-3.5">
+                                            <div className="px-5 pb-5 sm:px-6 sm:pb-6 lg:px-[1.2vw] lg:pb-[1.2vw] pt-0">
+                                                <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.82vw] lg:leading-[1.65] text-primary/75 leading-relaxed border-t border-black/5 pt-3.5 lg:pt-[0.9vw]">
                                                     {item.answer}
                                                 </p>
                                             </div>

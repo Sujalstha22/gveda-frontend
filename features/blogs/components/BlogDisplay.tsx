@@ -22,15 +22,18 @@ const BlogDisplay: React.FC = () => {
     const posts = data?.results ?? [];
 
     return (
-        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 md:px-12 select-none">
-            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16">
-                <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1">
+        <section
+            aria-label="Blog Articles"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] px-4 sm:px-8 lg:px-[5vw] select-none"
+        >
+            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16 lg:mb-[3.5vw]">
+                <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                     Botanical Journal
                 </span>
-                <h1 className="text-4xl sm:text-5xl text-primary font-medium">
+                <h1 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
                     Stories & Insights
                 </h1>
-                <p className="font-primary font-normal text-sm sm:text-base text-primary/75 max-w-xl mx-auto mt-3 sm:mt-4 leading-relaxed">
+                <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 max-w-xl mx-auto mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
                     Stay updated with the latest news, daily rituals, and botanical science insights from GVEDA.
                 </p>
             </div>
@@ -49,16 +52,16 @@ const BlogDisplay: React.FC = () => {
                     </button>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-[2.5vw]">
                     {posts.map((post) => {
                         const img = staticUrl(post.image?.name) || "/images/product/product11.jpeg";
                         const excerpt = stripHtml(post.content).slice(0, 140);
                         return (
                             <div
                                 key={post._id}
-                                className="flex flex-col border border-secondary/50 rounded-2xl overflow-hidden bg-primary-dark/10 group transition-all duration-300 hover:-translate-y-1 hover:border-secondary"
+                                className="flex flex-col bg-secondary/10 rounded-2xl lg:rounded-[1vw] overflow-hidden border border-secondary/20 group transition-all duration-300 hover:-translate-y-1 hover:border-secondary/50 shadow-2xs"
                             >
-                                <div className="relative aspect-4/3 sm:aspect-16/10 w-full overflow-hidden border-b border-secondary/20 flex items-center justify-center">
+                                <div className="relative aspect-4/3 sm:aspect-16/10 lg:aspect-16/10.5 w-full overflow-hidden border-b border-secondary/20 flex items-center justify-center">
                                     <Link href={`/blog/${post.slug}`} className="block w-full h-full">
                                         <Image
                                             src={img}
@@ -70,33 +73,27 @@ const BlogDisplay: React.FC = () => {
                                     </Link>
                                 </div>
 
-                                <div className="p-6 sm:p-7 flex flex-col justify-between grow gap-5">
-                                    <div className="flex flex-col gap-2.5">
-                                        <span className="text-[10px] sm:text-xs uppercase tracking-widest text-primary/70 font-medium">
+                                <div className="p-5 sm:p-6 lg:p-[1.4vw] flex flex-col justify-between grow gap-4 sm:gap-5 lg:gap-[1.2vw]">
+                                    <div className="flex flex-col gap-2 sm:gap-2.5 lg:gap-[0.6vw]">
+                                        <span className="text-[10px] sm:text-xs lg:text-[0.7vw] uppercase tracking-widest text-primary/70 font-medium">
                                             Journal
                                         </span>
 
                                         <Link href={`/blog/${post.slug}`}>
-                                            <h3 className="font-heading text-lg sm:text-xl lg:text-[1.25vw] font-medium text-primary line-clamp-2 hover:text-accent-gold transition-colors cursor-pointer leading-snug">
+                                            <h3 className="font-heading text-lg sm:text-xl lg:text-[1.15vw] font-medium text-primary line-clamp-2 hover:text-accent-gold transition-colors cursor-pointer leading-snug">
                                                 {post.title}
                                             </h3>
                                         </Link>
 
-                                        <p className="text-xs sm:text-sm text-primary/75 font-primary font-light line-clamp-2 leading-relaxed">
+                                        <p className="text-xs sm:text-sm lg:text-[0.82vw] text-primary/75 font-primary font-light line-clamp-2 leading-relaxed">
                                             {excerpt}…
                                         </p>
                                     </div>
 
-                                    <div className="pt-3 flex items-center justify-between gap-3 border-t border-secondary/20">
-                                        <Link href={`/blog/${post.slug}`} className="w-auto">
-                                            <Button size="sm" className="w-auto cursor-pointer">
-                                                Read More
-                                            </Button>
-                                        </Link>
-
-                                        <div className="flex items-center gap-1.5 text-xs sm:text-sm text-primary/70 font-primary">
+                                    <div className="pt-3.5 lg:pt-[0.9vw] flex items-center justify-between gap-3 border-t border-secondary/20">
+                                        <div className="flex items-center gap-1.5 lg:gap-[0.35vw] text-xs sm:text-sm lg:text-[0.75vw] text-primary/70 font-primary">
                                             <svg
-                                                className="w-4 h-4 text-primary/60 shrink-0"
+                                                className="w-4 h-4 lg:w-[0.9vw] lg:h-[0.9vw] text-primary/60 shrink-0"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -110,6 +107,12 @@ const BlogDisplay: React.FC = () => {
                                             </svg>
                                             <span>{formatDate(post.createdAt)}</span>
                                         </div>
+
+                                        <Link href={`/blog/${post.slug}`} className="w-auto">
+                                            <Button size="sm" className="w-auto cursor-pointer">
+                                                Read More
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

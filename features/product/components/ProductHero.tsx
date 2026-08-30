@@ -1,35 +1,71 @@
-import Image from "next/image"
+'use client';
 
-const ProductHero = () => {
-    return (
-        <div className='w-full h-svh overflow-y-visible relative flex justfy-center items-center'>
+import React from 'react';
+import {
+  HeroSvgStage,
+  HeroContentOverlay,
+  HeroControls,
+  useHeroCarousel,
+  DEFAULT_PRODUCT_HERO_SLIDES,
+  ProductHeroProps,
+} from '../hero';
 
-            <Image src="/images/product/gveda-products.jpeg" alt='products hero' fill className='object-cover object-top ' />
-            {/* <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover object-center"
-            >
-                <source src="/videos/product-hero-video.mp4" type="video/mp4" />
-            </video> */}
+export type { ProductHeroSlide, ProductHeroProps } from '../hero';
+export { DEFAULT_PRODUCT_HERO_SLIDES } from '../hero';
 
-            {/* <div className='absolute w-full h-full z-50 top-0 left-0 bg-primary/30'></div> */}
+export default function ProductHero({
+  slides = DEFAULT_PRODUCT_HERO_SLIDES,
+  intervalMs = 3000,
+  blindCount = 28,
+  className = '',
+}: ProductHeroProps) {
+  const {
+    currentIndex,
+    dimensions,
+    stageRef,
+    svgRef,
+    blindsGroupRef,
+    baseImageRef,
+    maskedImageRef,
+    progressBarsRef,
+    handleManualNext,
+    handleManualPrev,
+    handleSelectSlide,
+    handleScrollToCollection,
+  } = useHeroCarousel({
+    slides,
+    intervalMs,
+    blindCount,
+  });
 
-            {/* <div className="w-full  relative z-20 flex flex-col gap-8 justify-center p-8 md:p-16  min-h-[60vh] md:min-h-screen">
-                <div className="flex flex-col gap-4 mt-20 ml-16">
-       
+  return (
+    <section
+      ref={stageRef}
+      aria-label="Full-screen Product Carousel"
+      className={`relative w-full h-screen min-h-[450px] sm:min-h-[550px] lg:min-h-0 overflow-hidden select-none bg-warm-ivory text-primary ${className}`}
+    >
+      <HeroSvgStage
+        slides={slides}
+        dimensions={dimensions}
+        svgRef={svgRef}
+        blindsGroupRef={blindsGroupRef}
+        baseImageRef={baseImageRef}
+        maskedImageRef={maskedImageRef}
+      />
 
-                    <h2 className="font-heading text-center text-4xl lg:text-[20vh] uppercase tracking-widest text-secondary/90">
-                        Gveda <br />
-                    </h2>
-                </div>
+      {/* <HeroContentOverlay
+        slides={slides}
+        onScrollToCollection={handleScrollToCollection}
+      /> */}
 
-            </div> */}
-
-        </div>
-    )
+      <HeroControls
+        slides={slides}
+        currentIndex={currentIndex}
+        progressBarsRef={progressBarsRef}
+        onPrev={handleManualPrev}
+        onNext={handleManualNext}
+        onSelectSlide={handleSelectSlide}
+      />
+    </section>
+  );
 }
-
-export default ProductHero

@@ -20,7 +20,7 @@ export default function NavLogo({ onClick }: NavLogoProps) {
         width={120}
         height={44}
         style={{ maxWidth: '100%', height: 'auto' }}
-        className="w-31.25 sm:w-33.75 md:w-35 h-auto object-contain object-left transition-all duration-300"
+        className="w-28 sm:w-32 md:w-36 lg:w-[8vw] h-auto object-contain object-left transition-all duration-300"
         priority
       />
     </Link>
