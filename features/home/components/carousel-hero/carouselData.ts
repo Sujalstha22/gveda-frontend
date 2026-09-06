@@ -1,0 +1,78 @@
+import { SlideData } from './types';
+
+export const SLIDES: SlideData[] = [
+  {
+    id: 1,
+    title: 'AYANA BALI',
+    subtitle: 'VILLAS',
+    category: 'VILLAS',
+    kicker: 'Four exquisite retreats\non one property',
+    image: '/images/about/gveda-main-img.jpeg',
+    alt: 'AYANA Bali Villas ocean view and tropical landscape',
+  },
+  {
+    id: 2,
+    title: 'AYANA BALI',
+    subtitle: 'SEGARA',
+    category: 'SEGARA',
+    kicker: 'Contemporary luxury\nperched above the sea',
+    image: '/images/ayana/kv-02.webp',
+    alt: 'AYANA Segara modern cliffside architecture',
+  },
+  {
+    id: 3,
+    title: 'AYANA BALI',
+    subtitle: 'RESORT',
+    category: 'RESORT',
+    kicker: 'Iconic clifftop sanctuary\noverlooking Jimbaran Bay',
+    image: '/images/ayana/kv-03.webp',
+    alt: 'AYANA Resort Bali sweeping sunset ocean view',
+  },
+  {
+    id: 4,
+    title: 'AYANA BALI',
+    subtitle: 'RIMBA',
+    category: 'RIMBA',
+    kicker: 'A lush forest haven\nsurrounded by nature',
+    image: '/images/ayana/kv-04.webp',
+    alt: 'RIMBA by AYANA lush forest and cascading pools',
+  },
+  {
+    id: 5,
+    title: 'AYANA BALI',
+    subtitle: 'OCEAN VILLAS',
+    category: 'VILLAS',
+    kicker: 'Private infinity pools\nwith endless ocean horizons',
+    image: '/images/ayana/kv-05.webp',
+    alt: 'AYANA Ocean Villas private pool horizon',
+  },
+  {
+    id: 6,
+    title: 'AYANA BALI',
+    subtitle: 'SPA & WELLNESS',
+    category: 'RESORT',
+    kicker: 'World-renowned thalassotherapy\nand botanical rituals',
+    image: '/images/ayana/kv-06.webp',
+    alt: 'AYANA Thalassotherapy pool and spa sanctuary',
+  },
+  {
+    id: 7,
+    title: 'AYANA BALI',
+    subtitle: 'ROCK BAR',
+    category: 'SEGARA',
+    kicker: 'Dramatic seaside sunsets\ncarved into limestone cliffs',
+    image: '/images/ayana/kv-07.webp',
+    alt: 'Iconic Rock Bar at AYANA Bali clifftop',
+  },
+  {
+    id: 8,
+    title: 'AYANA BALI',
+    subtitle: 'SANCTUARY',
+    category: 'RIMBA',
+    kicker: 'A harmonious blend\nof botanical beauty & modern luxury',
+    image: '/images/ayana/kv-08.webp',
+    alt: 'AYANA Resort botanical gardens and architecture',
+  },
+];
+
+export const CATEGORIES = ['Overview', 'VILLAS', 'SEGARA', 'RESORT', 'RIMBA'];

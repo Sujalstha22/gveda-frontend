@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { LOGIN_SLIDES } from './loginData';
 import { BlindItem } from './loginTypes';
 
-const BLIND_COUNT = 20;
-const VB_WIDTH = 100;
-const VB_HEIGHT = 100;
+const BLIND_COUNT = 14;
 
 export default function LoginVisualStage() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const blindsGroupRef = useRef<SVGGElement | null>(null);
   const baseImageRef = useRef<SVGImageElement | null>(null);
@@ -18,25 +17,40 @@ export default function LoginVisualStage() {
   const currentIndexRef = useRef(0);
   const isTransitioningRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const transitionTlRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Initialize Blinds SVG Elements inside the Mask
-  useEffect(() => {
+  const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
+    width: 100,
+    height: 85,
+  });
+
+  // Calculate viewBox dimensions and build blinds geometry
+  const updateDimensionsAndBlinds = useCallback(() => {
+    const container = containerRef.current;
+    const width = container ? container.clientWidth : 100;
+    const height = container ? container.clientHeight : 85;
+
+    const vbWidth = 100;
+    const vbHeight = width > 0 ? (height / width) * 100 : 85;
+
+    setDimensions({ width: vbWidth, height: vbHeight });
+
     const g = blindsGroupRef.current;
     if (!g) return;
     g.innerHTML = '';
 
-    const h = VB_HEIGHT / BLIND_COUNT;
+    const h = vbHeight / BLIND_COUNT;
     const newBlinds: BlindItem[] = [];
     let currentY = 0;
 
     for (let i = 0; i < BLIND_COUNT; i++) {
-      const centerY = VB_HEIGHT - (currentY + h / 2);
+      const centerY = vbHeight - (currentY + h / 2);
       const rectTop = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       const rectBottom = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
       [rectTop, rectBottom].forEach((r) => {
         r.setAttribute('x', '0');
-        r.setAttribute('width', VB_WIDTH.toString());
+        r.setAttribute('width', vbWidth.toString());
         r.setAttribute('height', '0');
         r.setAttribute('fill', 'white');
         r.setAttribute('shape-rendering', 'crispEdges');
@@ -61,91 +75,144 @@ export default function LoginVisualStage() {
     blindsRef.current = newBlinds;
   }, []);
 
-  // Automatic Venetian Blinds Transition Loop
-  useEffect(() => {
-    const triggerNext = () => {
-      if (isTransitioningRef.current) return;
+  const startAutoplayRef = useRef<() => void>(() => {});
 
-      const currentIdx = currentIndexRef.current;
-      const nextIdx = (currentIdx + 1) % LOGIN_SLIDES.length;
+  // Main Transition Execution with SVG attribute animation & subpixel overlap
+  const triggerTransition = useCallback((nextIndex: number) => {
+    if (isTransitioningRef.current) return;
+    const currentIdx = currentIndexRef.current;
+    if (nextIndex === currentIdx) return;
 
-      const blinds = blindsRef.current;
-      const maskedImg = maskedImageRef.current;
-      const baseImg = baseImageRef.current;
+    isTransitioningRef.current = true;
 
-      if (!maskedImg || !baseImg || blinds.length === 0) {
-        currentIndexRef.current = nextIdx;
-        return;
-      }
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (transitionTlRef.current) transitionTlRef.current.kill();
 
-      isTransitioningRef.current = true;
-      maskedImg.setAttribute('href', LOGIN_SLIDES[nextIdx].image);
+    const blinds = blindsRef.current;
+    const maskedImg = maskedImageRef.current;
+    const baseImg = baseImageRef.current;
 
-      blinds.forEach((b) => {
-        b.top.setAttribute('y', b.y.toString());
-        b.top.setAttribute('height', '0');
-        b.bottom.setAttribute('y', b.y.toString());
-        b.bottom.setAttribute('height', '0');
-      });
+    if (!maskedImg || !baseImg || blinds.length === 0) {
+      currentIndexRef.current = nextIndex;
+      isTransitioningRef.current = false;
+      return;
+    }
 
-      const tl = gsap.timeline({
-        onComplete: () => {
-          baseImg.setAttribute('href', LOGIN_SLIDES[nextIdx].image);
-          blinds.forEach((b) => {
-            b.top.setAttribute('height', '0');
-            b.bottom.setAttribute('height', '0');
-          });
-          currentIndexRef.current = nextIdx;
-          isTransitioningRef.current = false;
+    maskedImg.setAttribute('href', LOGIN_SLIDES[nextIndex].image);
+
+    // Reset blinds to center with zero height
+    blinds.forEach((b) => {
+      b.top.setAttribute('y', b.y.toString());
+      b.top.setAttribute('height', '0');
+      b.bottom.setAttribute('y', b.y.toString());
+      b.bottom.setAttribute('height', '0');
+    });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        baseImg.setAttribute('href', LOGIN_SLIDES[nextIndex].image);
+        blinds.forEach((b) => {
+          b.top.setAttribute('y', b.y.toString());
+          b.top.setAttribute('height', '0');
+          b.bottom.setAttribute('y', b.y.toString());
+          b.bottom.setAttribute('height', '0');
+        });
+        currentIndexRef.current = nextIndex;
+        isTransitioningRef.current = false;
+        startAutoplayRef.current();
+      },
+    });
+
+    transitionTlRef.current = tl;
+
+    // Animate SVG attributes expanding from center with smooth easing & subpixel gap fix
+    tl.to(
+      blinds.flatMap((b) => [b.top, b.bottom]),
+      {
+        attr: {
+          y: (idx) => {
+            const b = blinds[Math.floor(idx / 2)];
+            return idx % 2 === 0 ? b.y - b.h : b.y;
+          },
+          height: (idx) => {
+            const b = blinds[Math.floor(idx / 2)];
+            return b.h + 0.04; // Subpixel overlap prevents 1px line glitch
+          },
         },
-      });
-
-      blinds.forEach((b, i) => {
-        const topY = b.y - b.h;
-        const delay = i * 0.015;
-
-        tl.to(
-          b.top,
-          {
-            y: topY,
-            height: b.h,
-            duration: 1.0,
-            ease: 'power2.inOut',
-          },
-          delay
-        );
-
-        tl.to(
-          b.bottom,
-          {
-            y: b.y,
-            height: b.h,
-            duration: 1.0,
-            ease: 'power2.inOut',
-          },
-          delay
-        );
-      });
-    };
-
-    timerRef.current = setInterval(triggerNext, 3400);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+        duration: 1.25,
+        ease: 'power3.out',
+        stagger: {
+          each: 0.018,
+          from: 'start',
+        },
+      },
+      0
+    );
   }, []);
 
+  const startAutoplay = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      const nextIdx = (currentIndexRef.current + 1) % LOGIN_SLIDES.length;
+      triggerTransition(nextIdx);
+    }, 3200);
+  }, [triggerTransition]);
+
+  useEffect(() => {
+    startAutoplayRef.current = startAutoplay;
+  }, [startAutoplay]);
+
+  // Initialize and handle window resizing
+  useEffect(() => {
+    updateDimensionsAndBlinds();
+    startAutoplay();
+
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateDimensionsAndBlinds, 150);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (timerRef.current) clearTimeout(timerRef.current);
+      } else {
+        startAutoplay();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (transitionTlRef.current) transitionTlRef.current.kill();
+    };
+  }, [updateDimensionsAndBlinds, startAutoplay]);
+
   return (
-    <div className="relative w-full max-w-xs sm:max-w-sm lg:max-w-[24vw] aspect-square sm:aspect-4/3 lg:aspect-[4/3.4] overflow-hidden rounded-2xl lg:rounded-[1.2vw] bg-white border border-secondary/30 shadow-2xs">
+    <div
+      ref={containerRef}
+      className="relative w-full h-full min-h-90 sm:min-h-110 lg:min-h-[30vw] aspect-square sm:aspect-4/3 lg:aspect-[4/3.4] overflow-hidden rounded-2xl lg:rounded-[1.2vw] bg-white border border-secondary/30 shadow-2xs"
+    >
       <svg
         ref={svgRef}
         className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox={`0 0 ${VB_WIDTH} ${VB_HEIGHT}`}
-        preserveAspectRatio="xMidYMid slice"
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+        preserveAspectRatio="none"
       >
         <defs>
           <mask id="login-blinds-mask" maskUnits="userSpaceOnUse">
-            <rect x="0" y="0" width={VB_WIDTH} height={VB_HEIGHT} fill="black" />
+            <rect
+              x="0"
+              y="0"
+              width={dimensions.width}
+              height={dimensions.height}
+              fill="black"
+            />
             <g ref={blindsGroupRef} id="login-blinds-group" />
           </mask>
         </defs>
@@ -156,10 +223,10 @@ export default function LoginVisualStage() {
           href={LOGIN_SLIDES[0].image}
           x="0"
           y="0"
-          width={VB_WIDTH}
-          height={VB_HEIGHT}
+          width={dimensions.width}
+          height={dimensions.height}
           preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full"
+          className="w-full h-full transition-none"
         />
 
         {/* Masked Incoming Image */}
@@ -168,11 +235,11 @@ export default function LoginVisualStage() {
           href={LOGIN_SLIDES[0].image}
           x="0"
           y="0"
-          width={VB_WIDTH}
-          height={VB_HEIGHT}
+          width={dimensions.width}
+          height={dimensions.height}
           preserveAspectRatio="xMidYMid slice"
           mask="url(#login-blinds-mask)"
-          className="w-full h-full"
+          className="w-full h-full transition-none"
         />
       </svg>
     </div>

@@ -45,15 +45,15 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <PreloaderProvider>
           <QueryProvider>
-          <ClientShell>
-            <LenisProvider>
-              <TransitionProvider>
-                <Navbar />
-                {children}
-                <Footer />
-              </TransitionProvider>
-            </LenisProvider>
-          </ClientShell>
+            <ClientShell>
+              <LenisProvider>
+                <TransitionProvider>
+                  <Navbar />
+                  {children}
+                  <Footer />
+                </TransitionProvider>
+              </LenisProvider>
+            </ClientShell>
           </QueryProvider>
         </PreloaderProvider>
       </body>

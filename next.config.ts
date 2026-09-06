@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "api.gveda.com", pathname: "/static/**" },
+      { protocol: "https", hostname: "files-r2.ayana.com", pathname: "/**" },
+      { protocol: "https", hostname: "images.ctfassets.net", pathname: "/**" },
     ],
   },
   async rewrites() {
