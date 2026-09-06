@@ -5,6 +5,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { useHomepage } from "../hooks";
+import { toCardProduct } from "@/features/product";
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface ZoomAnimationProps {
@@ -16,10 +19,10 @@ interface ZoomAnimationProps {
 }
 
 const DEFAULT_IMAGES = [
-  "/images/about/img-1.jpg", // Top-Left: Botanical forest
-  "/images/about/img-4.jpg", // Top-Right: Pure mountain minerals
-  "/images/about/img-2.jpg", // Bioactive flora
-  "/images/about/img-5.jpg", // Micro extraction
+  "/images/product/product1.jpeg", // Keratin Shampoo
+  "/images/product/product2.jpeg", // Niacinamide Face Wash
+  "/images/product/product3.jpeg", // Retinol C Face Toner
+  "/images/product/product4.jpeg", // Shea Butter Body Lotion
 ];
 
 const FOUR_POSITIONS = [
@@ -37,6 +40,19 @@ export default function ZoomAnimation({
   className = "bg-secondary",
 }: ZoomAnimationProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { data } = useHomepage();
+
+  const apiProductImages = data?.results?.popularProducts
+    ?.map((p) => toCardProduct(p).image)
+    .filter(Boolean);
+
+  const displayImages = (
+    images !== DEFAULT_IMAGES
+      ? images
+      : apiProductImages && apiProductImages.length >= 4
+        ? apiProductImages
+        : DEFAULT_IMAGES
+  ).slice(0, 4);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -89,13 +105,11 @@ export default function ZoomAnimation({
     return () => ctx.revert();
   }, []);
 
-  const displayImages = images.slice(0, 4);
-
   return (
     <section
       ref={sectionRef}
       aria-label="Telescope Zoom Animation"
-      className={`telescope-section relative w-full h-screen flex items-center justify-center overflow-hidden select-none bg-background ${className}`}
+      className={`telescope-section relative w-full h-screen flex items-center justify-center overflow-hidden select-none bg-warm-ivory ${className}`}
       style={{
         ["--progress" as string]: 0,
       }}
@@ -169,7 +183,8 @@ export default function ZoomAnimation({
           height: auto;
           aspect-ratio: 4/5;
           object-fit: cover;
-          border-radius: 6px;
+          border-radius: 8px;
+
           will-change: transform;
         }
 
@@ -214,7 +229,7 @@ export default function ZoomAnimation({
           }
           .telescope-small-img {
             width: 18vw;
-            border-radius: 8px;
+            border-radius: 10px;
           }
         }
 
@@ -239,7 +254,7 @@ export default function ZoomAnimation({
           }
           .telescope-small-img {
             width: 14vw;
-            border-radius: 0.6vw;
+            border-radius: 0.8vw;
           }
         }
       `}</style>
@@ -273,7 +288,7 @@ export default function ZoomAnimation({
             <Image
               key={idx}
               src={src}
-              alt={`Botanical element ${idx + 1}`}
+              alt={`Product card ${idx + 1}`}
               width={400}
               height={500}
               sizes="(max-width: 768px) 26vw, (max-width: 1024px) 18vw, 14vw"

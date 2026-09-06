@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import CarouselHero from "@/features/home/components/CarouselHero";
 import Intro from "@/features/home/components/intro";
 import Featured from "@/features/home/components/Featured";
@@ -15,7 +15,7 @@ export default function Home() {
     <div>
       <CarouselHero />
       <About />
-      <Intro />
+      {/* <Intro /> */}
       <Featured />
       <ZoomAnimation />
       <Ingredients />

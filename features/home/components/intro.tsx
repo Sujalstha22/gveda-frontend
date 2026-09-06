@@ -58,21 +58,21 @@ export default function Intro() {
       {/* Typography Depth Layer */}
       <div
         ref={textRef}
-        className="relative z-10 w-full lg:max-w-[65vw] flex flex-col items-center text-center mx-auto will-change-transform"
+        className="relative z-10 w-full lg:max-w-[75vw] flex flex-col items-center text-center mx-auto will-change-transform"
       >
         <div className="flex flex-col items-center">
-          <span className="font-antessa font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[2.5vw] lg:leading-[1.15] text-primary">
+          <span className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
             Flaunt the
           </span>
-          <span className="font-madison italic font-normal text-6xl sm:text-7xl md:text-8xl lg:text-[5.5vw] lg:leading-[0.95] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">
+          <span className="font-madison italic font-normal text-7xl sm:text-8xl md:text-9xl lg:text-[7.5vw] lg:leading-[0.92] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">
             glow
           </span>
         </div>
-        <div className="flex flex-col items-center mt-6 sm:mt-8 lg:mt-[1.8vw]">
-          <span className="font-antessa font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[2.5vw] lg:leading-[1.15] text-primary">
+        <div className="flex flex-col items-center mt-8 sm:mt-10 lg:mt-[2.2vw]">
+          <span className="font-antessa font-medium uppercase text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
             Forget the
           </span>
-          <span className="font-madison italic font-normal text-6xl sm:text-7xl md:text-8xl lg:text-[5.5vw] lg:leading-[0.95] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">
+          <span className="font-madison italic font-normal text-7xl sm:text-8xl md:text-9xl lg:text-[7.5vw] lg:leading-[0.92] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">
             flaws.
           </span>
         </div>
