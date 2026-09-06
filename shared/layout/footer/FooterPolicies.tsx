@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 const POLICIES = [
   { slug: "company-policy", label: "Company Policy" },
@@ -31,9 +32,14 @@ export default function FooterPolicies() {
           <Link
             key={item.label}
             href={`/policies/${item.slug}`}
-            className="font-primary text-sm font-medium lg:text-[1vw] text-primary/75 hover:text-primary transition-colors"
+            className="group inline-flex items-center gap-1.5 font-primary text-sm font-medium lg:text-[1vw] text-primary/75 hover:text-primary transition-colors duration-200"
           >
-            {item.label}
+            <span>{item.label}</span>
+            <ArrowUpRight
+              className="w-3.5 h-3.5 lg:w-[0.9vw] lg:h-[0.9vw] opacity-0 -translate-x-1 translate-y-0.5 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-200 text-primary shrink-0"
+              strokeWidth={2}
+              aria-hidden
+            />
           </Link>
         ))}
       </div>

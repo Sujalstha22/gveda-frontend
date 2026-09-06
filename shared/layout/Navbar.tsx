@@ -48,12 +48,15 @@ function UserIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
 
-  // The navbar is solid Warm Ivory from the initial state across all pages
+  const isGallery = pathname === '/gallery' || pathname?.startsWith('/gallery/');
+  const isTransparent = !isGallery && !scrolled && !mobileOpen;
+
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const delta = 10;
@@ -64,10 +67,13 @@ export default function Navbar() {
       if (currentScrollY < 0) return;
 
       if (currentScrollY <= 40) {
+        setScrolled(false);
         setVisible(true);
         lastScrollY = currentScrollY;
         return;
       }
+
+      setScrolled(true);
 
       if (Math.abs(currentScrollY - lastScrollY) >= delta) {
         setVisible(currentScrollY <= lastScrollY);
@@ -85,7 +91,11 @@ export default function Navbar() {
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out bg-[#F7F5F1]/95 backdrop-blur-md border-b border-[#ECE4DA] shadow-subtle py-2.5 sm:py-3 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out py-2.5 sm:py-3 ${
+          isTransparent
+            ? 'bg-transparent border-b border-transparent shadow-none'
+            : 'bg-[#F7F5F1]/95 backdrop-blur-md border-b border-[#ECE4DA] shadow-subtle'
+        } ${
           visible || mobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
       >
@@ -103,7 +113,9 @@ export default function Navbar() {
                 alt="GVEDA Logo"
                 width={150}
                 height={40}
-                className="w-24 sm:w-28 md:w-32 h-auto object-contain object-left"
+                className={`w-24 sm:w-28 md:w-32 h-auto object-contain object-left transition-all duration-300 ${
+                  isTransparent ? 'brightness-0 invert' : ''
+                }`}
                 priority
               />
             </Link>
@@ -112,7 +124,9 @@ export default function Navbar() {
           {/* ── CENTER: Primary Nav Links ── */}
           <nav
             aria-label="Primary Navigation"
-            className="hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize text-primary/80 transition-colors duration-300"
+            className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-colors duration-300 ${
+              isTransparent ? 'text-white/80' : 'text-primary/80'
+            }`}
           >
             {NAV_LINKS.map((item) => {
               const isActive =
@@ -124,14 +138,20 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   className={`group relative py-1 transition-colors duration-200 ${
-                    isActive
+                    isTransparent
+                      ? isActive
+                        ? 'text-white font-semibold'
+                        : 'text-white/80 hover:text-white font-normal'
+                      : isActive
                       ? 'text-primary font-semibold'
                       : 'text-primary/75 hover:text-primary font-normal'
                   }`}
                 >
                   {item.label}
                   <span
-                    className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full bg-primary transition-transform duration-200 origin-left ${
+                    className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full transition-transform duration-200 origin-left ${
+                      isTransparent ? 'bg-white' : 'bg-primary'
+                    } ${
                       isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
@@ -141,15 +161,20 @@ export default function Navbar() {
           </nav>
 
           {/* ── RIGHT: Cart & User Login Icons (+ Mobile Toggle) ── */}
-          <div className="flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 text-primary/80 transition-colors duration-300">
-
+          <div
+            className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 ${
+              isTransparent ? 'text-white/85' : 'text-primary/80'
+            }`}
+          >
             {/* Cart Icon */}
             <Link
               href="/cart"
               aria-label="Shopping Cart"
               title="Cart"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                pathname === '/cart'
+                isTransparent
+                  ? 'text-white hover:bg-white/15'
+                  : pathname === '/cart'
                   ? 'text-primary bg-black/10'
                   : 'text-primary/80 hover:text-primary hover:bg-black/5'
               }`}
@@ -164,7 +189,9 @@ export default function Navbar() {
               aria-label="Account / Login"
               title="Account"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                pathname === '/login'
+                isTransparent
+                  ? 'text-white hover:bg-white/15'
+                  : pathname === '/login'
                   ? 'text-primary bg-black/10'
                   : 'text-primary/80 hover:text-primary hover:bg-black/5'
               }`}
@@ -178,22 +205,26 @@ export default function Navbar() {
               type="button"
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              className="lg:hidden flex flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 text-primary hover:bg-black/5"
+              className={`lg:hidden flex flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 ${
+                isTransparent
+                  ? 'text-white hover:bg-white/15'
+                  : 'text-primary hover:bg-black/5'
+              }`}
             >
               <span
-                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
-                  mobileOpen ? 'rotate-45 translate-y-2' : ''
-                }`}
+                className={`w-5 h-[1.5px] transition-all duration-300 ${
+                  isTransparent ? 'bg-white' : 'bg-primary'
+                } ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`}
               />
               <span
-                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
-                  mobileOpen ? 'opacity-0' : ''
-                }`}
+                className={`w-5 h-[1.5px] transition-all duration-300 ${
+                  isTransparent ? 'bg-white' : 'bg-primary'
+                } ${mobileOpen ? 'opacity-0' : ''}`}
               />
               <span
-                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
-                  mobileOpen ? '-rotate-45 -translate-y-2' : ''
-                }`}
+                className={`w-5 h-[1.5px] transition-all duration-300 ${
+                  isTransparent ? 'bg-white' : 'bg-primary'
+                } ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`}
               />
             </button>
           </div>

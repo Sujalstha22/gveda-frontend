@@ -37,8 +37,8 @@ export default function GalleryDetail({ id }: { id: number }) {
     }, [lightboxIndex, close, step]);
 
     return (
-        <main className="w-full min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-24 px-4 sm:px-8 md:px-12 select-none">
-            <div className="w-full max-w-6xl mx-auto">
+        <main className="w-full min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-24 select-none">
+            <div className="w-full px-4 sm:px-8 lg:px-[5vw] mx-auto">
                 <Link
                     href="/gallery"
                     className="inline-flex items-center gap-2 text-xs sm:text-sm text-primary/70 hover:text-primary transition-colors uppercase mb-8 group font-primary font-medium"

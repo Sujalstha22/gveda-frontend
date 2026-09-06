@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import Title from '@/shared/ui/Title';
+import React from "react";
+import Image from "next/image";
+import Title from "@/shared/ui/Title";
 
 const HeroSection = () => {
   return (
@@ -20,17 +20,16 @@ const HeroSection = () => {
         <div className="absolute inset-0 w-full h-full bg-linear-to-t from-background/40 to-transparent" />
       </div>
 
-      <div className="relative z-10 w-full flex flex-col items-center text-center px-4 sm:px-8 lg:px-[5vw] pb-12 sm:pb-16 lg:pb-[4vw]">
+      {/* <div className="relative z-10 w-full flex flex-col items-center text-center px-4 sm:px-8 lg:px-[5vw] pb-12 sm:pb-16 lg:pb-[4vw]">
         <Title
-          eyebrow="Let’s Connect"
-          title="We’re Here for You"
+          eyebrow="Let's Connect"
+          title="We're Here for You"
           description="Have a question, need guidance, or simply want to say hello? Reach out to us, we’d love to hear from you."
           className="mb-0 max-w-lg lg:max-w-[44vw]"
         />
-      </div>
+      </div> */}
     </section>
   );
 };
 
 export default HeroSection;
-

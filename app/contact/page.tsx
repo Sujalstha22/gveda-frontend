@@ -6,8 +6,9 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      <ContactLink />
+
       <ContactForm />
+      <ContactLink />
       {/* <SocialLink /> */}
     </div>
   );
