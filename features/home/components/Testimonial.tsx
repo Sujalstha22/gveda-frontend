@@ -3,6 +3,7 @@
 import React, { useCallback, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
+import Title from '@/shared/ui/Title';
 
 interface TestimonialItem {
     id: number;
@@ -127,17 +128,12 @@ export default function Testimonial() {
         >
             <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Section Header ── */}
-                <div className="flex flex-col items-center text-center mb-12 sm:mb-16 lg:mb-[4vw] w-full lg:max-w-[60vw] mx-auto">
-                    <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
-                        Kind Words
-                    </span>
-                    <h2 className="font-antessa font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
-                        Stories of Radiance
-                    </h2>
-                    <p className="font-primary font-normal text-base sm:text-lg lg:text-[1.2vw] lg:leading-[1.65] text-primary/80 w-full max-w-2xl lg:max-w-[44vw] mt-3 sm:mt-4 lg:mt-[0.9vw] leading-relaxed">
-                        Thoughtful reflections from those who have embraced our daily botanical science rituals.
-                    </p>
-                </div>
+                <Title
+                    eyebrow="Kind Words"
+                    title="Stories of Radiance"
+                    description="Thoughtful reflections from those who have embraced our daily botanical science rituals."
+                    className="mb-12 sm:mb-16 lg:mb-[4vw]"
+                />
 
                 {/* ── Carousel Container ── */}
                 <div className="relative w-full">

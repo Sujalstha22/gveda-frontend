@@ -27,53 +27,6 @@ function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
   );
 }
 
-import { usePreloader } from '@/shared/context/PreloaderContext';
-
-function SoundIcon({
-  playing,
-  className = 'w-4.5 h-4.5 sm:w-5 sm:h-5',
-}: {
-  playing: boolean;
-  className?: string;
-}) {
-  if (playing) {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-        aria-hidden="true"
-      >
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={`${className} opacity-75`}
-      aria-hidden="true"
-    >
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-      <line x1="22" x2="16" y1="9" y2="15" />
-      <line x1="16" x2="22" y1="9" y2="15" />
-    </svg>
-  );
-}
 
 function UserIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -95,7 +48,6 @@ function UserIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export default function Navbar() {
-  const { isPlayingAudio, toggleAudio } = usePreloader();
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -190,20 +142,6 @@ export default function Navbar() {
 
           {/* ── RIGHT: Cart & User Login Icons (+ Mobile Toggle) ── */}
           <div className="flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 text-primary/80 transition-colors duration-300">
-            {/* Sound Icon Button (left side of login and cart) */}
-            <button
-              type="button"
-              onClick={toggleAudio}
-              aria-label={isPlayingAudio ? 'Mute ambient sound' : 'Play ambient sound'}
-              title={isPlayingAudio ? 'Mute ambient sound' : 'Play ambient sound'}
-              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isPlayingAudio
-                  ? 'text-primary bg-black/10'
-                  : 'text-primary/80 hover:text-primary hover:bg-black/5'
-              }`}
-            >
-              <SoundIcon playing={isPlayingAudio} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
-            </button>
 
             {/* Cart Icon */}
             <Link

@@ -11,7 +11,9 @@ export default function DesktopNav() {
   return (
     <ul className="hidden lg:flex items-center lg:gap-[2.2vw] list-none m-0 p-0">
       {NAV_LINKS.map(({ label, href }) => {
-        const isActive = pathname === href;
+        const isActive =
+          pathname === href ||
+          (href !== '/' && pathname?.startsWith(href));
 
         return (
           <li key={href}>

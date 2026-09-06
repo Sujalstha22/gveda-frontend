@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import ProductCard from './ProductCard';
+import Title from '@/shared/ui/Title';
 import {
     useProducts,
     useProductsByCategory,
@@ -37,17 +38,11 @@ const ProductsDisplay: React.FC = () => {
         <section className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-background">
             <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Section Header ── */}
-                <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[3vw] w-full lg:max-w-[55vw] mx-auto">
-                    <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
-                        Botanical Science
-                    </span>
-                    <h1 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
-                        The Complete Collection
-                    </h1>
-                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 w-full max-w-lg lg:max-w-none mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
-                        Pure, biocompatible botanical formulations designed to nourish and protect skin and hair health naturally.
-                    </p>
-                </div>
+                <Title
+                    eyebrow="Botanical Science"
+                    title="The Complete Collection"
+                    description="Pure, biocompatible botanical formulations designed to nourish and protect skin and hair health naturally."
+                />
 
                 {/* ── Filter Bar ── */}
                 <div className="w-full mb-8 sm:mb-10 lg:mb-[2.2vw] flex flex-col md:flex-row items-center justify-between gap-4 p-3.5 sm:p-4 rounded-2xl bg-white border border-secondary/30 shadow-xs">

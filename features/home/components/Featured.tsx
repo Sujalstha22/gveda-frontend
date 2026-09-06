@@ -3,6 +3,7 @@
 import React, { useCallback, useSyncExternalStore } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import ProductCard from "@/features/product/components/ProductCard";
+import Title from "@/shared/ui/Title";
 import { useHomepage } from "../hooks";
 import { toCardProduct } from "@/features/product";
 
@@ -69,19 +70,11 @@ export default function Featured() {
     >
       <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Center Header: Title ── */}
-        <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[3vw] w-full lg:max-w-[55vw] mx-auto">
-          <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
-            Most Loved
-          </span>
-          <h2 className="font-antessa font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary">
-            Our Botanical Bestsellers
-          </h2>
-          <p className="font-primary font-normal text-base sm:text-lg lg:text-[1.2vw] lg:leading-[1.65] text-primary/80 w-full max-w-xl lg:max-w-[44vw] mt-3 sm:mt-4 lg:mt-[0.9vw] leading-relaxed">
-            Thoughtfully crafted botanical formulations powered by clinical
-            science to nourish, protect, and restore your skin's natural
-            barrier.
-          </p>
-        </div>
+        <Title
+          eyebrow="Most Loved"
+          title="Our Botanical Bestsellers"
+          description="Thoughtfully crafted botanical formulations powered by clinical science to nourish, protect, and restore your skin's natural barrier."
+        />
 
         {/* ── Full Width Carousel Container ── */}
         <div className="relative w-full">

@@ -1,15 +1,17 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { SlideData } from './types';
+import React from "react";
+import { SlideData } from "./types";
 
 interface CarouselEditorialProps {
   activeSlide: SlideData;
 }
 
-export default function CarouselEditorial({ activeSlide }: CarouselEditorialProps) {
+export default function CarouselEditorial({
+  activeSlide,
+}: CarouselEditorialProps) {
   return (
-    <div className="absolute bottom-12 md:bottom-20 left-6 sm:left-12 md:left-16 z-30 max-w-xl pointer-events-none">
+    <div className="absolute bottom-12 md:bottom-32 left-6 sm:left-12 md:left-16 z-30 max-w-5xl pointer-events-none">
       {/* Kicker (Editorial Italic Serif) */}
       <div className="overflow-hidden mb-2 sm:mb-4">
         {/* <p
@@ -24,7 +26,7 @@ export default function CarouselEditorial({ activeSlide }: CarouselEditorialProp
       <div className="overflow-hidden">
         <h1
           key={`title-${activeSlide.id}`}
-          className="font-antessa text-5xl sm:text-6xl md:text-7xl text-white font-normal tracking-tight leading-none animate-in fade-in slide-in-from-bottom-4 duration-800"
+          className="font-antessa text-5xl uppercase sm:text-6xl md:text-9xl text-white font-normal tracking-tight leading-none animate-in fade-in slide-in-from-bottom-4 duration-800"
         >
           Rediscover Your Natural Glow
         </h1>

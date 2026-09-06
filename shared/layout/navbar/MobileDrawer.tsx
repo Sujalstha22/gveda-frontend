@@ -80,7 +80,9 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
         <div className="pt-24 px-6 sm:px-8 pb-8 flex-1 overflow-y-auto flex flex-col justify-between">
           <nav className="flex flex-col space-y-2">
             {NAV_LINKS.map(({ label, href }, idx) => {
-              const isActive = pathname === href;
+              const isActive =
+                pathname === href ||
+                (href !== '/' && pathname?.startsWith(href));
 
               return (
                 <Link

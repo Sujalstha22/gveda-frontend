@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/shared/ui/Button";
+import Title from "@/shared/ui/Title";
 
 const ContactForm = () => {
   const [form, setForm] = useState({
@@ -124,14 +125,11 @@ const ContactForm = () => {
       className="w-full max-w-4xl lg:max-w-[55vw] mx-auto px-4 sm:px-8 lg:px-0 my-12 sm:my-16 lg:my-[4vw] select-none"
     >
       {/* ── Section Title ── */}
-      <div className="text-center mb-10 sm:mb-14 lg:mb-[3.5vw]">
-        <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] text-primary font-medium tracking-tight">
-          What is on your mind?
-        </h2>
-        <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.85vw] text-primary/65 max-w-md lg:max-w-[30vw] mx-auto mt-2 lg:mt-[0.5vw] leading-relaxed">
-          We’d love to hear from you. Send us a message and our specialists will be in touch.
-        </p>
-      </div>
+      <Title
+        title="What is on your mind?"
+        description="We’d love to hear from you. Send us a message and our specialists will be in touch."
+        className="mb-10 sm:mb-14 lg:mb-[3.5vw]"
+      />
 
       {/* ── Success Modal ── */}
       <AnimatePresence>

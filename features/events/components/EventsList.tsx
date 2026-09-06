@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Title from '@/shared/ui/Title';
 import { useEvents } from '../hooks';
 import { staticUrl } from '@/shared/api';
 
@@ -11,12 +12,12 @@ export default function EventsList() {
 
     return (
         <section className="w-full min-h-screen py-16 sm:py-24 px-4 sm:px-8 md:px-12 select-none">
-            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16">
-                <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1">
-                    Gather
-                </span>
-                <h1 className="text-4xl sm:text-5xl text-primary font-medium">Events</h1>
-            </div>
+            <Title
+                eyebrow="Gather"
+                title="Events"
+                description="Discover upcoming botanical workshops, rituals, and wellness gatherings by GVEDA."
+                className="mb-12 sm:mb-16 max-w-4xl"
+            />
 
             {isLoading ? (
                 <p className="text-center py-16 font-primary text-primary/50 text-sm">Loading events…</p>

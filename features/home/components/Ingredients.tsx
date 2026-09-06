@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Title from "@/shared/ui/Title";
 
 interface IngredientFeature {
   number: string;
@@ -44,19 +45,11 @@ export default function Ingredients() {
     <section className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none">
       <div className="w-full lg:max-w-none mx-auto px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Section Header ── */}
-        <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[4vw] w-full lg:max-w-[60vw] mx-auto">
-          <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
-            The Science of Beauty
-          </span>
-          <h2 className="font-antessa font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
-            Our Promise
-          </h2>
-          <p className="font-primary font-normal text-base sm:text-lg lg:text-[1.2vw] lg:leading-[1.65] text-primary/80 w-full max-w-2xl lg:max-w-[44vw] mt-3 sm:mt-4 lg:mt-[0.9vw] leading-relaxed">
-            Rooted in ancient Ayurvedic wisdom and validated by modern clinical
-            research, GVEDA crafts high-performance botanical formulas that
-            nurture, renew, and restore skin health naturally.
-          </p>
-        </div>
+        <Title
+          eyebrow="The Science of Beauty"
+          title="Our Promise"
+          description="Rooted in ancient Ayurvedic wisdom and validated by modern clinical research, GVEDA crafts high-performance botanical formulas that nurture, renew, and restore skin health naturally."
+        />
 
         {/* ── 3-Column Balanced Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-[2.5vw] items-center">

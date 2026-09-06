@@ -4,7 +4,6 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { usePreloader } from "../context/PreloaderContext";
 import Preloader from "./Preloader";
-import Audio from "./Audio";
 
 /**
  * ClientShell — wraps the page content with preloader logic.
@@ -17,18 +16,15 @@ export default function ClientShell({ children }: { children: React.ReactNode })
 
   const isHomePage = pathname === "/";
   const [showPreloader, setShowPreloader] = useState(isHomePage);
-  const [preloaderDone, setPreloaderDone] = useState(!isHomePage);
 
-  const handlePreloaderComplete = (withSound: boolean) => {
-    setSoundEnabled(withSound);
+  const handlePreloaderComplete = () => {
+    setSoundEnabled(false);
     setShowPreloader(false);
-    setPreloaderDone(true);
   };
 
   return (
     <>
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
-      {preloaderDone && <Audio />}
       {children}
     </>
   );

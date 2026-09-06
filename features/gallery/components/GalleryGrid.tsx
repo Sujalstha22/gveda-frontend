@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Title from '@/shared/ui/Title';
 import { useGalleries } from '../hooks';
 import { staticUrl } from '@/shared/api';
 
@@ -12,12 +13,12 @@ export default function GalleryGrid() {
 
     return (
         <section className="w-full py-16 sm:py-24 px-4 sm:px-8 md:px-12 select-none">
-            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16">
-                <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1">
-                    Moments
-                </span>
-                <h1 className="text-4xl sm:text-5xl text-primary font-medium">Gallery</h1>
-            </div>
+            <Title
+                eyebrow="Moments"
+                title="Gallery"
+                description="A visual journey through sacred botanicals, mindful craftsmanship, and luminous skin."
+                className="mb-12 sm:mb-16 max-w-4xl"
+            />
 
             {isLoading ? (
                 <p className="text-center py-16 font-primary text-primary/50 text-sm">Loading gallery…</p>

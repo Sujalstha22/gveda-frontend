@@ -1,8 +1,9 @@
 'use client';
 
-import React, { RefObject } from 'react';
+import React, { useEffect, RefObject } from 'react';
 import Image from 'next/image';
 import { SlideData } from './types';
+import { usePreloader } from '@/shared/context/PreloaderContext';
 
 interface CarouselSlidesProps {
   activeSlide: SlideData;
@@ -19,6 +20,18 @@ export default function CarouselSlides({
   incomingSlideRef,
   activeSlideImageRef,
 }: CarouselSlidesProps) {
+  const { setHeroImageLoaded } = usePreloader();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const img = new window.Image();
+      img.src = previousSlide.image;
+      if (img.complete) {
+        setHeroImageLoaded(true);
+      }
+    }
+  }, [previousSlide.image, setHeroImageLoaded]);
+
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
       {/* BASE SLIDE (Previous / Underlying Slide) */}
@@ -38,6 +51,7 @@ export default function CarouselSlides({
             priority
             sizes="100vw"
             className="object-cover object-center brightness-[0.88]"
+            onLoad={() => setHeroImageLoaded(true)}
           />
           {/* Soft luxury vignette */}
           <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/shared/ui/Button";
+import Title from "@/shared/ui/Title";
 import { useBlogs } from "../hooks";
 import { staticUrl } from "@/shared/api";
 
@@ -26,17 +27,12 @@ const BlogDisplay: React.FC = () => {
             aria-label="Blog Articles"
             className="relative w-full py-16 sm:py-20 lg:py-[5vw] px-4 sm:px-8 lg:px-[5vw] select-none"
         >
-            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16 lg:mb-[3.5vw]">
-                <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
-                    Botanical Journal
-                </span>
-                <h1 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
-                    Stories & Insights
-                </h1>
-                <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 max-w-xl mx-auto mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
-                    Stay updated with the latest news, daily rituals, and botanical science insights from GVEDA.
-                </p>
-            </div>
+            <Title
+                eyebrow="Botanical Journal"
+                title="Stories & Insights"
+                description="Stay updated with the latest news, daily rituals, and botanical science insights from GVEDA."
+                className="mb-12 sm:mb-16 lg:mb-[3.5vw] max-w-4xl"
+            />
 
             {isLoading ? (
                 <p className="text-center py-16 font-primary text-primary/50 text-sm">Loading articles…</p>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Title from '@/shared/ui/Title';
 
 interface ValueItem {
     id: number;
@@ -36,17 +37,12 @@ const Values = () => {
         <section className="w-full py-20 sm:pb-28  px-6 sm:px-12 md:px-16 select-none bg-background">
             <div className=" flex flex-col items-center">
                 {/* ── Section Header matching brand style ── */}
-                <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
-                    <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1 block">
-                        Our Guiding Principles
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-medium text-primary tracking-tight">
-                        Pillars of Botanical Living
-                    </h2>
-                    <p className="font-primary font-normal text-xs sm:text-sm md:text-base text-primary/75 mt-3 sm:mt-4 leading-relaxed max-w-xl mx-auto">
-                        Mindfully crafted values guiding our formulations, ethical sourcing, and holistic skin wellness.
-                    </p>
-                </div>
+                <Title
+                    eyebrow="Our Guiding Principles"
+                    title="Pillars of Botanical Living"
+                    description="Mindfully crafted values guiding our formulations, ethical sourcing, and holistic skin wellness."
+                    className="mb-14 sm:mb-20 max-w-3xl"
+                />
 
                 {/* ── 3-Column Image & Editorial Caption Grid ── */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">

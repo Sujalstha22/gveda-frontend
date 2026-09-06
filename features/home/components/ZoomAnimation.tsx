@@ -118,7 +118,10 @@ export default function ZoomAnimation({
         }
 
         .telescope-title {
-          font-size: 8.5vw;
+          font-family: var(--font-antessa, "Antesa", "Antessa", serif);
+          font-size: 9vw;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
           font-weight: 500;
           display: flex;
           align-items: center;
@@ -193,7 +196,7 @@ export default function ZoomAnimation({
         /* Tablet (769px - 1023px) */
         @media (min-width: 769px) and (max-width: 1023px) {
           .telescope-title {
-            font-size: 5.5vw;
+            font-size: 6.5vw;
           }
           .telescope-title .split-left {
             transform: translate3d(
@@ -218,7 +221,7 @@ export default function ZoomAnimation({
         /* Large Screens / Desktop (1024px+) */
         @media (min-width: 1024px) {
           .telescope-title {
-            font-size: 4vw;
+            font-size: 5.2vw;
           }
           .telescope-title .split-left {
             transform: translate3d(
@@ -257,7 +260,7 @@ export default function ZoomAnimation({
       </div>
 
       {/* Central Splitting Headline */}
-      <h2 className="telescope-title font-heading text-primary tracking-normal">
+      <h2 className="telescope-title font-antessa uppercase text-5xl sm:text-6xl md:text-7xl lg:text-[5.2vw] text-primary tracking-wider">
         <span className="split-left mr-3 lg:mr-[0.8vw]">{leftText}</span>
         <span className="split-right">{rightText}</span>
       </h2>
