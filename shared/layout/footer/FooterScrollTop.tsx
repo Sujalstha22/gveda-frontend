@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function FooterScrollTop() {
+export default function FooterScrollTop({ className = '' }: { className?: string }) {
   const scrollToTop = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -10,7 +10,7 @@ export default function FooterScrollTop() {
   };
 
   return (
-    <div className="flex justify-end items-center mb-6 sm:mb-8 lg:mb-[2vw]">
+    <div className={`flex justify-end items-center ${className}`}>
       <button
         type="button"
         onClick={scrollToTop}

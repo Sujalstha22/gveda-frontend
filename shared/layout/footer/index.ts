@@ -4,4 +4,5 @@ export { default as FooterBrand } from './FooterBrand';
 export { default as FooterNav } from './FooterNav';
 export { default as FooterPolicies } from './FooterPolicies';
 export { default as FooterBottom } from './FooterBottom';
+export { default as FooterBigText } from './FooterBigText';
 export * from './footerData';

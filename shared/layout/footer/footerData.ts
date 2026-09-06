@@ -4,13 +4,13 @@ export interface FooterNavLink {
 }
 
 export const FOOTER_NAV_LINKS: FooterNavLink[] = [
-  { label: 'HOME', href: '/' },
-  { label: 'OUR STORY', href: '/about' },
-  { label: 'PRODUCT', href: '/product' },
-  { label: 'BLOGS', href: '/blog' },
-  { label: 'GALLERY', href: '/gallery' },
-  { label: 'EVENTS', href: '/events' },
-  { label: 'CONTACT', href: '/contact' },
+  { label: 'Home', href: '/' },
+  { label: 'Our Story', href: '/about' },
+  { label: 'Product', href: '/product' },
+  { label: 'Blogs', href: '/blog' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Events', href: '/events' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export interface SocialLink {
