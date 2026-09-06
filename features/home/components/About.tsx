@@ -10,9 +10,9 @@ const About = () => {
                 baseOpacity={0.2}
                 wordAnimationEnd="bottom 65%"
                 containerClassName="!my-0"
-                textClassName="font-primary text-xl lg:text-xl! leading-[1.65] text-priamry text-center font-semibold"
+                textClassName="font-primary text-xl lg:text-xl! leading-[1.65] text-primary text-center font-normal"
             >
-                {"I grew up in a children's home. Despite that, I was given something that changed everything, a good education. But while I had an education, I didn't have someone who stayed: no family, no adult to guide me or be there as I navigated the hard parts. Every child deserves someone who stays, who is still there when life gets difficult."}
+                {"At GVEDA, we believe in combining nature's best ingredients with scientific innovation to create products that improve your health, beauty, and lifestyle. Our product range is designed to meet the diverse needs of both men and women, offering premium skincare, wellness supplements, grooming essentials, and cosmetics. GVEDA is proudly owned by Global Victors, a company committed to providing top-quality products that enhance well-being and personal care. Under the GVEDA umbrella, we have developed four distinct brands designed to meet a wide range of needs:"}
             </ScrollReveal>
         </div>
     )

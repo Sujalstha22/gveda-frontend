@@ -24,7 +24,7 @@ export default function CarouselEditorial({ activeSlide }: CarouselEditorialProp
       <div className="overflow-hidden">
         <h1
           key={`title-${activeSlide.id}`}
-          className=" text-7xl text-white font-light! tracking-tight leading-none animate-in fade-in slide-in-from-bottom-4 duration-800"
+          className="font-antessa text-5xl sm:text-6xl md:text-7xl text-white font-normal tracking-tight leading-none animate-in fade-in slide-in-from-bottom-4 duration-800"
         >
           Rediscover Your Natural Glow
         </h1>

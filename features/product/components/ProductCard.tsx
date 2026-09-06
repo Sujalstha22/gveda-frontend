@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Button from '@/shared/ui/Button';
 
 export interface Product {
@@ -30,56 +31,133 @@ export default function ProductCard({
     className = '',
     sizes = '(max-width: 640px) 80vw, (max-width: 1024px) 33vw, 22vw',
 }: ProductCardProps) {
+    const router = useRouter();
+    const [added, setAdded] = useState(false);
     const href = product.href || (product.slug ? `/product/${product.slug}` : '/product');
 
+    const handleCardClick = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('button, a')) {
+            return;
+        }
+        router.push(href);
+    };
+
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setAdded(true);
+        setTimeout(() => setAdded(false), 1600);
+    };
+
     return (
-        <Link
-            href={href}
-            className={`group relative block w-full aspect-3/4 sm:aspect-4/5 rounded-2xl overflow-hidden  bg-white transition-all duration-500 cursor-pointer border border-secondary/30 ${className}`}
+        <div
+            onClick={handleCardClick}
+            className={`group relative flex flex-col w-full h-full rounded-lg overflow-hidden bg-white transition-all duration-300 cursor-pointer border border-secondary/30 hover:border-secondary hover:shadow-subtle ${className}`}
         >
-            {/* 1. Base Product Image Background (Visible by default) */}
-            <div className="absolute inset-0 bg-white flex items-center justify-center p-6 overflow-hidden">
+            {/* Base Link for SEO & right-click / middle-click tab support */}
+            <Link
+                href={href}
+                className="absolute inset-0 z-0"
+                aria-label={product.name}
+                tabIndex={-1}
+            />
+
+            {/* 1. Base Product Image Stage */}
+            <div className="relative w-full aspect-square bg-[#FAF9F6] flex items-center justify-center p-6 overflow-hidden pointer-events-none">
                 <Image
                     src={product.image}
                     alt={product.name}
                     fill
                     sizes={sizes}
-                    className="object-contain p-6 group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
                 />
             </div>
 
-            {/* 2. Gradient Overlay (Hidden by default, reveals on hover) */}
-            <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-linear-to-t from-white via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
-            />
+            {/* 2. Product Details & Actions (Always visible by default) */}
+            <div className="p-4 sm:p-5 flex flex-col flex-1 items-center justify-between text-center bg-white z-10 border-t border-secondary/15">
+                <div className="w-full flex flex-col items-center">
+                    {/* Category Eyebrow */}
+                    {product.category && product.category.toLowerCase() !== 'gveda' && (
+                        <span className="font-primary text-[10px] sm:text-[11px] tracking-[0.16em] uppercase text-secondary font-medium mb-1 line-clamp-1">
+                            {product.category}
+                        </span>
+                    )}
 
-            {/* 3. Card Content & Staggered Elements (Hidden by default, reveals on hover) */}
-            <div className="absolute inset-0 p-6 sm:p-7 flex flex-col justify-end items-center text-center z-10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-400 ease-[cubic-bezier(0.19,1,0.22,1)]">
-                {/* Title */}
-                <h3 className="font-heading text-lg sm:text-xl text-primary font-semibold tracking-tight opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100 ease-[cubic-bezier(0.19,1,0.22,1)]">
-                    {product.name}
-                </h3>
+                    {/* Title (Always visible) */}
+                    <h3 className="font-heading text-base sm:text-lg text-primary font-semibold tracking-tight line-clamp-1 group-hover:text-secondary transition-colors">
+                        {product.name}
+                    </h3>
 
-                {/* Description */}
-                {product.description && (
-                    <p className="font-primary font-semibold text-xs text-zinc-700 mt-1 line-clamp-2 max-w-[90%] opacity-0 translate-y-5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-200 ease-[cubic-bezier(0.19,1,0.22,1)]">
-                        {product.description}
-                    </p>
-                )}
+                    {/* Description (Always visible) */}
+                    {product.description && (
+                        <p className="font-primary font-normal text-xs text-primary/70 mt-1 line-clamp-2 max-w-[95%] leading-relaxed">
+                            {product.description}
+                        </p>
+                    )}
+                </div>
 
-                {/* CTA Button using shared/ui/Button */}
-                <div className="mt-4 opacity-0 translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-250 ease-[cubic-bezier(0.19,1,0.22,1)]">
+                {/* 3. Action Buttons (View Details + Add to Cart) - Always visible */}
+                <div className="mt-4 pt-3 border-t border-secondary/15 w-full flex items-center justify-center gap-2.5">
+                    {/* View Details Button */}
                     <Button
-                        size="sm"
+                        size="md"
                         variant="secondary"
-                        className="pointer-events-none group-hover:pointer-events-auto shadow-md text-white!"
+                        className="!h-9 sm:!h-10 lg:!h-10 !py-0 !leading-none !px-4 sm:!px-5 shadow-xs text-white! pointer-events-auto text-xs sm:text-[13px] font-medium tracking-wider uppercase flex items-center justify-center"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(href);
+                        }}
                     >
                         View Details
                     </Button>
+
+                    {/* Add to Cart Icon Button */}
+                    <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        aria-label={added ? 'Added to cart' : 'Add to cart'}
+                        title={added ? 'Added to cart' : 'Add to cart'}
+                        className={`h-9 w-9 sm:h-10 sm:w-10 lg:h-10 lg:w-10 rounded-full flex items-center justify-center transition-all duration-300 pointer-events-auto shadow-xs cursor-pointer shrink-0 border ${
+                            added
+                                ? 'bg-botanical-gold text-white border-botanical-gold scale-105'
+                                : 'bg-rich-black text-white border-rich-black hover:bg-botanical-gold hover:border-botanical-gold hover:scale-105'
+                        }`}
+                    >
+                        {added ? (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="w-4 h-4 sm:w-4.5 sm:h-4.5"
+                                aria-hidden="true"
+                            >
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        ) : (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="w-4 h-4 sm:w-4.5 sm:h-4.5"
+                                aria-hidden="true"
+                            >
+                                <circle cx="8" cy="21" r="1" />
+                                <circle cx="19" cy="21" r="1" />
+                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                            </svg>
+                        )}
+                    </button>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }
 

@@ -44,6 +44,12 @@ export function toCardProduct(p: ProductListItem | Product) {
       "description" in p && p.description
         ? p.description.split("\n")[0]
         : undefined,
-    category: "category" in p && p.category ? p.category.name : undefined,
+    category: (() => {
+      const cat = "category" in p && p.category ? p.category.name : undefined;
+      if (cat && cat.toLowerCase() !== "gveda") return cat;
+      const brand = "brand" in p && p.brand ? p.brand : undefined;
+      if (brand && brand.toLowerCase() !== "gveda") return brand;
+      return undefined;
+    })(),
   };
 }

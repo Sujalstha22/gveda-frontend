@@ -57,14 +57,14 @@ export default function Faq() {
             <div className="w-full max-w-4xl lg:max-w-[58vw] mx-auto px-4 sm:px-8 lg:px-0">
 
                 {/* ── Section Header ── */}
-                <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[3.5vw] w-full lg:max-w-[50vw] mx-auto">
-                    <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
+                <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[4vw] w-full lg:max-w-[60vw] mx-auto">
+                    <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                         Clarity & Care
                     </span>
-                    <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
+                    <h2 className="font-antessa font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
                         Frequently Asked Questions
                     </h2>
-                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 w-full max-w-2xl lg:max-w-none mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
+                    <p className="font-primary font-normal text-base sm:text-lg lg:text-[1.2vw] lg:leading-[1.65] text-primary/80 w-full max-w-2xl lg:max-w-[44vw] mt-3 sm:mt-4 lg:mt-[0.9vw] leading-relaxed">
                         Everything you need to know about our clean botanical formulations and daily wellness rituals.
                     </p>
                 </div>

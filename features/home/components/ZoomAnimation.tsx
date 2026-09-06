@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,25 +16,25 @@ interface ZoomAnimationProps {
 }
 
 const DEFAULT_IMAGES = [
-  '/images/about/img-1.jpg', // Top-Left: Botanical forest
-  '/images/about/img-4.jpg', // Top-Right: Pure mountain minerals
-  '/images/about/img-2.jpg', // Bioactive flora
-  '/images/about/img-5.jpg', // Micro extraction
+  "/images/about/img-1.jpg", // Top-Left: Botanical forest
+  "/images/about/img-4.jpg", // Top-Right: Pure mountain minerals
+  "/images/about/img-2.jpg", // Bioactive flora
+  "/images/about/img-5.jpg", // Micro extraction
 ];
 
 const FOUR_POSITIONS = [
-  { className: 'img-pos-tl', defaultStyle: { top: '3vw', left: '10vw' } },
-  { className: 'img-pos-tr', defaultStyle: { top: '3vw', right: '10vw' } },
-  { className: 'img-pos-bl', defaultStyle: { bottom: '3vw', left: '18vw' } },
-  { className: 'img-pos-br', defaultStyle: { bottom: '3vw', right: '18vw' } },
+  { className: "img-pos-tl", defaultStyle: { top: "3vw", left: "10vw" } },
+  { className: "img-pos-tr", defaultStyle: { top: "3vw", right: "10vw" } },
+  { className: "img-pos-bl", defaultStyle: { bottom: "3vw", left: "18vw" } },
+  { className: "img-pos-br", defaultStyle: { bottom: "3vw", right: "18vw" } },
 ];
 
 export default function ZoomAnimation({
-  leftText = 'For The',
-  rightText = 'Beauty',
-  videoSrc = '/videos/gveda-hero-3.mp4',
+  leftText = "For The",
+  rightText = "Beauty",
+  videoSrc = "/videos/gveda-hero-3.mp4",
   images = DEFAULT_IMAGES,
-  className = 'bg-secondary/20',
+  className = "bg-secondary",
 }: ZoomAnimationProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -42,28 +42,33 @@ export default function ZoomAnimation({
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const smallImages = sectionRef.current?.querySelectorAll<HTMLElement>('.telescope-small-img');
+      const smallImages = sectionRef.current?.querySelectorAll<HTMLElement>(
+        ".telescope-small-img",
+      );
 
       if (!smallImages) return;
 
       gsap.set(smallImages, {
-        transformStyle: 'preserve-3d',
-        backfaceVisibility: 'hidden',
+        transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden",
         force3D: true,
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=150%',
+          start: "top top",
+          end: "+=150%",
           scrub: true,
           pin: true,
           anticipatePin: 1,
           onUpdate: (self) => {
-            const progress = gsap.parseEase('power1.inOut')(self.progress);
+            const progress = gsap.parseEase("power1.inOut")(self.progress);
             if (sectionRef.current) {
-              sectionRef.current.style.setProperty('--progress', progress.toString());
+              sectionRef.current.style.setProperty(
+                "--progress",
+                progress.toString(),
+              );
             }
           },
         },
@@ -73,11 +78,11 @@ export default function ZoomAnimation({
       tl.to(
         smallImages,
         {
-          z: '135vh',
+          z: "135vh",
           duration: 0.85,
-          ease: 'power1.in',
+          ease: "power1.in",
         },
-        0
+        0,
       );
     }, sectionRef);
 
@@ -92,7 +97,7 @@ export default function ZoomAnimation({
       aria-label="Telescope Zoom Animation"
       className={`telescope-section relative w-full h-screen flex items-center justify-center overflow-hidden select-none bg-background ${className}`}
       style={{
-        ['--progress' as string]: 0,
+        ["--progress" as string]: 0,
       }}
     >
       <style jsx global>{`
@@ -125,13 +130,21 @@ export default function ZoomAnimation({
 
         .telescope-title .split-left {
           display: inline-block;
-          transform: translate3d(calc(var(--progress, 0) * (-100vw + 100%) - 0.5vw), 0, 0);
+          transform: translate3d(
+            calc(var(--progress, 0) * (-100vw + 100%) - 0.5vw),
+            0,
+            0
+          );
           will-change: transform;
         }
 
         .telescope-title .split-right {
           display: inline-block;
-          transform: translate3d(calc(var(--progress, 0) * (100vw - 100%)), 0, 0);
+          transform: translate3d(
+            calc(var(--progress, 0) * (100vw - 100%)),
+            0,
+            0
+          );
           will-change: transform;
         }
 
@@ -183,10 +196,18 @@ export default function ZoomAnimation({
             font-size: 5.5vw;
           }
           .telescope-title .split-left {
-            transform: translate3d(calc(var(--progress, 0) * (-75vw + 100%) - 0.5vw), 0, 0);
+            transform: translate3d(
+              calc(var(--progress, 0) * (-75vw + 100%) - 0.5vw),
+              0,
+              0
+            );
           }
           .telescope-title .split-right {
-            transform: translate3d(calc(var(--progress, 0) * (75vw - 100%)), 0, 0);
+            transform: translate3d(
+              calc(var(--progress, 0) * (75vw - 100%)),
+              0,
+              0
+            );
           }
           .telescope-small-img {
             width: 18vw;
@@ -200,10 +221,18 @@ export default function ZoomAnimation({
             font-size: 4vw;
           }
           .telescope-title .split-left {
-            transform: translate3d(calc(var(--progress, 0) * (-66vw + 100%) - 0.5vw), 0, 0);
+            transform: translate3d(
+              calc(var(--progress, 0) * (-66vw + 100%) - 0.5vw),
+              0,
+              0
+            );
           }
           .telescope-title .split-right {
-            transform: translate3d(calc(var(--progress, 0) * (66vw - 100%)), 0, 0);
+            transform: translate3d(
+              calc(var(--progress, 0) * (66vw - 100%)),
+              0,
+              0
+            );
           }
           .telescope-small-img {
             width: 14vw;

@@ -34,121 +34,123 @@ const ProductsDisplay: React.FC = () => {
     };
 
     return (
-        <section className="w-full py-16 sm:py-24 px-4 sm:px-8 md:px-12 select-none">
-            {/* ── Section Header ── */}
-            <div className="w-full max-w-4xl mx-auto text-center mb-12 sm:mb-16">
-                <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal mb-1">
-                    Botanical Science
-                </span>
-                <h1 className="text-4xl sm:text-5xl text-primary font-medium">
-                    The Complete Collection
-                </h1>
-                <p className="font-primary font-normal text-sm sm:text-base text-primary/75 max-w-xl mx-auto mt-3 sm:mt-4 leading-relaxed">
-                    Pure, biocompatible botanical formulations designed to nourish and protect skin and hair health naturally.
-                </p>
-            </div>
-
-            {/* ── Filter Bar ── */}
-            <div className="max-w-7xl mx-auto mb-10 sm:mb-12 flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white/80 border border-black/5 shadow-xs">
-                {/* Category Pills */}
-                <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                    <button
-                        type="button"
-                        onClick={() => setSelectedCategory('all')}
-                        className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
-                            selectedCategory === 'all'
-                                ? 'bg-primary text-white shadow-xs'
-                                : 'bg-transparent text-primary/70 hover:text-primary hover:bg-black/5'
-                        }`}
-                    >
-                        All
-                    </button>
-
-                    {categories.map((cat) => {
-                        const isSelected = selectedCategory === cat.slug;
-                        return (
-                            <button
-                                key={cat.slug}
-                                type="button"
-                                onClick={() => setSelectedCategory(cat.slug)}
-                                className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
-                                    isSelected
-                                        ? 'bg-primary text-white shadow-xs'
-                                        : 'bg-transparent text-primary/70 hover:text-primary hover:bg-black/5'
-                                }`}
-                            >
-                                {cat.name.trim()}
-                            </button>
-                        );
-                    })}
+        <section className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-background">
+            <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
+                {/* ── Section Header ── */}
+                <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-[3vw] w-full lg:max-w-[55vw] mx-auto">
+                    <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
+                        Botanical Science
+                    </span>
+                    <h1 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
+                        The Complete Collection
+                    </h1>
+                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 w-full max-w-lg lg:max-w-none mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
+                        Pure, biocompatible botanical formulations designed to nourish and protect skin and hair health naturally.
+                    </p>
                 </div>
 
-                {/* Search Bar & Reset */}
-                <div className="flex items-center gap-2 w-full md:w-72">
-                    <div className="relative flex-1">
-                        <input
-                            type="text"
-                            placeholder="Search products..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white/90 text-primary placeholder:text-muted border border-black/10 rounded-full pl-9 pr-4 py-2 text-xs sm:text-sm font-primary focus:outline-none focus:border-primary transition-colors"
-                        />
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    {hasActiveFilters && (
+                {/* ── Filter Bar ── */}
+                <div className="w-full mb-8 sm:mb-10 lg:mb-[2.2vw] flex flex-col md:flex-row items-center justify-between gap-4 p-3.5 sm:p-4 rounded-2xl bg-white border border-secondary/30 shadow-xs">
+                    {/* Category Pills */}
+                    <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                         <button
                             type="button"
-                            onClick={resetFilters}
-                            title="Reset filters"
-                            className="p-2 text-primary/60 hover:text-primary border border-black/10 rounded-full text-xs shrink-0 cursor-pointer transition-colors"
+                            onClick={() => setSelectedCategory('all')}
+                            className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
+                                selectedCategory === 'all'
+                                    ? 'bg-primary text-white shadow-xs'
+                                    : 'bg-transparent text-primary/70 hover:text-primary hover:bg-black/5'
+                            }`}
                         >
-                            ✕
+                            All
                         </button>
+
+                        {categories.map((cat) => {
+                            const isSelected = selectedCategory === cat.slug;
+                            return (
+                                <button
+                                    key={cat.slug}
+                                    type="button"
+                                    onClick={() => setSelectedCategory(cat.slug)}
+                                    className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
+                                        isSelected
+                                            ? 'bg-primary text-white shadow-xs'
+                                            : 'bg-transparent text-primary/70 hover:text-primary hover:bg-black/5'
+                                    }`}
+                                >
+                                    {cat.name.trim()}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Search Bar & Reset */}
+                    <div className="flex items-center gap-2 w-full md:w-72">
+                        <div className="relative flex-1">
+                            <input
+                                type="text"
+                                placeholder="Search products..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-background text-primary placeholder:text-muted border border-border rounded-full pl-9 pr-4 py-2 text-xs sm:text-sm font-primary focus:outline-none focus:border-primary transition-colors"
+                            />
+                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {hasActiveFilters && (
+                            <button
+                                type="button"
+                                onClick={resetFilters}
+                                title="Reset filters"
+                                className="p-2 text-primary/60 hover:text-primary border border-border rounded-full text-xs shrink-0 cursor-pointer transition-colors"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* ── Products Grid ── */}
+                <div className="w-full">
+                    {active.isLoading ? (
+                        <p className="text-center py-16 font-primary text-primary/50 text-sm">Loading products…</p>
+                    ) : active.isError ? (
+                        <div className="text-center py-16">
+                            <p className="font-primary text-primary/60 text-sm mb-4">Couldn&apos;t load products.</p>
+                            <button
+                                type="button"
+                                onClick={() => active.refetch()}
+                                className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                            >
+                                Try again
+                            </button>
+                        </div>
+                    ) : products.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-[1.5vw]">
+                            {products.map((product) => (
+                                <ProductCard key={product._id} product={toCardProduct(product)} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-16 sm:py-24 border border-dashed border-border rounded-2xl max-w-3xl mx-auto">
+                            <h3 className="font-primary text-lg sm:text-xl text-primary font-medium mb-2">No Products Found</h3>
+                            <p className="font-primary text-primary/60 text-xs sm:text-sm max-w-sm mx-auto mb-4">
+                                We couldn&apos;t find any items matching your search or filters. Try adjusting your selections.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={resetFilters}
+                                className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                            >
+                                View All Products
+                            </button>
+                        </div>
                     )}
                 </div>
-            </div>
-
-            {/* ── Products Grid ── */}
-            <div className="">
-                {active.isLoading ? (
-                    <p className="text-center py-16 font-primary text-primary/50 text-sm">Loading products…</p>
-                ) : active.isError ? (
-                    <div className="text-center py-16">
-                        <p className="font-primary text-primary/60 text-sm mb-4">Couldn&apos;t load products.</p>
-                        <button
-                            type="button"
-                            onClick={() => active.refetch()}
-                            className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
-                        >
-                            Try again
-                        </button>
-                    </div>
-                ) : products.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
-                        {products.map((product) => (
-                            <ProductCard key={product._id} product={toCardProduct(product)} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-16 sm:py-24 border border-dashed border-black/10 rounded-2xl max-w-3xl mx-auto">
-                        <h3 className="font-primary text-lg sm:text-xl text-primary font-medium mb-2">No Products Found</h3>
-                        <p className="font-primary text-primary/60 text-xs sm:text-sm max-w-sm mx-auto mb-4">
-                            We couldn&apos;t find any items matching your search or filters. Try adjusting your selections.
-                        </p>
-                        <button
-                            type="button"
-                            onClick={resetFilters}
-                            className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
-                        >
-                            View All Products
-                        </button>
-                    </div>
-                )}
             </div>
         </section>
     );

@@ -128,40 +128,19 @@ export default function Testimonial() {
             <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Section Header ── */}
                 <div className="flex flex-col items-center text-center mb-12 sm:mb-16 lg:mb-[4vw] w-full lg:max-w-[60vw] mx-auto">
-                    <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
+                    <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                         Kind Words
                     </span>
-                    <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
+                    <h2 className="font-antessa font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
                         Stories of Radiance
                     </h2>
-                    <p className="font-primary font-normal text-sm sm:text-base lg:text-[0.9vw] lg:leading-[1.6] text-primary/75 w-full max-w-2xl lg:max-w-none mt-3 sm:mt-4 lg:mt-[0.8vw] leading-relaxed">
+                    <p className="font-primary font-normal text-base sm:text-lg lg:text-[1.2vw] lg:leading-[1.65] text-primary/80 w-full max-w-2xl lg:max-w-[44vw] mt-3 sm:mt-4 lg:mt-[0.9vw] leading-relaxed">
                         Thoughtful reflections from those who have embraced our daily botanical science rituals.
                     </p>
                 </div>
 
                 {/* ── Carousel Container ── */}
                 <div className="relative w-full">
-                    {/* Left Arrow Button */}
-                    <button
-                        type="button"
-                        onClick={scrollPrev}
-                        disabled={!canScrollPrev}
-                        aria-label="Previous testimonial"
-                        className="hidden md:flex absolute -left-4 lg:left-[-3vw] top-1/2 -translate-y-1/2 z-20 w-11 h-11 lg:w-[2.8vw] lg:h-[2.8vw] rounded-full items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-white hover:border-black/30 hover:scale-105 transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer"
-                    >
-                        <span className="text-xl lg:text-[1.2vw] font-light leading-none -translate-x-px">←</span>
-                    </button>
-
-                    {/* Right Arrow Button */}
-                    <button
-                        type="button"
-                        onClick={scrollNext}
-                        disabled={!canScrollNext}
-                        aria-label="Next testimonial"
-                        className="hidden md:flex absolute -right-4 lg:right-[-3vw] top-1/2 -translate-y-1/2 z-20 w-11 h-11 lg:w-[2.8vw] lg:h-[2.8vw] rounded-full items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-white hover:border-black/30 hover:scale-105 transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer"
-                    >
-                        <span className="text-xl lg:text-[1.2vw] font-light leading-none translate-x-px">→</span>
-                    </button>
 
                     {/* Embla Viewport */}
                     <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing px-1 sm:px-2">
@@ -224,20 +203,73 @@ export default function Testimonial() {
                         </div>
                     </div>
 
-                    {/* Navigation Dots */}
-                    <div className="flex items-center justify-center gap-2 lg:gap-[0.5vw] mt-6 lg:mt-[1.8vw]">
-                        {TESTIMONIALS.map((_, index) => (
-                            <button
-                                key={index}
-                                type="button"
-                                onClick={() => scrollTo(index)}
-                                aria-label={`Go to testimonial ${index + 1}`}
-                                className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${selectedIndex === index
-                                    ? 'w-7 lg:w-[1.8vw] bg-primary'
-                                    : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-primary/40'
+                    {/* ── Carousel Bottom Controls (< Dots >) ── */}
+                    <div className="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-10 lg:mt-[2.5vw]">
+                        {/* Left Arrow Button (<) */}
+                        <button
+                            type="button"
+                            onClick={scrollPrev}
+                            disabled={!canScrollPrev}
+                            aria-label="Previous testimonial"
+                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full flex items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/95 disabled:hover:text-primary disabled:hover:border-black/10 cursor-pointer shrink-0"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] -translate-x-px"
+                                aria-hidden="true"
+                            >
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+
+                        {/* Navigation Dots */}
+                        <div
+                            className="flex items-center gap-2 lg:gap-[0.5vw]"
+                            role="tablist"
+                            aria-label="Customer testimonials pagination"
+                        >
+                            {TESTIMONIALS.map((_, index) => (
+                                <button
+                                    key={index}
+                                    type="button"
+                                    onClick={() => scrollTo(index)}
+                                    aria-label={`Go to testimonial ${index + 1}`}
+                                    aria-current={selectedIndex === index ? 'true' : undefined}
+                                    className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${
+                                        selectedIndex === index
+                                            ? 'w-7 lg:w-[1.8vw] bg-primary'
+                                            : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-primary/45'
                                     }`}
-                            />
-                        ))}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Right Arrow Button (>) */}
+                        <button
+                            type="button"
+                            onClick={scrollNext}
+                            disabled={!canScrollNext}
+                            aria-label="Next testimonial"
+                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full flex items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/95 disabled:hover:text-primary disabled:hover:border-black/10 cursor-pointer shrink-0"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] translate-x-px"
+                                aria-hidden="true"
+                            >
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -91,7 +91,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                     transitionDelay: open ? `${idx * 50 + 80}ms` : '0ms',
                   }}
                   className={[
-                    'group flex items-center justify-between py-3.5 text-base font-primary tracking-widest uppercase font-medium border-b border-border/40',
+                    'group flex items-center justify-between py-3.5 text-base font-primary tracking-normal capitalize font-medium border-b border-border/40',
                     'transition-all duration-300 ease-out transform text-primary',
                     open ? 'translate-x-0 opacity-100' : 'translate-x-6 opacity-0',
                     isActive ? 'font-bold text-primary' : 'text-primary/75 hover:text-primary hover:translate-x-2',
@@ -106,17 +106,28 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
             })}
           </nav>
 
-          <div className="pt-6 border-t border-border/40 flex flex-col gap-4">
-            <Link href="/login" onClick={onClose} className="w-full">
-              <Button
-                variant="primary"
-                size="md"
-                className="w-full tracking-widest text-xs py-3"
-              >
-                LOGIN
-              </Button>
-            </Link>
-            <p className="font-primary text-xs text-muted tracking-wider uppercase text-center">
+          <div className="pt-6 border-t border-border/40 flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3 w-full">
+              <Link href="/cart" onClick={onClose} className="w-full">
+                <Button
+                  variant="ghost"
+                  size="md"
+                  className="w-full tracking-widest text-xs py-3"
+                >
+                  CART
+                </Button>
+              </Link>
+              <Link href="/login" onClick={onClose} className="w-full">
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="w-full tracking-widest text-xs py-3"
+                >
+                  LOGIN
+                </Button>
+              </Link>
+            </div>
+            <p className="font-primary text-xs text-muted tracking-wider uppercase text-center mt-1">
               Botanical Science for Modern Skin
             </p>
           </div>

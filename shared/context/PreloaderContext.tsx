@@ -6,9 +6,12 @@ interface PreloaderContextType {
   showPreloader: boolean;
   soundEnabled: boolean;
   heroImageLoaded: boolean;
+  isPlayingAudio: boolean;
   setShowPreloader: (show: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setHeroImageLoaded: (loaded: boolean) => void;
+  setIsPlayingAudio: (playing: boolean) => void;
+  toggleAudio: () => void;
 }
 
 const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
@@ -18,6 +21,17 @@ export const PreloaderProvider = ({ children }: { children: ReactNode }) => {
   const [showPreloader, setShowPreloader] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  const toggleAudio = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("toggle-audio", {
+          detail: { action: isPlayingAudio ? "pause" : "play" },
+        })
+      );
+    }
+  };
 
   return (
     <PreloaderContext.Provider
@@ -25,9 +39,12 @@ export const PreloaderProvider = ({ children }: { children: ReactNode }) => {
         showPreloader,
         soundEnabled,
         heroImageLoaded,
+        isPlayingAudio,
         setShowPreloader,
         setSoundEnabled,
         setHeroImageLoaded,
+        setIsPlayingAudio,
+        toggleAudio,
       }}
     >
       {children}

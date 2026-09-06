@@ -3,35 +3,105 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import MobileDrawer from './navbar/MobileDrawer';
 import Image from 'next/image';
+import MobileDrawer from './navbar/MobileDrawer';
+import { NAV_LINKS } from './navbar/navData';
 
-interface NavItem {
-  label: string;
-  href: string;
+function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+    </svg>
+  );
 }
 
-const PRIMARY_NAV: NavItem[] = [
-  { label: 'About', href: '/about' },
-  { label: 'Product', href: '/product' },
-  { label: 'Blogs', href: '/blog' },
-  { label: 'Events', href: '/events' },
-  { label: 'Gallery', href: '/gallery' },
-];
+import { usePreloader } from '@/shared/context/PreloaderContext';
 
-const UTILITY_NAV: NavItem[] = [
-  { label: 'Cart', href: '/cart' },
-  { label: 'Contact', href: '/contact' },
+function SoundIcon({
+  playing,
+  className = 'w-4.5 h-4.5 sm:w-5 sm:h-5',
+}: {
+  playing: boolean;
+  className?: string;
+}) {
+  if (playing) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+        aria-hidden="true"
+      >
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+      </svg>
+    );
+  }
 
-];
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`${className} opacity-75`}
+      aria-hidden="true"
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="22" x2="16" y1="9" y2="15" />
+      <line x1="16" x2="22" y1="9" y2="15" />
+    </svg>
+  );
+}
+
+function UserIcon({ className = 'w-5 h-5' }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const { isPlayingAudio, toggleAudio } = usePreloader();
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
 
+  // The navbar is solid Warm Ivory from the initial state across all pages
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const delta = 10;
@@ -42,13 +112,10 @@ export default function Navbar() {
       if (currentScrollY < 0) return;
 
       if (currentScrollY <= 40) {
-        setScrolled(false);
         setVisible(true);
         lastScrollY = currentScrollY;
         return;
       }
-
-      setScrolled(true);
 
       if (Math.abs(currentScrollY - lastScrollY) >= delta) {
         setVisible(currentScrollY <= lastScrollY);
@@ -66,34 +133,36 @@ export default function Navbar() {
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out ${scrolled
-          ? 'bg-rich-black/85 backdrop-blur-md border-b border-white/10 shadow-lg py-4'
-          : 'bg-linear-to-b from-black/40 via-black/15 to-transparent py-6'
-          } ${visible || mobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out bg-[#F7F5F1]/95 backdrop-blur-md border-b border-[#ECE4DA] shadow-subtle py-2.5 sm:py-3 ${
+          visible || mobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        }`}
       >
-        <div className="w-full flex items-center justify-between px-6 md:px-12 mx-auto">
-          {/* ── LEFT: Dotted Brand Logo & Title ── */}
-          <Link
-            href="/"
-            className="flex items-center gap-3.5 group cursor-pointer"
-            onClick={() => setMobileOpen(false)}
-          >
-            {/* 3x3 Dots Matrix Icon */}
-            {/* <div className="grid grid-cols-3 gap-1 w-5 h-5 items-center justify-items-center">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <span
-                  key={i}
-                  className="w-1 h-1 rounded-full bg-white/90 group-hover:bg-white group-hover:scale-125 transition-all duration-200"
-                />
-              ))}
-            </div> */}
-
-            <Image src="/logo/gveda_logo.svg" alt="logo" width={150} height={40} />
-          </Link>
+        <div className="w-full flex items-center justify-between px-4 sm:px-8 lg:px-[5vw] mx-auto">
+          {/* ── LEFT: Brand Logo ── */}
+          <div className="flex-1 flex items-center justify-start">
+            <Link
+              href="/"
+              className="flex items-center gap-3.5 group cursor-pointer"
+              onClick={() => setMobileOpen(false)}
+              aria-label="GVEDA Home"
+            >
+              <Image
+                src="/logo/gveda_logo.svg"
+                alt="GVEDA Logo"
+                width={150}
+                height={40}
+                className="w-24 sm:w-28 md:w-32 h-auto object-contain object-left"
+                priority
+              />
+            </Link>
+          </div>
 
           {/* ── CENTER: Primary Nav Links ── */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-['Montserrat'] text-md tracking-wide text-white/80">
-            {PRIMARY_NAV.map((item) => {
+          <nav
+            aria-label="Primary Navigation"
+            className="hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize text-primary/80 transition-colors duration-300"
+          >
+            {NAV_LINKS.map((item) => {
               const isActive =
                 pathname === item.href ||
                 (item.href !== '/' && pathname?.startsWith(item.href));
@@ -102,46 +171,91 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`relative transition-colors duration-200 pb-1 ${isActive
-                    ? 'text-white font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-white'
-                    : 'hover:text-white font-normal'
-                    }`}
+                  className={`group relative py-1 transition-colors duration-200 ${
+                    isActive
+                      ? 'text-primary font-semibold'
+                      : 'text-primary/75 hover:text-primary font-normal'
+                  }`}
                 >
                   {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full bg-primary transition-transform duration-200 origin-left ${
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
                 </Link>
               );
             })}
           </nav>
 
-          {/* ── RIGHT: Utility Links & Reserve Action ── */}
-          <div className="flex items-center gap-4 sm:gap-6 xl:gap-7 font-['Montserrat'] text-md! tracking-wide text-white/80">
-            {UTILITY_NAV.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="hover:text-white transition-colors duration-200 hidden sm:inline-block"
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* ── RIGHT: Cart & User Login Icons (+ Mobile Toggle) ── */}
+          <div className="flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 text-primary/80 transition-colors duration-300">
+            {/* Sound Icon Button (left side of login and cart) */}
+            <button
+              type="button"
+              onClick={toggleAudio}
+              aria-label={isPlayingAudio ? 'Mute ambient sound' : 'Play ambient sound'}
+              title={isPlayingAudio ? 'Mute ambient sound' : 'Play ambient sound'}
+              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                isPlayingAudio
+                  ? 'text-primary bg-black/10'
+                  : 'text-primary/80 hover:text-primary hover:bg-black/5'
+              }`}
+            >
+              <SoundIcon playing={isPlayingAudio} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+            </button>
+
+            {/* Cart Icon */}
+            <Link
+              href="/cart"
+              aria-label="Shopping Cart"
+              title="Cart"
+              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                pathname === '/cart'
+                  ? 'text-primary bg-black/10'
+                  : 'text-primary/80 hover:text-primary hover:bg-black/5'
+              }`}
+              onClick={() => setMobileOpen(false)}
+            >
+              <CartIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+            </Link>
+
+            {/* User / Login Icon */}
+            <Link
+              href="/login"
+              aria-label="Account / Login"
+              title="Account"
+              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                pathname === '/login'
+                  ? 'text-primary bg-black/10'
+                  : 'text-primary/80 hover:text-primary hover:bg-black/5'
+              }`}
+              onClick={() => setMobileOpen(false)}
+            >
+              <UserIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+            </Link>
+
             {/* Mobile Hamburger Menu Toggle */}
             <button
               type="button"
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              className="lg:hidden flex flex-col items-center justify-center w-8 h-8 gap-1.5 text-white focus:outline-none cursor-pointer"
+              className="lg:hidden flex flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 text-primary hover:bg-black/5"
             >
               <span
-                className={`w-5 h-[1.5px] bg-white transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''
-                  }`}
+                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? 'rotate-45 translate-y-2' : ''
+                }`}
               />
               <span
-                className={`w-5 h-[1.5px] bg-white transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''
-                  }`}
+                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? 'opacity-0' : ''
+                }`}
               />
               <span
-                className={`w-5 h-[1.5px] bg-white transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''
-                  }`}
+                className={`w-5 h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? '-rotate-45 -translate-y-2' : ''
+                }`}
               />
             </button>
           </div>
