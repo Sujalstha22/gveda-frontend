@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import Title from "@/shared/ui/Title";
+import Pagination from "@/shared/ui/Pagination";
 import {
   useProducts,
   useProductsByCategory,
@@ -13,6 +14,9 @@ import {
 const ProductsDisplay: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all"); // 'all' | category slug
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const PRODUCTS_PER_PAGE = 12; // Exactly 3 rows on 4-column desktop grid
 
   const categoriesQuery = useProductCategories();
   const categories = categoriesQuery.data?.results ?? [];
@@ -28,14 +32,26 @@ const ProductsDisplay: React.FC = () => {
   const active = selectedCategory === "all" ? listQuery : categoryQuery;
   const products = active.data?.results ?? [];
 
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory]);
+
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
   const hasActiveFilters = searchQuery !== "" || selectedCategory !== "all";
   const resetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
+    setCurrentPage(1);
   };
 
   return (
-    <section className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-background">
+    <section id="products-display-section" className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-background">
       <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Section Header ── */}
         <Title
@@ -100,14 +116,28 @@ const ProductsDisplay: React.FC = () => {
               </button>
             </div>
           ) : products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-[1.5vw]">
-              {products.map((product) => (
-                <ProductCard
-                  key={product._id}
-                  product={toCardProduct(product)}
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-[1.5vw]">
+                {paginatedProducts.map((product) => (
+                  <ProductCard
+                    key={product._id}
+                    product={toCardProduct(product)}
+                  />
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  totalItems={products.length}
+                  pageSize={PRODUCTS_PER_PAGE}
+                  itemName="Formulations"
+                  scrollTargetId="products-display-section"
                 />
-              ))}
-            </div>
+              )}
+            </>
           ) : (
             <div className="text-center py-16 sm:py-24 border border-dashed border-border rounded-2xl max-w-3xl mx-auto">
               <h3 className="font-primary text-lg sm:text-xl text-primary font-medium mb-2">

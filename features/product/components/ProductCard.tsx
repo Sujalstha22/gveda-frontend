@@ -113,13 +113,13 @@ export default function ProductCard({
                     )}
                 </div>
 
-                {/* 3. Action Buttons (View Details + Add to Cart) - Always visible */}
-                <div className="mt-4 pt-3 border-t border-secondary/15 w-full flex items-center justify-center gap-2.5">
-                    {/* View Details Button */}
+                {/* 3. Action Buttons (Full-Width View Details + Right-Side Add to Cart Icon) */}
+                <div className="mt-4 pt-3 border-t border-secondary/15 w-full flex items-center gap-2">
+                    {/* View Details Button (Full Width) */}
                     <Button
                         size="md"
                         variant="secondary"
-                        className="!h-9 sm:!h-10 lg:!h-10 !py-0 !leading-none !px-4 sm:!px-5 shadow-xs text-white! pointer-events-auto text-xs sm:text-[13px] font-medium tracking-wider uppercase flex items-center justify-center"
+                        className="flex-1 w-full !h-10 !py-0 !leading-none shadow-xs text-white! pointer-events-auto text-xs sm:text-[13px] font-medium tracking-wider uppercase flex items-center justify-center rounded-full"
                         onClick={(e) => {
                             e.stopPropagation();
                             router.push(href);
@@ -128,13 +128,13 @@ export default function ProductCard({
                         View Details
                     </Button>
 
-                    {/* Add to Cart Icon Button */}
+                    {/* Add to Cart Icon Button (Right Side) */}
                     <button
                         type="button"
                         onClick={handleAddToCart}
                         aria-label={added ? 'Added to cart' : 'Add to cart'}
                         title={added ? 'Added to cart' : 'Add to cart'}
-                        className={`h-9 w-9 sm:h-10 sm:w-10 lg:h-10 lg:w-10 rounded-full flex items-center justify-center transition-all duration-300 pointer-events-auto shadow-xs cursor-pointer shrink-0 border ${
+                        className={`h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 pointer-events-auto shadow-xs cursor-pointer shrink-0 border ${
                             added
                                 ? 'bg-botanical-gold text-white border-botanical-gold scale-105'
                                 : 'bg-rich-black text-white border-rich-black hover:bg-botanical-gold hover:border-botanical-gold hover:scale-105'
