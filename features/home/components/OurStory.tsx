@@ -27,11 +27,11 @@ export default function OurStory() {
 
                     {/* ── Right Content ── */}
                     <div className="flex flex-col items-start justify-center w-full max-w-xl lg:max-w-none lg:pr-[2vw]">
-                        <span className="font-editorial italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
+                        <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                             Discover
                         </span>
 
-                        <h2 className="font-primary font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
+                        <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
                             Our Story
                         </h2>
 

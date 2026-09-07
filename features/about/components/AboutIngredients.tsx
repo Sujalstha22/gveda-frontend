@@ -72,7 +72,7 @@ const AboutIngredients = () => {
                             </div>
 
                             {/* Title */}
-                            <h3 className="font-primary font-medium text-lg sm:text-xl lg:text-[1.15vw] text-primary mb-2.5 sm:mb-3 lg:mb-[0.7vw] tracking-wide">
+                            <h3 className="font-antessa uppercase font-medium text-lg sm:text-xl lg:text-[1.15vw] text-primary mb-2.5 sm:mb-3 lg:mb-[0.7vw]">
                                 {pillar.title}
                             </h3>
 

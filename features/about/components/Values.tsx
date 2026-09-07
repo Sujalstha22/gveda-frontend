@@ -60,7 +60,7 @@ const Values = () => {
                             </div>
 
                             {/* Editorial Caption */}
-                            <h3 className=" font-normal text-2xl sm:text-3xl lg:text-[1.8vw] text-primary mt-6 mb-2 group-hover:text-accent-gold transition-colors">
+                            <h3 className="font-antessa uppercase font-medium text-xl sm:text-2xl lg:text-[1.5vw] text-primary mt-6 mb-2 group-hover:text-accent-gold transition-colors">
                                 {item.title}
                             </h3>
 

@@ -47,7 +47,7 @@ export default function Intro() {
     <section
       ref={sectionRef}
       aria-label="Brand Philosophy"
-      className="relative w-full min-h-[85vh] lg:min-h-screen flex flex-col justify-between items-center pt-16 sm:pt-20 lg:pt-[4vw] px-4 sm:px-8 lg:px-[5vw] overflow-hidden select-none"
+      className="relative w-full min-h-[85vh] lg:min-h-screen flex flex-col justify-between items-center pt-16 sm:pt-20 lg:pt-[4vw] px-4 sm:px-8 lg:px-[5vw] overflow-hidden select-none bg-[#EEE8E0]"
     >
       {/* Ambient Background Radial Glow */}
       <div

@@ -53,6 +53,10 @@ export default function ProductHero({
         maskedImageRef={maskedImageRef}
       />
 
+      {/* Subtle Light Overlay */}
+      <div className="absolute inset-0 w-full h-full bg-black/15 z-10 pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full bg-linear-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none" />
+
       {/* <HeroContentOverlay
         slides={slides}
         onScrollToCollection={handleScrollToCollection}

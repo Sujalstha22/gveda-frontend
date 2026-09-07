@@ -48,7 +48,7 @@ export default function BlogDetail({ slug }: { slug: string }) {
                             {formatDate(post.createdAt)} • Journal
                         </div>
 
-                        <h1 className="text-3xl sm:text-4xl lg:text-[3.2vw] text-primary font-heading font-normal leading-tight -mt-2">
+                        <h1 className="text-3xl sm:text-4xl lg:text-[3.2vw] text-primary font-antessa font-medium leading-tight -mt-2">
                             {post.title}
                         </h1>
 

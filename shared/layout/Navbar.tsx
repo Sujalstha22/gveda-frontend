@@ -75,39 +75,62 @@ export default function Navbar() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
 
+  // Only the home page ('/') has a dark cinematic carousel hero requiring white text/logo;
+  // all other pages (/about, /product, /blog, /contact, etc.) use black text & black logo.
+  const isDarkContentPage = pathname !== '/';
   const isSolidPage =
     pathname === '/gallery' ||
     pathname?.startsWith('/gallery/') ||
     pathname === '/events' ||
     pathname?.startsWith('/events/');
   const isTransparent = !isSolidPage && !scrolled && !mobileOpen && !searchOpen;
+  const isWhiteNav = isTransparent && !isDarkContentPage;
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
-    const delta = 10;
+    let ticking = false;
+    const delta = 15;
 
-    const onScroll = () => {
+    const updateScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY < 0) return;
+      // Prevent iOS / Safari rubber-band bounce negative scroll trigger
+      if (currentScrollY < 0) {
+        ticking = false;
+        return;
+      }
 
-      if (currentScrollY <= 40) {
+      // Keep navbar visible & transparent near top of page
+      if (currentScrollY <= 80) {
         setScrolled(false);
         setVisible(true);
         lastScrollY = currentScrollY;
+        ticking = false;
         return;
       }
 
       setScrolled(true);
 
-      if (Math.abs(currentScrollY - lastScrollY) >= delta) {
-        setVisible(currentScrollY <= lastScrollY);
+      const diff = currentScrollY - lastScrollY;
+
+      if (Math.abs(diff) >= delta) {
+        // Scrolling up -> visible: true, Scrolling down -> visible: false
+        setVisible(diff < 0);
         lastScrollY = currentScrollY;
+      }
+
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScroll);
+        ticking = true;
       }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    updateScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -116,14 +139,16 @@ export default function Navbar() {
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transform-gpu transition-all duration-300 ease-in-out ${
           searchOpen
             ? 'bg-[#F7F5F1] shadow-none'
             : isTransparent
             ? 'bg-transparent border-b border-transparent shadow-none'
             : 'bg-[#F7F5F1] border-b border-[#ECE4DA] shadow-subtle'
         } ${
-          visible || mobileOpen || searchOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          visible || mobileOpen || searchOpen
+            ? 'translate-y-0 opacity-100 pointer-events-auto'
+            : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">
@@ -149,7 +174,7 @@ export default function Navbar() {
                 width={150}
                 height={40}
                 className={`w-24 sm:w-28 md:w-32 h-auto object-contain object-left transition-all duration-300 ${
-                  isTransparent ? 'brightness-0 invert' : ''
+                  isWhiteNav ? 'brightness-0 invert' : ''
                 }`}
                 priority
               />
@@ -160,7 +185,7 @@ export default function Navbar() {
           <nav
             aria-label="Primary Navigation"
             className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-colors duration-300 ${
-              isTransparent ? 'text-white/80' : 'text-primary/80'
+              isWhiteNav ? 'text-white/80' : 'text-primary/80'
             }`}
           >
             {NAV_LINKS.map((item) => {
@@ -173,7 +198,7 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   className={`group relative py-1 transition-colors duration-200 ${
-                    isTransparent
+                    isWhiteNav
                       ? isActive
                         ? 'text-white font-semibold'
                         : 'text-white/80 hover:text-white font-normal'
@@ -185,7 +210,7 @@ export default function Navbar() {
                   {item.label}
                   <span
                     className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full transition-transform duration-200 origin-left ${
-                      isTransparent ? 'bg-white' : 'bg-primary'
+                      isWhiteNav ? 'bg-white' : 'bg-primary'
                     } ${
                       isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
@@ -198,7 +223,7 @@ export default function Navbar() {
           {/* ── RIGHT: Search, Cart & User Login Icons (+ Mobile Toggle) ── */}
           <div
             className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 ${
-              isTransparent ? 'text-white/85' : 'text-primary/80'
+              isWhiteNav ? 'text-white/85' : 'text-primary/80'
             }`}
           >
             {/* Search Icon */}
@@ -211,7 +236,7 @@ export default function Navbar() {
               aria-label="Search products"
               title="Search"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isTransparent
+                isWhiteNav
                   ? 'text-white hover:bg-white/15'
                   : searchOpen
                   ? 'text-primary bg-black/10'
@@ -227,7 +252,7 @@ export default function Navbar() {
               aria-label="Shopping Cart"
               title="Cart"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isTransparent
+                isWhiteNav
                   ? 'text-white hover:bg-white/15'
                   : pathname === '/cart'
                   ? 'text-primary bg-black/10'
@@ -244,7 +269,7 @@ export default function Navbar() {
               aria-label="Account / Login"
               title="Account"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isTransparent
+                isWhiteNav
                   ? 'text-white hover:bg-white/15'
                   : pathname === '/login'
                   ? 'text-primary bg-black/10'
@@ -261,24 +286,24 @@ export default function Navbar() {
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               className={`lg:hidden flex flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 ${
-                isTransparent
+                isWhiteNav
                   ? 'text-white hover:bg-white/15'
                   : 'text-primary hover:bg-black/5'
               }`}
             >
               <span
                 className={`w-5 h-[1.5px] transition-all duration-300 ${
-                  isTransparent ? 'bg-white' : 'bg-primary'
+                  isWhiteNav ? 'bg-white' : 'bg-primary'
                 } ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`}
               />
               <span
                 className={`w-5 h-[1.5px] transition-all duration-300 ${
-                  isTransparent ? 'bg-white' : 'bg-primary'
+                  isWhiteNav ? 'bg-white' : 'bg-primary'
                 } ${mobileOpen ? 'opacity-0' : ''}`}
               />
               <span
                 className={`w-5 h-[1.5px] transition-all duration-300 ${
-                  isTransparent && !searchOpen ? 'bg-white' : 'bg-primary'
+                  isWhiteNav && !searchOpen ? 'bg-white' : 'bg-primary'
                 } ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`}
               />
             </button>

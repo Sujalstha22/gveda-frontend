@@ -122,7 +122,7 @@ const ContactForm = () => {
   return (
     <section
       aria-label="Contact Form"
-      className="w-full max-w-4xl lg:max-w-[55vw] mx-auto px-4 sm:px-8 lg:px-0 my-12 sm:my-16 lg:my-[4vw] select-none"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-[5vw] my-12 sm:my-16 lg:my-[4vw] select-none"
     >
       {/* ── Section Title ── */}
       <Title

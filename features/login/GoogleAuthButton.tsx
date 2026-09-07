@@ -4,9 +4,9 @@ export default function GoogleAuthButton() {
   return (
     <button
       type="button"
-      className="w-full flex items-center justify-center gap-3 py-2.5 sm:py-3 lg:py-[0.6vw] px-4 rounded-xl lg:rounded-[0.6vw] border border-black/15 bg-white hover:bg-black/5 transition-all cursor-pointer text-xs sm:text-sm lg:text-[0.75vw] font-medium text-primary shadow-2xs hover:scale-[1.01]"
+      className="w-full flex items-center justify-center gap-3 py-3 sm:py-3.5 px-4 rounded-xl border border-secondary/30 bg-warm-ivory/40 hover:bg-warm-ivory/80 active:scale-[0.99] transition-all duration-300 cursor-pointer text-xs sm:text-sm font-medium text-primary shadow-2xs group"
     >
-      <svg className="w-4 h-4 lg:w-[0.9vw] lg:h-[0.9vw] shrink-0" viewBox="0 0 24 24">
+      <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 24 24">
         <path
           fill="#4285F4"
           d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
@@ -24,7 +24,7 @@ export default function GoogleAuthButton() {
           d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
         />
       </svg>
-      <span>Continue with Google</span>
+      <span className="font-primary tracking-wide text-primary/80 group-hover:text-primary">Continue with Google</span>
     </button>
   );
 }

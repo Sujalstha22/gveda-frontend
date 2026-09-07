@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { AuthMode } from './loginTypes';
+import React from "react";
+import { motion } from "framer-motion";
+import { AuthMode } from "./loginTypes";
 
 interface AuthTabsProps {
   mode: AuthMode;
@@ -11,35 +11,41 @@ interface AuthTabsProps {
 
 export default function AuthTabs({ mode, onSelectMode }: AuthTabsProps) {
   return (
-    <div className="flex items-center gap-6 sm:gap-8 lg:gap-[1.8vw] border-b border-black/10 pb-2.5 lg:pb-[0.6vw] mb-6 lg:mb-[1.5vw]">
+    <div className="relative flex items-center gap-8 border-b border-secondary/25 mb-6">
       <button
         type="button"
-        onClick={() => onSelectMode('login')}
-        className={`font-primary text-sm sm:text-base lg:text-[0.95vw] uppercase tracking-wider font-semibold transition-all relative pb-2 lg:pb-[0.4vw] cursor-pointer ${
-          mode === 'login' ? 'text-primary' : 'text-primary/40 hover:text-primary/70'
+        onClick={() => onSelectMode("login")}
+        className={`relative pb-3 text-sm sm:text-base font-antessa transition-colors cursor-pointer ${
+          mode === "login"
+            ? "text-primary font-semibold"
+            : "text-primary/35 hover:text-primary font-medium"
         }`}
       >
         Login
-        {mode === 'login' && (
+        {mode === "login" && (
           <motion.div
-            layoutId="activeTabIndicator"
-            className="absolute bottom-0 left-0 right-0 h-0.5 lg:h-[0.14vw] bg-primary rounded-full"
+            layoutId="activeAuthIndicator"
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
+            className="absolute -bottom-[1px] left-0  right-0 h-[2px] bg-primary"
           />
         )}
       </button>
 
       <button
         type="button"
-        onClick={() => onSelectMode('signup')}
-        className={`font-primary text-sm sm:text-base lg:text-[0.95vw] uppercase tracking-wider font-semibold transition-all relative pb-2 lg:pb-[0.4vw] cursor-pointer ${
-          mode === 'signup' ? 'text-primary' : 'text-primary/40 hover:text-primary/70'
+        onClick={() => onSelectMode("signup")}
+        className={`relative pb-3 text-sm sm:text-base font-antessa transition-colors cursor-pointer ${
+          mode === "signup"
+            ? "text-primary font-semibold"
+            : "text-primary/35 hover:text-primary font-medium"
         }`}
       >
         Sign Up
-        {mode === 'signup' && (
+        {mode === "signup" && (
           <motion.div
-            layoutId="activeTabIndicator"
-            className="absolute bottom-0 left-0 right-0 h-0.5 lg:h-[0.14vw] bg-primary rounded-full"
+            layoutId="activeAuthIndicator"
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
+            className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-primary"
           />
         )}
       </button>

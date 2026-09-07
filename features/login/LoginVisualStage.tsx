@@ -162,10 +162,19 @@ export default function LoginVisualStage() {
     startAutoplayRef.current = startAutoplay;
   }, [startAutoplay]);
 
-  // Initialize and handle window resizing
+  // Initialize and handle window/container resizing
   useEffect(() => {
     updateDimensionsAndBlinds();
     startAutoplay();
+
+    const container = containerRef.current;
+    let resizeObserver: ResizeObserver | null = null;
+    if (container && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        updateDimensionsAndBlinds();
+      });
+      resizeObserver.observe(container);
+    }
 
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
@@ -186,6 +195,7 @@ export default function LoginVisualStage() {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
+      if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -196,7 +206,7 @@ export default function LoginVisualStage() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full min-h-90 sm:min-h-110 lg:min-h-[30vw] aspect-square sm:aspect-4/3 lg:aspect-[4/3.4] overflow-hidden rounded-2xl lg:rounded-[1.2vw] bg-white border border-secondary/30 shadow-2xs"
+      className="relative w-full h-[480px] sm:h-[520px] lg:h-[540px] overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-secondary/30 shadow-2xs"
     >
       <svg
         ref={svgRef}

@@ -17,7 +17,9 @@ const AboutHero = () => {
                     sizes="100vw"
                     className="object-cover object-top"
                 />
-                <div className="absolute inset-0 w-full h-full bg-linear-to-t from-background/30 via-transparent to-transparent" />
+                {/* Subtle Light Overlay */}
+                <div className="absolute inset-0 w-full h-full bg-black/15 z-[1]" />
+                <div className="absolute inset-0 w-full h-full bg-linear-to-t from-black/40 via-transparent to-transparent z-[2]" />
             </div>
 
             <div className="relative z-10 w-full flex flex-col items-center text-center px-4 sm:px-8 lg:px-[5vw] pb-12 sm:pb-16 lg:pb-[4vw]">
@@ -25,6 +27,8 @@ const AboutHero = () => {
                     eyebrow="Our Philosophy"
                     title="Rooted in Purity"
                     description="Discover the quiet intersection where sacred botanical wisdom meets modern dermatological science."
+                    titleClassName="text-white"
+                    descriptionClassName="text-white/85"
                     className="mb-0"
                 />
             </div>
