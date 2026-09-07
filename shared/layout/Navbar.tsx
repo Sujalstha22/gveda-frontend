@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import MobileDrawer from './navbar/MobileDrawer';
+import SearchBar from './navbar/SearchBar';
 import { NAV_LINKS } from './navbar/navData';
 
 function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
@@ -70,6 +71,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
 
@@ -78,7 +80,7 @@ export default function Navbar() {
     pathname?.startsWith('/gallery/') ||
     pathname === '/events' ||
     pathname?.startsWith('/events/');
-  const isTransparent = !isSolidPage && !scrolled && !mobileOpen;
+  const isTransparent = !isSolidPage && !scrolled && !mobileOpen && !searchOpen;
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -114,15 +116,25 @@ export default function Navbar() {
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out py-2.5 sm:py-3 ${
-          isTransparent
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+          searchOpen
+            ? 'bg-[#F7F5F1] shadow-none'
+            : isTransparent
             ? 'bg-transparent border-b border-transparent shadow-none'
-            : 'bg-[#F7F5F1]/95 backdrop-blur-md border-b border-[#ECE4DA] shadow-subtle'
+            : 'bg-[#F7F5F1] border-b border-[#ECE4DA] shadow-subtle'
         } ${
-          visible || mobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          visible || mobileOpen || searchOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
       >
-        <div className="w-full flex items-center justify-between px-4 sm:px-8 lg:px-[5vw] mx-auto">
+        <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">
+          {/* ── NORMAL NAVBAR ROW (Smoothly morphs out when search is open) ── */}
+          <div
+            className={`w-full px-4 sm:px-8 lg:px-[5vw] flex items-center justify-between transition-all duration-300 ease-in-out ${
+              searchOpen
+                ? 'opacity-0 invisible pointer-events-none -translate-y-1.5'
+                : 'opacity-100 visible pointer-events-auto translate-y-0'
+            }`}
+          >
           {/* ── LEFT: Brand Logo ── */}
           <div className="flex-1 flex items-center justify-start">
             <Link
@@ -190,21 +202,24 @@ export default function Navbar() {
             }`}
           >
             {/* Search Icon */}
-            <Link
-              href="/product"
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                setSearchOpen(true);
+              }}
               aria-label="Search products"
               title="Search"
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
                 isTransparent
                   ? 'text-white hover:bg-white/15'
-                  : pathname === '/product'
+                  : searchOpen
                   ? 'text-primary bg-black/10'
                   : 'text-primary/80 hover:text-primary hover:bg-black/5'
               }`}
-              onClick={() => setMobileOpen(false)}
             >
               <SearchIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
-            </Link>
+            </button>
 
             {/* Cart Icon */}
             <Link
@@ -263,13 +278,29 @@ export default function Navbar() {
               />
               <span
                 className={`w-5 h-[1.5px] transition-all duration-300 ${
-                  isTransparent ? 'bg-white' : 'bg-primary'
+                  isTransparent && !searchOpen ? 'bg-white' : 'bg-primary'
                 } ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`}
               />
             </button>
           </div>
         </div>
+
+          {/* ── SEARCH BAR: Morphs into navbar row + attached dropdown below ── */}
+          <SearchBar
+            isOpen={searchOpen}
+            onClose={() => setSearchOpen(false)}
+          />
+        </div>
       </header>
+
+      {/* ── BACKDROP OVERLAY (Covers viewport below the navbar when search is open) ── */}
+      <div
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 ${
+          searchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setSearchOpen(false)}
+        aria-hidden="true"
+      />
 
       {/* Mobile Drawer Navigation */}
       <MobileDrawer
