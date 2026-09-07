@@ -11,16 +11,7 @@ export default function CarouselEditorial({
   activeSlide,
 }: CarouselEditorialProps) {
   return (
-    <div className="absolute bottom-12 md:bottom-32 left-6 sm:left-12 md:left-16 z-30 max-w-5xl pointer-events-none">
-      {/* Kicker (Editorial Italic Serif) */}
-      <div className="overflow-hidden mb-2 sm:mb-4">
-        {/* <p
-          key={`kicker-${activeSlide.id}`}
-          className="font-['Cormorant_Garamond'] italic text-lg sm:text-2xl md:text-3xl text-white/90 leading-snug font-normal tracking-wide animate-in fade-in slide-in-from-bottom-3 duration-700 whitespace-pre-line"
-        >
-          {activeSlide.kicker}
-        </p> */}
-      </div>
+    <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-10 left-6 sm:left-12 md:left-16 z-30 max-w-5xl pointer-events-none">
 
       {/* Main Title (Luxury Serif / Bold Editorial Heading) */}
       <div className="overflow-hidden">

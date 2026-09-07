@@ -28,6 +28,25 @@ function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 
+function SearchIcon({ className = 'w-5 h-5' }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
+    </svg>
+  );
+}
+
 function UserIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
     <svg
@@ -54,8 +73,12 @@ export default function Navbar() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
 
-  const isGallery = pathname === '/gallery' || pathname?.startsWith('/gallery/');
-  const isTransparent = !isGallery && !scrolled && !mobileOpen;
+  const isSolidPage =
+    pathname === '/gallery' ||
+    pathname?.startsWith('/gallery/') ||
+    pathname === '/events' ||
+    pathname?.startsWith('/events/');
+  const isTransparent = !isSolidPage && !scrolled && !mobileOpen;
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -160,12 +183,29 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* ── RIGHT: Cart & User Login Icons (+ Mobile Toggle) ── */}
+          {/* ── RIGHT: Search, Cart & User Login Icons (+ Mobile Toggle) ── */}
           <div
             className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 ${
               isTransparent ? 'text-white/85' : 'text-primary/80'
             }`}
           >
+            {/* Search Icon */}
+            <Link
+              href="/product"
+              aria-label="Search products"
+              title="Search"
+              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                isTransparent
+                  ? 'text-white hover:bg-white/15'
+                  : pathname === '/product'
+                  ? 'text-primary bg-black/10'
+                  : 'text-primary/80 hover:text-primary hover:bg-black/5'
+              }`}
+              onClick={() => setMobileOpen(false)}
+            >
+              <SearchIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+            </Link>
+
             {/* Cart Icon */}
             <Link
               href="/cart"

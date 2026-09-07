@@ -4,7 +4,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <section className="w-full pt-20 sm:pt-28 lg:pt-[6vw] pb-12 sm:pb-16 lg:pb-[4vw] px-4 sm:px-6 lg:px-8 bg-warm-ivory">
+    <section className="w-full pt-20 sm:pt-28 lg:pt-[6vw] pb-20 sm:pb-28 lg:pb-[6vw] px-4 sm:px-6 lg:px-8 bg-warm-ivory">
       <div className="max-w-4xl mx-auto">
         <Title
           eyebrow="Our Story"
