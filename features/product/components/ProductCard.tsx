@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Button from '@/shared/ui/Button';
+import { useCart } from '@/shared/context/CartContext';
 
 export interface Product {
     id: number | string;
@@ -12,6 +13,7 @@ export interface Product {
     name: string;
     subtitle?: string;
     volume?: string;
+    price?: number | string;
     image: string;
     category?: string;
     description?: string;
@@ -33,6 +35,7 @@ export default function ProductCard({
 }: ProductCardProps) {
     const router = useRouter();
     const [added, setAdded] = useState(false);
+    const { addToCart } = useCart();
     const href = product.href || (product.slug ? `/product/${product.slug}` : '/product');
 
     const handleCardClick = (e: React.MouseEvent) => {
@@ -47,6 +50,20 @@ export default function ProductCard({
         e.stopPropagation();
         setAdded(true);
         setTimeout(() => setAdded(false), 1600);
+
+        const numericPrice = typeof product.price === 'number'
+            ? product.price
+            : parseFloat(String(product.price || '').replace(/[^0-9.]/g, '')) || 48;
+
+        addToCart({
+            id: String(product.id || product.slug || product.name),
+            name: product.name,
+            price: numericPrice,
+            image: product.image,
+            category: product.category,
+            size: product.volume,
+            slug: product.slug,
+        });
     };
 
     return (

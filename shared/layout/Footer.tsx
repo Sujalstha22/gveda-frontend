@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import CTA from "@/shared/ui/CTA";
 import FooterNewsletter from "./footer/FooterNewsletter";
 import FooterNav from "./footer/FooterNav";
 import FooterPolicies from "./footer/FooterPolicies";
@@ -7,11 +9,27 @@ import FooterBottom from "./footer/FooterBottom";
 import FooterBigText from "./footer/FooterBigText";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isContactPage = pathname === '/contact' || pathname?.startsWith('/contact');
+
   return (
     <footer
       aria-label="Site footer"
       className="relative w-full min-h-[100dvh] h-auto bg-warm-ivory border-t border-black/10 flex flex-col justify-between overflow-hidden select-none"
     >
+      {/* ── CTA SECTION: Upper Footer CTA (hidden on contact page) ── */}
+      {!isContactPage && (
+        <CTA
+          badge="Ready to Transform"
+          title="Discover Your Ritual"
+          description="Experience the intersection of botanical wisdom and modern skincare science. Thoughtfully formulated in small batches for luminous, balanced skin."
+          ctaText="Explore Formulations"
+          ctaHref="/product"
+          secondaryText="Discover The Science"
+          secondaryHref="/about"
+          variant="primary"
+        />
+      )}
       {/* ── UPPER SECTION: Links, Policies, Newsletter (h-auto) ── */}
       <div className="w-full h-auto flex-1 flex flex-col justify-center px-4 sm:px-8 lg:px-[5vw] pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-12 border-b border-black/10">
         {/* Links Grid: Navigation, Policies, and Stay Connected */}

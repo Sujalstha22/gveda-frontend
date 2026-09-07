@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_LINKS } from './navData';
+import { useCart } from '@/shared/context/CartContext';
 
 import Button from '@/shared/ui/Button';
 
@@ -15,6 +16,7 @@ interface MobileDrawerProps {
 export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
   const pathname = usePathname();
   const asideRef = useRef<HTMLElement>(null);
+  const { openCart, totalItems } = useCart();
 
   /* Lock body scroll when mobile drawer is open */
   useEffect(() => {
@@ -110,15 +112,17 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
 
           <div className="pt-6 border-t border-border/40 flex flex-col gap-3">
             <div className="grid grid-cols-2 gap-3 w-full">
-              <Link href="/cart" onClick={onClose} className="w-full">
-                <Button
-                  variant="ghost"
-                  size="md"
-                  className="w-full tracking-widest text-xs py-3"
-                >
-                  CART
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="md"
+                className="w-full tracking-widest text-xs py-3"
+                onClick={() => {
+                  onClose();
+                  openCart();
+                }}
+              >
+                CART {totalItems > 0 ? `(${totalItems})` : ''}
+              </Button>
               <Link href="/login" onClick={onClose} className="w-full">
                 <Button
                   variant="primary"

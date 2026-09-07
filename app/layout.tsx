@@ -7,6 +7,8 @@ import Footer from "@/shared/layout/Footer";
 import { PreloaderProvider } from "@/shared/context/PreloaderContext";
 import ClientShell from "@/shared/ui/ClientShell";
 import { TransitionProvider } from "@/shared/ui/TransitionProvider";
+import { CartProvider } from "@/shared/context/CartContext";
+import CartDrawer from "@/shared/layout/CartDrawer";
 
 
 export const metadata: Metadata = {
@@ -48,9 +50,12 @@ export default function RootLayout({
             <ClientShell>
               <LenisProvider>
                 <TransitionProvider>
-                  <Navbar />
-                  {children}
-                  <Footer />
+                  <CartProvider>
+                    <Navbar />
+                    {children}
+                    <Footer />
+                    <CartDrawer />
+                  </CartProvider>
                 </TransitionProvider>
               </LenisProvider>
             </ClientShell>

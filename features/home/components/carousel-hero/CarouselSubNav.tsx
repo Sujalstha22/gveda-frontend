@@ -19,8 +19,8 @@ export default function CarouselSubNav({
   return (
     <div className="absolute top-20 md:top-24 left-0 right-0 z-30 flex items-center justify-between px-6 md:px-12 py-2 pointer-events-none border-t border-white/10">
       {/* Left Sub-heading (Editorial Italic Serif) */}
-      <div className="font-['Cormorant_Garamond'] italic text-2xl md:text-3xl text-white/95 font-normal tracking-wide pointer-events-auto">
-        Hotels
+      <div className="font-editorial italic text-2xl md:text-3xl text-white/95 font-normal tracking-wide pointer-events-auto">
+        Formulations
       </div>
 
       {/* Right Category Filter Tabs */}

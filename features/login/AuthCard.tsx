@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import AuthTabs from './AuthTabs';
 import GoogleAuthButton from './GoogleAuthButton';
@@ -12,6 +13,10 @@ interface AuthCardProps {
 }
 
 export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams?.get('redirect') || null;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -42,7 +47,12 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
           ? 'Welcome back to GVEDA.'
           : 'Your botanical account has been created successfully.'
       );
-      setTimeout(() => setSuccessMessage(null), 4000);
+      setTimeout(() => {
+        setSuccessMessage(null);
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        }
+      }, 1200);
     }, 850);
   };
 

@@ -55,7 +55,7 @@ export default function GalleryDetail({ id }: { id: number }) {
                     <p className="py-16 font-primary text-primary/60 text-sm">Gallery not found.</p>
                 ) : (
                     <>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-primary font-heading font-normal mb-10">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-primary font-antessa font-medium mb-10 tracking-wide">
                             {gallery.title.trim()}
                         </h1>
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 [&>*]:mb-4 sm:[&>*]:mb-6">
@@ -64,15 +64,17 @@ export default function GalleryDetail({ id }: { id: number }) {
                                     key={img.name}
                                     type="button"
                                     onClick={() => setLightboxIndex(i)}
-                                    className="relative block w-full overflow-hidden rounded-xl border border-secondary/40 break-inside-avoid cursor-zoom-in group"
+                                    className="relative block w-full overflow-hidden rounded-xl border border-secondary/40 break-inside-avoid cursor-zoom-in group transform-gpu"
                                 >
                                     <Image
                                         src={staticUrl(img.name)}
                                         alt={gallery.title}
                                         width={600}
                                         height={800}
+                                        loading={i < 4 ? "eager" : "lazy"}
+                                        decoding="async"
                                         sizes="(max-width: 768px) 100vw, 33vw"
-                                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03] transform-gpu"
                                     />
                                 </button>
                             ))}
@@ -126,6 +128,7 @@ export default function GalleryDetail({ id }: { id: number }) {
                             src={staticUrl(images[lightboxIndex].name)}
                             alt={gallery?.title ?? ''}
                             fill
+                            unoptimized
                             sizes="100vw"
                             priority
                             className="object-contain"

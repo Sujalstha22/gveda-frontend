@@ -7,6 +7,7 @@ import Image from 'next/image';
 import MobileDrawer from './navbar/MobileDrawer';
 import SearchBar from './navbar/SearchBar';
 import { NAV_LINKS } from './navbar/navData';
+import { useCart } from '@/shared/context/CartContext';
 
 function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -74,6 +75,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
+  const { openCart, totalItems } = useCart();
 
   // Only the home page ('/') has a dark cinematic carousel hero requiring white text/logo;
   // all other pages (/about, /product, /blog, /contact, etc.) use black text & black logo.
@@ -247,21 +249,27 @@ export default function Navbar() {
             </button>
 
             {/* Cart Icon */}
-            <Link
-              href="/cart"
-              aria-label="Shopping Cart"
+            <button
+              type="button"
+              aria-label={`Shopping Cart (${totalItems} items)`}
               title="Cart"
-              className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
+              className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
                 isWhiteNav
                   ? 'text-white hover:bg-white/15'
-                  : pathname === '/cart'
-                  ? 'text-primary bg-black/10'
                   : 'text-primary/80 hover:text-primary hover:bg-black/5'
               }`}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                openCart();
+              }}
             >
               <CartIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
-            </Link>
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-botanical-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
+              )}
+            </button>
 
             {/* User / Login Icon */}
             <Link

@@ -55,7 +55,7 @@ export const LenisProvider = ({ children, options }: LenisProviderProps) => {
 
     // Normalize scroll handles address bar resizing on mobile by intercepting the scroll
     // Disabled normalizeScroll as it conflicts with Lenis and causes severe iOS bugs/freezing
-    ScrollTrigger.normalizeScroll(true);
+    ScrollTrigger.normalizeScroll(false);
 
     const lenisInstance = new Lenis({
       duration: 1.2,
@@ -77,14 +77,18 @@ export const LenisProvider = ({ children, options }: LenisProviderProps) => {
 
     gsap.ticker.lagSmoothing(0);
 
-    // Watch for content height changes and refresh
+    // Watch for content height changes and refresh with debouncing to prevent layout thrashing
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
     const resizeObserver = new ResizeObserver(() => {
       lenisInstance.resize();
 
       // Prevent ScrollTrigger.refresh() on mobile to avoid layout jumps
       // caused by the address bar appearing/disappearing.
       if (window.innerWidth > 1024) {
-        ScrollTrigger.refresh();
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
       }
     });
 
@@ -99,6 +103,7 @@ export const LenisProvider = ({ children, options }: LenisProviderProps) => {
 
     return () => {
       cancelAnimationFrame(mountRafId);
+      if (resizeTimer) clearTimeout(resizeTimer);
       gsap.ticker.remove((time) => lenisInstance.raf(time * 1000));
       resizeObserver.disconnect();
       lenisInstance.destroy();

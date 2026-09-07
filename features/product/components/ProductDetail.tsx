@@ -7,6 +7,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { useProduct } from '../hooks';
 import { staticUrl } from '@/shared/api';
 import RelatedProducts from './RelatedProducts';
+import { useCart } from '@/shared/context/CartContext';
 
 /* ── Tab Definitions & Content ── */
 const TABS = [
@@ -86,6 +87,7 @@ const VOLUMES = ['30 ml / 1.0 fl. oz.', '50 ml / 1.7 fl. oz.', '100 ml / 3.4 fl.
 export default function ProductDetail({ slug }: { slug: string }) {
     const { data, isLoading, isError } = useProduct(slug);
     const product = data?.results;
+    const { addToCart } = useCart();
 
     const [activeTab, setActiveTab] = useState<Tab>('Description');
     const [selectedVolume, setSelectedVolume] = useState<string>(VOLUMES[1]);
@@ -184,6 +186,25 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const handleAddToCart = () => {
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
+
+        const productName = product?.title || 'Botanical Formulation';
+        const rawPrice = product?.price ?? 48;
+        const numericPrice = typeof rawPrice === 'number'
+            ? rawPrice
+            : parseFloat(String(rawPrice).replace(/[^0-9.]/g, '')) || 48;
+
+        const mainImage = images.length > 0 ? images[0] : '/images/product/product1.jpeg';
+
+        addToCart({
+            id: String(product?._id || slug || productName),
+            name: productName,
+            price: numericPrice,
+            image: mainImage,
+            category: product?.category?.name || 'Botanical Skincare',
+            size: selectedVolume,
+            quantity: quantity,
+            slug: slug,
+        });
     };
 
     const toggleWishlist = () => {
