@@ -17,7 +17,7 @@ export default function Home() {
       <CarouselHero />
       <About />
       <Ingredients />
-      {/* <CategoryProduct /> */}
+      <CategoryProduct />
       {/* <Intro /> */}
       <Featured />
       <ZoomAnimation />

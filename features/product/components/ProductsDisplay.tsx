@@ -51,7 +51,7 @@ const ProductsDisplay: React.FC = () => {
   };
 
   return (
-    <section id="products-display-section" className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-background">
+    <section id="products-display-section" className="w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-secondary/20">
       <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Section Header ── */}
         <Title

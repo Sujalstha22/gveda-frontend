@@ -126,27 +126,27 @@ export default function CartDrawer() {
             items.map((item) => (
               <div
                 key={`${item.id}-${item.size || ''}`}
-                className="flex items-center gap-4 p-3.5 bg-white rounded-xl border border-rich-black/8 hover:border-botanical-gold/30 transition-all duration-300 group"
+                className="group relative flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-secondary/20 hover:bg-secondary/30 border border-secondary/20 hover:border-secondary transition-all duration-300 overflow-hidden"
               >
                 {/* Product Thumbnail */}
-                <div className="relative w-20 h-20 bg-[#FAF9F6] rounded-lg shrink-0 overflow-hidden border border-rich-black/5 flex items-center justify-center">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg bg-white border border-secondary/15 flex items-center justify-center p-1.5 overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
-                    sizes="80px"
-                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                    sizes="64px"
+                    className="object-contain p-1 group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 
                 {/* Info & Quantity */}
                 <div className="flex-1 min-w-0">
-                  {item.category && (
-                    <span className="font-primary text-[9px] uppercase tracking-wider text-botanical-gold font-medium block">
+                  {item.category && item.category.toLowerCase() !== 'gveda' && (
+                    <span className="font-primary text-[9px] sm:text-[10px] tracking-[0.15em] uppercase text-secondary font-medium block truncate">
                       {item.category}
                     </span>
                   )}
-                  <h4 className="font-antessa text-base font-medium text-rich-black line-clamp-2 leading-snug">
+                  <h4 className="font-primary text-xs sm:text-sm font-medium text-primary line-clamp-2 leading-snug group-hover:text-secondary transition-colors">
                     {item.name}
                   </h4>
                   {item.size && (
@@ -154,13 +154,13 @@ export default function CartDrawer() {
                       Size: {item.size}
                     </span>
                   )}
-                  <div className="font-primary font-medium text-xs text-rich-black mt-1">
-                    ${item.price.toFixed(2)}
+                  <div className="font-primary text-xs sm:text-sm font-semibold text-primary mt-0.5">
+                    Rs. {item.price.toFixed(2)}
                   </div>
 
                   {/* Quantity Stepper */}
                   <div className="flex items-center gap-2 mt-2">
-                    <div className="flex items-center border border-rich-black/15 rounded-md bg-[#FAF9F6]">
+                    <div className="flex items-center border border-secondary/30 rounded-full bg-white/80 overflow-hidden">
                       <button
                         type="button"
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -186,7 +186,7 @@ export default function CartDrawer() {
                       type="button"
                       onClick={() => removeFromCart(item.id)}
                       aria-label="Remove item"
-                      className="text-[11px] font-primary text-rich-black/40 hover:text-red-700 underline transition-colors ml-auto"
+                      className="text-[11px] font-primary text-rich-black/40 hover:text-primary underline transition-colors ml-auto"
                     >
                       Remove
                     </button>
@@ -196,7 +196,7 @@ export default function CartDrawer() {
                 {/* Total per Item */}
                 <div className="text-right shrink-0 self-start pt-1">
                   <span className="font-primary font-bold text-xs sm:text-sm text-rich-black block">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    Rs. {(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function CartDrawer() {
               </div>
               <div className="flex items-center justify-between text-base sm:text-lg font-bold font-heading text-rich-black pt-1">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>Rs. {subtotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -236,7 +236,7 @@ export default function CartDrawer() {
 
                 <div className="flex items-center gap-2.5">
                   <span className="font-primary font-bold text-xs sm:text-sm text-botanical-gold group-hover:text-warm-ivory transition-colors">
-                    ${subtotal.toFixed(2)}
+                    Rs. {subtotal.toFixed(2)}
                   </span>
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-botanical-gold group-hover:text-rich-black transition-all duration-300">
                     <svg

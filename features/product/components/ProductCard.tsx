@@ -87,7 +87,7 @@ export default function ProductCard({
     return (
         <div
             onClick={handleCardClick}
-            className={`group relative flex flex-col w-full h-full rounded-lg overflow-hidden bg-secondary/20 transition-all duration-300 cursor-pointer border border-secondary/30 hover:border-secondary hover:shadow-subtle ${className}`}
+            className={`group relative flex flex-col w-full h-full rounded-lg overflow-hidden bg-white transition-all duration-300 cursor-pointer border border-secondary/30 hover:border-secondary hover:shadow-subtle ${className}`}
         >
             {/* Base Link for SEO & right-click / middle-click tab support */}
             <Link
@@ -193,14 +193,14 @@ export default function ProductCard({
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-baseline gap-1.5">
                             <span className="font-primary text-base sm:text-lg font-semibold text-primary">
-                                ${Number(product.price || 48).toFixed(2)}
+                                Rs. {Number(product.price || 48).toFixed(2)}
                             </span>
                             {Boolean(
                                 product.comparePrice &&
                                 Number(product.comparePrice) > Number(product.price || 0)
                             ) ? (
                                 <span className="font-primary text-xs text-primary/40 line-through">
-                                    ${Number(product.comparePrice).toFixed(2)}
+                                    Rs. {Number(product.comparePrice).toFixed(2)}
                                 </span>
                             ) : null}
                         </div>

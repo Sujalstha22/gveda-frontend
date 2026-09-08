@@ -66,7 +66,7 @@ export default function Featured() {
   return (
     <section
       aria-label="Bestsellers Section"
-      className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-warm-ivory"
+      className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-secondary/20"
     >
       <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Center Header: Title ── */}

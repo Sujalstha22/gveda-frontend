@@ -15,45 +15,29 @@ const TABS = [
     'Active Botanicals',
     'Ritual & Application',
     'Clinical Science',
-    'Delivery & Care',
 ] as const;
 type Tab = (typeof TABS)[number];
 
 const SUITABILITY_ITEMS = [
     {
         name: 'Sensitive & Reactive Skin',
-        percentage: '96%',
-        width: '96%',
         note: 'Hypoallergenic lipid matrix calms redness and reactive flares.',
-        tag: 'Dermatologist Tested',
     },
     {
         name: 'Barrier-Compromised Skin',
-        percentage: '94%',
-        width: '94%',
         note: 'Bio-identical ceramides and plant squalane repair damaged barriers.',
-        tag: 'Intensive Repair',
     },
     {
         name: 'Dehydrated & Dry Skin',
-        percentage: '92%',
-        width: '92%',
         note: 'Multi-depth cellular hydration locks moisture for up to 48 hours.',
-        tag: 'Deep Hydration',
     },
     {
         name: 'Normal to Combination Skin',
-        percentage: '89%',
-        width: '89%',
         note: 'Regulates sebum naturally without pore-clogging heavy residues.',
-        tag: 'Balancing',
     },
     {
         name: 'Environmental Stress / City Living',
-        percentage: '93%',
-        width: '93%',
         note: 'Potent polyphenols neutralize free radicals and urban pollution.',
-        tag: 'Daily Shield',
     },
 ];
 
@@ -84,6 +68,40 @@ const BOTANICAL_FEATURES = [
 
 const VOLUMES = ['30 ml / 1.0 fl. oz.', '50 ml / 1.7 fl. oz.', '100 ml / 3.4 fl. oz.'];
 
+function DescriptionPreview({ description, onReadMore }: { description: string; onReadMore: () => void }) {
+    const textRef = useRef<HTMLParagraphElement>(null);
+    const [isTruncated, setIsTruncated] = useState(false);
+
+    useEffect(() => {
+        const element = textRef.current;
+        if (!element) return;
+        const observer = new ResizeObserver(() => {
+            setIsTruncated(element.scrollHeight > element.clientHeight + 1);
+        });
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, [description]);
+
+    return (
+        <div className="relative mt-4 text-sm leading-[1.8]">
+            <p ref={textRef} className="m-0 max-h-[5.4em] overflow-hidden text-sm leading-[1.8] text-primary/65">
+                {description}
+            </p>
+            {isTruncated && (
+                <button
+                    type="button"
+                    onClick={onReadMore}
+                    aria-controls="product-description"
+                    className="absolute bottom-0 right-0 h-[1.8em] bg-background py-0 pl-2 text-sm leading-[1.8] text-primary hover:text-primary/65 transition-colors cursor-pointer"
+                >
+                    <span aria-hidden="true">... </span>
+                    <span className="underline underline-offset-4">Read more</span>
+                </button>
+            )}
+        </div>
+    );
+}
+
 export default function ProductDetail({ slug }: { slug: string }) {
     const { data, isLoading, isError } = useProduct(slug);
     const product = data?.results;
@@ -98,7 +116,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
 
-    const thumbContainerRef = useRef<HTMLDivElement>(null);
     const detailsStoryRef = useRef<HTMLDivElement>(null);
 
     /* ── Product Images Extractor ── */
@@ -264,56 +281,24 @@ export default function ProductDetail({ slug }: { slug: string }) {
         rawCategory && rawCategory.toLowerCase() !== 'gveda'
             ? rawCategory
             : null;
-    const earnedPoints = Math.round(price * 0.1);
 
     return (
-        <main className="w-full min-h-screen pt-20 sm:pt-24 pb-20 px-4 sm:px-8 lg:px-[5vw] select-none bg-background text-primary">
+        <main className="w-full min-h-screen pt-24 sm:pt-28 pb-20 px-5 sm:px-8 lg:px-[5vw] bg-background text-primary">
             {/* ── TOP HERO SECTION: Left Scrolling Column + Sticky Purchasing Sidebar ── */}
-            <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-10 xl:gap-14">
+            <div className="mx-auto max-w-[1600px] flex flex-col lg:flex-row items-start gap-10 lg:gap-12 xl:gap-20">
 
                 {/* ════ LEFT SCROLLING COLUMN (Images, Story, Tabs, Suitability, Performance) ════ */}
-                <div className="flex-1 min-w-0 w-full space-y-12 sm:space-y-16">
+                <div className="contents lg:block lg:flex-1 lg:min-w-0 lg:w-full lg:space-y-16 [&>div]:order-2">
 
-                    {/* CAROUSEL ROW: Vertical Thumbnail Strip + Embla Drag Carousel */}
-                    <div className="flex flex-col lg:flex-row items-start gap-4 xl:gap-5">
-                        {/* Far Left: Vertical Thumbnail Strip (Desktop lg+) */}
-                        {images.length > 1 && (
-                            <div className="hidden lg:flex w-20 shrink-0 flex-col items-center gap-3 pr-1">
-                                <div
-                                    ref={thumbContainerRef}
-                                    className="flex flex-col gap-3 overflow-y-auto max-h-[560px] xl:max-h-[620px] py-1 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-                                >
-                                    {images.map((src, i) => (
-                                        <button
-                                            key={src + i}
-                                            type="button"
-                                            onClick={() => selectThumbnail(i)}
-                                            className={`relative h-20 w-18 shrink-0 overflow-hidden rounded-lg border transition-all cursor-pointer bg-white ${
-                                                activeImageIndex === i
-                                                    ? 'border-accent-gold ring-2 ring-accent-gold/40 shadow-xs'
-                                                    : 'border-secondary/30 hover:border-accent-gold/60 opacity-70 hover:opacity-100'
-                                            }`}
-                                        >
-                                            <Image
-                                                src={src}
-                                                alt={`${product.title} thumb ${i + 1}`}
-                                                fill
-                                                sizes="80px"
-                                                className="object-contain p-1.5"
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
+                    {/* PRODUCT GALLERY: Main Image + Horizontal Thumbnails */}
+                    <div className="!order-0 w-full flex flex-col items-start gap-4 xl:gap-5">
                         {/* Smooth Native Draggable Carousel Stage */}
                         <div className="flex-1 min-w-0 w-full relative">
                             <div
                                 ref={emblaRef}
-                                className="overflow-hidden w-full cursor-grab active:cursor-grabbing rounded-lg select-none touch-pan-y border border-secondary/30 bg-white shadow-xs"
+                                className="overflow-hidden w-full cursor-grab active:cursor-grabbing rounded-lg select-none touch-pan-y bg-[#FAFAF8]"
                             >
-                                <div className="flex items-stretch h-[440px] sm:h-[540px] lg:h-[580px] xl:h-[620px]">
+                                <div className="flex items-stretch h-[360px] sm:h-[440px] lg:h-[460px] xl:h-[500px]">
                                     {images.map((src, i) => (
                                         <div
                                             key={src + i}
@@ -349,7 +334,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                         type="button"
                                         onClick={prevImage}
                                         aria-label="Previous image"
-                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 border border-secondary/40 shadow-md backdrop-blur-xs transition-all hover:bg-white hover:border-accent-gold active:scale-95 text-primary cursor-pointer"
+                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 border border-secondary/40 backdrop-blur-xs transition-all hover:bg-white hover:border-accent-gold active:scale-95 text-primary cursor-pointer"
                                     >
                                         <svg className="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -359,7 +344,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                         type="button"
                                         onClick={nextImage}
                                         aria-label="Next image"
-                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 border border-secondary/40 shadow-md backdrop-blur-xs transition-all hover:bg-white hover:border-accent-gold active:scale-95 text-primary cursor-pointer"
+                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 border border-secondary/40 backdrop-blur-xs transition-all hover:bg-white hover:border-accent-gold active:scale-95 text-primary cursor-pointer"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -368,36 +353,32 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 </div>
                             )}
 
-                            {/* Mobile Horizontal Thumbnail Strip (sm/xs) */}
-                            {images.length > 1 && (
-                                <div className="flex lg:hidden overflow-x-auto gap-2.5 pt-3 pb-1 scrollbar-none">
-                                    {images.map((src, i) => (
-                                        <button
-                                            key={src + i}
-                                            type="button"
-                                            onClick={() => selectThumbnail(i)}
-                                            className={`relative h-18 w-16 shrink-0 overflow-hidden rounded-lg border transition-all cursor-pointer bg-white ${
-                                                activeImageIndex === i
-                                                    ? 'border-accent-gold ring-2 ring-accent-gold/40'
-                                                    : 'border-secondary/30 opacity-70'
-                                            }`}
-                                        >
-                                            <Image src={src} alt="" fill className="object-contain p-1" />
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
                         </div>
+                        {images.length > 1 && (
+                            <div className="flex w-full gap-3 overflow-x-auto py-1 scrollbar-none">
+                                {images.map((src, i) => (
+                                    <button
+                                        key={src + i}
+                                        type="button"
+                                        onClick={() => selectThumbnail(i)}
+                                        aria-label={`View product image ${i + 1}`}
+                                        aria-pressed={activeImageIndex === i}
+                                        className={`relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg border transition-colors duration-300 cursor-pointer bg-white ${
+                                            activeImageIndex === i
+                                                ? 'border-accent-gold'
+                                                : 'border-secondary/30 opacity-70 hover:opacity-100 hover:border-accent-gold/60'
+                                        }`}
+                                    >
+                                        <Image src={src} alt="" fill sizes="96px" className="object-contain p-1.5" />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* PRODUCT DETAILS & BOTANICAL STORY */}
-                    <div ref={detailsStoryRef} className="border-t border-secondary/30 pt-8 sm:pt-10 w-full">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="font-editorial italic text-2xl sm:text-3xl text-accent-gold font-normal">
-                                Botanical Formulation
-                            </span>
-                        </div>
-                        <h3 className="font-primary font-medium text-xl sm:text-2xl text-primary tracking-tight mb-4">
+                    <div id="product-description" ref={detailsStoryRef} className="scroll-mt-28 border-t border-secondary/30 pt-8 sm:pt-10 w-full">
+                        <h3 className="font-antessa font-normal text-2xl sm:text-3xl text-primary tracking-tight mb-4">
                             The Philosophy of Pure Restoration
                         </h3>
                         <p className="font-primary font-normal text-sm sm:text-base leading-relaxed text-primary/80 whitespace-pre-line">
@@ -483,17 +464,17 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 01</span>
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">Dispense & Warm</h4>
+                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Dispense & Warm</h4>
                                             <p className="text-xs text-primary/70">Place 3–4 drops into palms and gently warm together.</p>
                                         </div>
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 02</span>
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">Press In</h4>
+                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Press In</h4>
                                             <p className="text-xs text-primary/70">Press into clean face, neck, and chest in upward lifting motions.</p>
                                         </div>
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 03</span>
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">Seal & Protect</h4>
+                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Seal & Protect</h4>
                                             <p className="text-xs text-primary/70">Follow with daily sunscreen in morning or night cream at dusk.</p>
                                         </div>
                                     </div>
@@ -511,85 +492,36 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 </div>
                             )}
 
-                            {activeTab === 'Delivery & Care' && (
-                                <div className="space-y-3">
-                                    <p>
-                                        Complimentary tracked delivery across Nepal for orders over NPR 2,500. Shipped in protective, zero-plastic recyclable packaging.
-                                    </p>
-                                    <p className="text-xs text-primary/70">
-                                        Store in a cool, dry place away from direct sunlight. To ensure maximum active potency, use within 12 months of opening.
-                                    </p>
-                                </div>
-                            )}
                         </div>
                     </div>
 
                     {/* SKIN TYPE & TARGET SUITABILITY SECTION */}
-                    <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <h3 className="text-xl sm:text-2xl font-medium text-primary tracking-tight">
-                                    Skin Type & Target Suitability
-                                </h3>
-                                <div className="p-1 rounded-full bg-accent-gold/15 text-accent-gold">
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <p className="mt-1 text-xs sm:text-sm text-primary/65">
-                                Formulated to harmonize with diverse dermatological profiles.
-                            </p>
-                        </div>
+                    <section className="order-2 w-full border-t border-secondary/30 pt-10" aria-labelledby="skin-suitability-title">
+                        <h3 id="skin-suitability-title" className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
+                            Skin Type & Target Suitability
+                        </h3>
+                        <p className="mt-3 max-w-md text-sm leading-relaxed text-primary/60">
+                            Formulated to harmonize with diverse dermatological profiles.
+                        </p>
 
-                        <div className="rounded-lg bg-white border border-secondary/30 p-4 sm:p-6 space-y-4 shadow-xs">
-                            {SUITABILITY_ITEMS.map((item, idx) => (
-                                <div
-                                    key={item.name}
-                                    className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 ${
-                                        idx !== SUITABILITY_ITEMS.length - 1 ? 'border-b border-secondary/20' : ''
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-3 w-56 shrink-0">
-                                        <div className="p-2 rounded-lg bg-background border border-secondary/30 text-accent-gold">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <span className="text-xs sm:text-sm font-medium text-primary block">
-                                                {item.name}
-                                            </span>
-                                            <span className="text-[10px] text-accent-gold uppercase tracking-wider font-semibold">
-                                                {item.tag}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-1 flex items-center gap-3">
-                                        <div className="flex-1 h-2 bg-background rounded-full overflow-hidden border border-secondary/20">
-                                            <div
-                                                className="h-full bg-accent-gold rounded-full transition-all duration-1000"
-                                                style={{ width: item.width }}
-                                            />
-                                        </div>
-                                        <span className="font-mono text-xs font-bold text-primary w-10 text-right">
-                                            {item.percentage}
-                                        </span>
-                                    </div>
-
-                                    <p className="text-xs text-primary/65 sm:w-60 sm:text-right shrink-0">
+                        <dl className="mt-8 divide-y divide-secondary/25">
+                            {SUITABILITY_ITEMS.map((item) => (
+                                <div key={item.name} className="grid grid-cols-1 gap-2 py-6 first:pt-0 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] sm:gap-8">
+                                    <dt className="text-sm font-medium leading-relaxed text-primary">
+                                        {item.name}
+                                    </dt>
+                                    <dd className="m-0 text-sm leading-[1.8] text-primary/60">
                                         {item.note}
-                                    </p>
+                                    </dd>
                                 </div>
                             ))}
-                        </div>
-                    </div>
+                        </dl>
+                    </section>
 
                     {/* PERFORMANCE & CLINICAL EFFICACY SECTION */}
                     <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
                         <div className="flex items-center gap-2">
-                            <h3 className="text-xl sm:text-2xl font-medium text-primary tracking-tight">
+                            <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                                 Clinical Botanical Efficacy
                             </h3>
                             <div className="p-1 rounded-full bg-accent-gold/15 text-accent-gold">
@@ -622,7 +554,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     {/* RITUAL FOCUS CIRCLE GAUGES */}
                     <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
                         <div className="flex items-center gap-2">
-                            <h3 className="text-xl sm:text-2xl font-medium text-primary tracking-tight">
+                            <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                                 Ritual Focus Matrix
                             </h3>
                         </div>
@@ -645,14 +577,14 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     </div>
 
                     {/* BOTANICAL FEATURES CHECKLIST */}
-                    <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
-                        <h3 className="text-xl sm:text-2xl font-medium text-primary tracking-tight">
+                    <div className="rounded-lg bg-soft-white p-5 sm:p-8 space-y-6 w-full">
+                        <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                             Key Botanical Highlights
                         </h3>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm leading-relaxed text-primary/75">
                             {BOTANICAL_FEATURES.map((feat, idx) => (
-                                <div key={idx} className="flex items-start gap-3 p-3.5 rounded-lg bg-white border border-secondary/20 shadow-xs">
+                                <div key={idx} className="flex items-start gap-3 p-3.5 rounded-lg border border-secondary/20">
                                     <span className="text-accent-gold font-bold select-none text-base leading-none mt-0.5">✓</span>
                                     <span>{feat}</span>
                                 </div>
@@ -663,51 +595,44 @@ export default function ProductDetail({ slug }: { slug: string }) {
                 </div>
 
                 {/* ════ RIGHT SIDEBAR: PINNED STICKY PURCHASING OPTIONS (Frameless / No Card) ════ */}
-                <div className="w-full lg:w-[400px] xl:w-[450px] 2xl:w-[480px] shrink-0 flex flex-col space-y-5 lg:sticky lg:top-24 lg:self-start z-10">
+                <div className="order-1 w-full lg:w-[420px] xl:w-[500px] 2xl:w-[540px] shrink-0 flex flex-col gap-7 lg:sticky lg:top-28 lg:self-start z-10 lg:py-3">
 
-                    {/* Uppercase Breadcrumb: Category > Product Name */}
-                    <div className="font-primary text-[11px] uppercase tracking-widest text-primary/50 flex items-center gap-1.5 flex-wrap">
+                    {/* Breadcrumb: Category > Product Name */}
+                    <div className="font-primary text-sm text-primary/50 flex items-center gap-2 flex-wrap">
                         <Link
                             href="/product"
                             className="hover:text-primary transition-colors"
                         >
                             {categoryTitle || 'Products'}
                         </Link>
-                        <span>&gt;</span>
+                        <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-primary/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="m9 5 7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                         <span className="text-primary font-semibold">
                             {product.title}
                         </span>
                     </div>
 
-                    {/* Title & Short Description */}
+                    {/* Title & Review Availability */}
                     <div>
-                        <h1 className="text-2xl sm:text-3xl lg:text-[2.2vw] font-heading text-primary font-medium leading-tight">
+                        <h1 className="font-antessa text-[34px] sm:text-[40px] lg:text-[36px] xl:text-[42px] text-primary font-normal leading-[1.15] tracking-[-0.02em] text-balance">
                             {product.title}
                         </h1>
-                        <p className="mt-2 text-xs sm:text-sm text-primary/65 leading-relaxed">
-                            {product.description ? product.description.slice(0, 110) + '...' : 'Cold-pressed botanical elixir for skin barrier restoration.'}
+                        <p className="mt-3 text-xs sm:text-sm text-primary/50">
+                            Reviews not yet available
                         </p>
-                    </div>
-
-                    {/* Rating Row */}
-                    <div className="flex items-center gap-2.5 pb-4 border-b border-secondary/30">
-                        <div className="flex items-center gap-1 text-accent-gold text-sm">
-                            {'★'.repeat(5)}
-                        </div>
-                        <span className="text-xs font-semibold text-primary">4.9</span>
-                        <span className="text-primary/40">•</span>
-                        <button
-                            type="button"
-                            onClick={() => detailsStoryRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className="text-xs text-primary/60 hover:text-accent-gold transition-colors underline cursor-pointer"
-                        >
-                            24 Reviews
-                        </button>
+                        <DescriptionPreview
+                            description={product.description || 'Thoughtfully formulated for your daily ritual.'}
+                            onReadMore={() => detailsStoryRef.current?.scrollIntoView({
+                                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                                block: 'start',
+                            })}
+                        />
                     </div>
 
                     {/* Price Display */}
-                    <div className="flex items-baseline gap-3">
-                        <span className="text-2xl sm:text-3xl font-semibold text-primary font-primary">
+                    <div className="flex flex-wrap items-baseline gap-3 border-b border-secondary/30 pb-7">
+                        <span className="text-2xl font-normal text-primary font-antessa">
                             Rs. {price.toLocaleString()}
                         </span>
                         {hasDiscount && (
@@ -715,8 +640,8 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 <span className="text-sm sm:text-base font-normal text-primary/40 line-through">
                                     Rs. {comparePrice!.toLocaleString()}
                                 </span>
-                                <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                                    {discountPercentage}% OFF
+                                <span className="text-xs font-medium text-primary/55">
+                                    Save {discountPercentage}%
                                 </span>
                             </>
                         )}
@@ -734,10 +659,11 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     key={vol}
                                     type="button"
                                     onClick={() => setSelectedVolume(vol)}
-                                    className={`py-2.5 px-2 text-center rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                                    aria-pressed={selectedVolume === vol}
+                                    className={`py-3.5 px-2 text-center rounded-md text-xs font-medium border transition-all cursor-pointer ${
                                         selectedVolume === vol
-                                            ? 'bg-primary text-white border-primary shadow-xs'
-                                            : 'bg-white/80 text-primary/80 border-secondary/40 hover:border-accent-gold'
+                                            ? 'bg-secondary/10 text-primary border-primary'
+                                            : 'bg-transparent text-primary/60 border-secondary/40 hover:border-accent-gold'
                                     }`}
                                 >
                                     {vol.split(' / ')[0]}
@@ -754,6 +680,8 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 <button
                                     type="button"
                                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                    aria-label="Decrease quantity"
+                                    disabled={quantity === 1}
                                     className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer"
                                 >
                                     −
@@ -764,6 +692,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 <button
                                     type="button"
                                     onClick={() => setQuantity((q) => q + 1)}
+                                    aria-label="Increase quantity"
                                     className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer"
                                 >
                                     +
@@ -777,7 +706,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
                                 className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${
                                     isSaved
-                                        ? 'border-red-300 bg-red-50 text-red-500'
+                                        ? 'border-accent-gold bg-secondary/10 text-primary'
                                         : 'border-secondary/40 bg-white text-primary/60 hover:text-primary hover:border-accent-gold'
                                 }`}
                             >
@@ -801,10 +730,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         <button
                             type="button"
                             onClick={handleAddToCart}
-                            className={`w-full h-12 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                            className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
                                 addedToCart
-                                    ? 'bg-emerald-600 text-white shadow-md'
-                                    : 'bg-primary text-white hover:bg-primary/90 active:scale-[0.99] shadow-sm'
+                                    ? 'bg-primary/85 text-white'
+                                    : 'bg-primary text-white hover:bg-primary/90 active:scale-[0.99]'
                             }`}
                         >
                             {addedToCart ? (
@@ -812,65 +741,13 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                                     </svg>
-                                    Added to Ritual
+                                    Added to Bag
                                 </>
                             ) : (
-                                'Add to Ritual'
+                                'Add to Bag'
                             )}
                         </button>
 
-                        {/* Secondary Enquire Button */}
-                        <Link
-                            href="/contact"
-                            className="w-full h-11 rounded-full border border-secondary/60 bg-transparent text-primary hover:bg-secondary/15 hover:border-accent-gold transition-all text-xs uppercase tracking-[0.16em] font-medium flex items-center justify-center"
-                        >
-                            Bespoke Consultation
-                        </Link>
-                    </div>
-
-                    {/* Botanical Care Points Banner */}
-                    <div className="flex items-center gap-2 text-xs text-primary/70">
-                        <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
-                        <span>Earn <strong className="text-primary font-semibold">+{earnedPoints} care points</strong> with this order</span>
-                    </div>
-
-                    {/* Value Proposition Perks (Clean Divider Style, No Card) */}
-                    <div className="border-t border-b border-secondary/30 py-5 space-y-3.5 text-xs text-primary/75">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white border border-secondary/25 text-accent-gold shrink-0">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span className="font-semibold text-primary block">Complimentary Delivery</span>
-                                <span className="text-[11px] text-primary/60">Free courier dispatch across Nepal over Rs. 2,500</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white border border-secondary/25 text-accent-gold shrink-0">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span className="font-semibold text-primary block">Pure Botanical Guarantee</span>
-                                <span className="text-[11px] text-primary/60">14-day return if not fully aligned with your skin</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white border border-secondary/25 text-accent-gold shrink-0">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <span className="font-semibold text-primary block">Dispatch Window</span>
-                                <span className="text-[11px] text-primary/60">Typically delivers in 2–4 working days</span>
-                            </div>
-                        </div>
                     </div>
 
                 </div>

@@ -81,6 +81,7 @@ export default function Navbar() {
   // all other pages (/about, /product, /blog, /contact, etc.) use black text & black logo.
   const isDarkContentPage = pathname !== '/';
   const isSolidPage =
+    pathname?.startsWith('/product/') ||
     pathname === '/gallery' ||
     pathname?.startsWith('/gallery/') ||
     pathname === '/events' ||
@@ -107,7 +108,7 @@ export default function Navbar() {
         return;
       }
 
-      // Keep navbar visible & transparent near top of page
+      // Keep navbar visible near the top; the route determines its background.
       if (currentScrollY <= 80) {
         setScrolled(false);
         setVisible(true);

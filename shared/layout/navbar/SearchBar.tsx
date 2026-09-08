@@ -102,14 +102,14 @@ function SearchProductCard({
         </h4>
         <div className="flex items-baseline gap-2 mt-0.5">
           <span className="font-primary text-xs sm:text-sm font-semibold text-primary">
-            ${Number(product.price || 48).toFixed(2)}
+            Rs. {Number(product.price || 48).toFixed(2)}
           </span>
           {Boolean(
             product.comparePrice &&
             Number(product.comparePrice) > Number(product.price || 0),
           ) && (
             <span className="font-primary text-[10px] sm:text-[11px] text-primary/40 line-through">
-              ${Number(product.comparePrice).toFixed(2)}
+              Rs. {Number(product.comparePrice).toFixed(2)}
             </span>
           )}
         </div>
