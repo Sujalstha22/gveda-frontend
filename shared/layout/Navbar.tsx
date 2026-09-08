@@ -88,6 +88,11 @@ export default function Navbar() {
   const isTransparent = !isSolidPage && !scrolled && !mobileOpen && !searchOpen;
   const isWhiteNav = isTransparent && !isDarkContentPage;
 
+  // Auto-close search when route changes
+  useEffect(() => {
+    setSearchOpen(false);
+  }, [pathname]);
+
   useEffect(() => {
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -154,20 +159,17 @@ export default function Navbar() {
         }`}
       >
         <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">
-          {/* ── NORMAL NAVBAR ROW (Smoothly morphs out when search is open) ── */}
-          <div
-            className={`w-full px-4 sm:px-8 lg:px-[5vw] flex items-center justify-between transition-all duration-300 ease-in-out ${
-              searchOpen
-                ? 'opacity-0 invisible pointer-events-none -translate-y-1.5'
-                : 'opacity-100 visible pointer-events-auto translate-y-0'
-            }`}
-          >
+          {/* ── NAVBAR ROW ── */}
+          <div className="w-full px-4 sm:px-8 lg:px-[5vw] flex items-center justify-between">
           {/* ── LEFT: Brand Logo ── */}
-          <div className="flex-1 flex items-center justify-start">
+          <div className="flex-1 flex items-center justify-start z-30">
             <Link
               href="/"
               className="flex items-center gap-3.5 group cursor-pointer"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setSearchOpen(false);
+              }}
               aria-label="GVEDA Home"
             >
               <Image
@@ -176,7 +178,7 @@ export default function Navbar() {
                 width={150}
                 height={40}
                 className={`w-24 sm:w-28 md:w-32 h-auto object-contain object-left transition-all duration-300 ${
-                  isWhiteNav ? 'brightness-0 invert' : ''
+                  isWhiteNav && !searchOpen ? 'brightness-0 invert' : ''
                 }`}
                 priority
               />
@@ -186,9 +188,11 @@ export default function Navbar() {
           {/* ── CENTER: Primary Nav Links ── */}
           <nav
             aria-label="Primary Navigation"
-            className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-colors duration-300 ${
-              isWhiteNav ? 'text-white/80' : 'text-primary/80'
-            }`}
+            className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-all duration-300 ${
+              searchOpen
+                ? 'opacity-0 invisible pointer-events-none'
+                : 'opacity-100 visible pointer-events-auto'
+            } ${isWhiteNav ? 'text-white/80' : 'text-primary/80'}`}
           >
             {NAV_LINKS.map((item) => {
               const isActive =
@@ -222,30 +226,46 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* ── RIGHT: Search, Cart & User Login Icons (+ Mobile Toggle) ── */}
+          {/* ── RIGHT: Search/Close, Cart & User Login Icons (+ Mobile Toggle) ── */}
           <div
-            className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 ${
-              isWhiteNav ? 'text-white/85' : 'text-primary/80'
+            className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 z-30 ${
+              isWhiteNav && !searchOpen ? 'text-white/85' : 'text-primary/80'
             }`}
           >
-            {/* Search Icon */}
+            {/* Search / Close Toggle Button (stays in exact same place) */}
             <button
               type="button"
               onClick={() => {
                 setMobileOpen(false);
-                setSearchOpen(true);
+                setSearchOpen((prev) => !prev);
               }}
-              aria-label="Search products"
-              title="Search"
+              aria-label={searchOpen ? 'Close search' : 'Search products'}
+              title={searchOpen ? 'Close search' : 'Search'}
               className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isWhiteNav
+                isWhiteNav && !searchOpen
                   ? 'text-white hover:bg-white/15'
                   : searchOpen
-                  ? 'text-primary bg-black/10'
+                  ? 'text-primary bg-black/5 hover:bg-black/10'
                   : 'text-primary/80 hover:text-primary hover:bg-black/5'
               }`}
             >
-              <SearchIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+              {searchOpen ? (
+                <svg
+                  className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.8"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <SearchIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+              )}
             </button>
 
             {/* Cart Icon */}

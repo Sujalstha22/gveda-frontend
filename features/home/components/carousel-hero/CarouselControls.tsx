@@ -25,11 +25,11 @@ export default function CarouselControls({
   return (
     <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-6 sm:right-10 md:right-16 z-30 flex flex-col items-end pointer-events-auto select-none">
       {/* Slide Category & Name */}
-      <div className="text-right mb-3">
-        <p className="font-primary text-[10px] sm:text-xs tracking-[0.25em] text-accent-gold uppercase font-medium">
+      <div className="text-right mb-3 sm:mb-4">
+        <p className="font-madison italic text-xl sm:text-2xl md:text-3xl text-accent-gold font-normal capitalize">
           {activeSlide.title}
         </p>
-        <h3 className="font-primary font-semibold text-sm sm:text-base tracking-[0.18em] text-white uppercase mt-0.5">
+        <h3 className="font-antessa font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-wide text-white capitalize mt-0.5 sm:mt-1">
           {activeSlide.subtitle}
         </h3>
       </div>
@@ -42,10 +42,10 @@ export default function CarouselControls({
           onClick={onPrev}
           disabled={isTransitioning}
           aria-label="Previous Slide"
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/20 hover:border-accent-gold bg-black/30 hover:bg-black/50 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-accent-gold transition-all duration-300 cursor-pointer disabled:opacity-30 active:scale-95 shadow-sm"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-rich-black transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 19l-7-7 7-7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
@@ -78,10 +78,10 @@ export default function CarouselControls({
           onClick={onNext}
           disabled={isTransitioning}
           aria-label="Next Slide"
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/20 hover:border-accent-gold bg-black/30 hover:bg-black/50 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-accent-gold transition-all duration-300 cursor-pointer disabled:opacity-30 active:scale-95 shadow-sm"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-rich-black transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>

@@ -8,10 +8,14 @@ import {
 } from "./api";
 import type { ProductListParams } from "./interface";
 
-export function useProducts(params: ProductListParams = {}) {
+export function useProducts(
+  params: ProductListParams = {},
+  options?: { enabled?: boolean },
+) {
   return useQuery({
     queryKey: productKeys.list(params),
     queryFn: () => getProducts(params),
+    enabled: options?.enabled,
   });
 }
 

@@ -4,6 +4,7 @@ import Intro from "@/features/home/components/intro";
 import Featured from "@/features/home/components/Featured";
 import ZoomAnimation from "@/features/home/components/ZoomAnimation";
 import Ingredients from "@/features/home/components/Ingredients";
+import CategoryProduct from "@/features/home/components/categoryproduct";
 import Faq from "@/features/home/components/Faq";
 import Testimonial from "@/features/home/components/Testimonial";
 import About from "@/features/home/components/About";
@@ -15,10 +16,12 @@ export default function Home() {
     <div>
       <CarouselHero />
       <About />
+      <Ingredients />
+      <CategoryProduct />
       {/* <Intro /> */}
       <Featured />
       <ZoomAnimation />
-      <Ingredients />
+      {/* <Ingredients /> */}
       {/* <VideoAnimation /> */}
       <Faq />
       <Testimonial />

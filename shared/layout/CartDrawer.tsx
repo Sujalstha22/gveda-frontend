@@ -146,7 +146,7 @@ export default function CartDrawer() {
                       {item.category}
                     </span>
                   )}
-                  <h4 className="font-antessa text-base font-medium text-rich-black truncate">
+                  <h4 className="font-antessa text-base font-medium text-rich-black line-clamp-2 leading-snug">
                     {item.name}
                   </h4>
                   {item.size && (

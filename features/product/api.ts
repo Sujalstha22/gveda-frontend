@@ -39,6 +39,11 @@ export function toCardProduct(p: ProductListItem | Product) {
     id: p._id,
     slug: p.slug,
     name: p.title,
+    price: p.price,
+    comparePrice:
+      "comparePrice" in p && p.comparePrice != null
+        ? p.comparePrice
+        : undefined,
     image: staticUrl(p.images?.[0]?.name) || "/images/product/product1.jpeg",
     description:
       "description" in p && p.description

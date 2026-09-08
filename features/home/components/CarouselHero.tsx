@@ -192,6 +192,9 @@ export default function CarouselHero() {
         activeSlideImageRef={activeSlideImageRef}
       />
 
+      {/* ── GRADIENT OVERLAY (Bottom to Top: deep contrast for bottom text, natural luminous top) ── */}
+      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/10 to-transparent z-[25] pointer-events-none" />
+
       {/* ── EDITORIAL CONTENT OVERLAY (Bottom Left) ── */}
       <CarouselEditorial activeSlide={activeSlide} />
 

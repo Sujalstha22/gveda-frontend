@@ -5,9 +5,6 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { useHomepage } from "../hooks";
-import { toCardProduct } from "@/features/product";
-
 gsap.registerPlugin(ScrollTrigger);
 
 interface ZoomAnimationProps {
@@ -19,10 +16,10 @@ interface ZoomAnimationProps {
 }
 
 const DEFAULT_IMAGES = [
-  "/images/product/product1.jpeg", // Keratin Shampoo
-  "/images/product/product2.jpeg", // Niacinamide Face Wash
-  "/images/product/product3.jpeg", // Retinol C Face Toner
-  "/images/product/product4.jpeg", // Shea Butter Body Lotion
+  "/zoomanimation/1product.png", // Keratin Shampoo
+  "/zoomanimation/2product.png", // Niacinamide Face Wash
+  "/zoomanimation/3product.png", // Retinol C Face Toner
+  "/zoomanimation/4product.png", // Shea Butter Body Lotion
 ];
 
 const FOUR_POSITIONS = [
@@ -33,26 +30,15 @@ const FOUR_POSITIONS = [
 ];
 
 export default function ZoomAnimation({
-  leftText = "For The",
-  rightText = "Beauty",
+  leftText = "Nature's",
+  rightText = "Precision",
   videoSrc = "/videos/gveda-hero-3.mp4",
   images = DEFAULT_IMAGES,
   className = "bg-secondary",
 }: ZoomAnimationProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { data } = useHomepage();
 
-  const apiProductImages = data?.results?.popularProducts
-    ?.map((p) => toCardProduct(p).image)
-    .filter(Boolean);
-
-  const displayImages = (
-    images !== DEFAULT_IMAGES
-      ? images
-      : apiProductImages && apiProductImages.length >= 4
-        ? apiProductImages
-        : DEFAULT_IMAGES
-  ).slice(0, 4);
+  const displayImages = images.slice(0, 4);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -182,7 +168,7 @@ export default function ZoomAnimation({
           width: 26vw;
           height: auto;
           aspect-ratio: 4/5;
-          object-fit: cover;
+          object-fit: contain;
           border-radius: 8px;
 
           will-change: transform;
