@@ -53,6 +53,7 @@ export default function Ingredients() {
       <div className="w-full lg:max-w-none mx-auto px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Section Header ── */}
         <Title
+          eyebrow="The Science of Beauty"
           title="Active Botanicals"
           description="Clinically calibrated plant actives for modern skin."
         />
@@ -101,14 +102,9 @@ export default function Ingredients() {
           {/* Center Hero Product Visual */}
           <div className="lg:col-span-4 flex items-center justify-center order-1 lg:order-2 my-6 lg:my-0">
             <div className="relative w-72 sm:w-84 md:w-96 lg:w-full lg:max-w-[27vw] aspect-square flex items-center justify-center">
-              <div
-                aria-hidden="true"
-                className="absolute inset-2 sm:inset-4 lg:inset-[1vw] rounded-full bg-secondary/30 border border-secondary/60"
-              />
-
               <div className="relative w-[90%] h-[90%] z-10 flex items-center justify-center">
                 <Image
-                  src="/images/home/ingredients.png"
+                  src="/images/home/image.png"
                   alt="GVEDA Botanical Skincare Formulation - Pure Bioactive Science"
                   fill
                   sizes="(max-width: 768px) 80vw, (max-width: 1200px) 35vw, 27vw"
