@@ -23,10 +23,22 @@ const DEFAULT_IMAGES = [
 ];
 
 const FOUR_POSITIONS = [
-  { className: "img-pos-tl", defaultStyle: { top: "3vw", left: "10vw" } },
-  { className: "img-pos-tr", defaultStyle: { top: "3vw", right: "10vw" } },
-  { className: "img-pos-bl", defaultStyle: { bottom: "3vw", left: "18vw" } },
-  { className: "img-pos-br", defaultStyle: { bottom: "3vw", right: "18vw" } },
+  {
+    key: "tl",
+    posClasses: "top-[6vh] md:top-[3vw] left-[4vw] md:left-[10vw]",
+  },
+  {
+    key: "tr",
+    posClasses: "top-[6vh] md:top-[3vw] right-[4vw] md:right-[10vw]",
+  },
+  {
+    key: "bl",
+    posClasses: "bottom-[6vh] md:bottom-[3vw] left-[4vw] md:left-[18vw]",
+  },
+  {
+    key: "br",
+    posClasses: "bottom-[6vh] md:bottom-[3vw] right-[4vw] md:right-[18vw]",
+  },
 ];
 
 export default function ZoomAnimation({
@@ -36,278 +48,345 @@ export default function ZoomAnimation({
   images = DEFAULT_IMAGES,
   className = "bg-secondary",
 }: ZoomAnimationProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const mediaCardRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const titleLeftRef = useRef<HTMLSpanElement>(null);
+  const titleRightRef = useRef<HTMLSpanElement>(null);
+  const cornerImagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const displayImages = images.slice(0, 4);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!containerRef.current || !stickyRef.current) return;
 
-    const ctx = gsap.context(() => {
-      const smallImages = sectionRef.current?.querySelectorAll<HTMLElement>(
-        ".telescope-small-img",
-      );
+    // Ensure video is playing smoothly
+    const video = videoRef.current;
+    if (video) {
+      video.play().catch(() => {});
+    }
 
-      if (!smallImages) return;
+    const mm = gsap.matchMedia();
 
-      gsap.set(smallImages, {
-        transformStyle: "preserve-3d",
-        backfaceVisibility: "hidden",
+    // Mobile & Tablet (< 769px): Native CSS Sticky + Hardware-accelerated GSAP Scrub
+    mm.add("(max-width: 768px)", () => {
+      const smallImages = cornerImagesRef.current.filter(Boolean) as HTMLDivElement[];
+      const media = mediaRef.current;
+      const mediaCard = mediaCardRef.current;
+      const left = titleLeftRef.current;
+      const right = titleRightRef.current;
+
+      if (!media || !mediaCard || !left || !right) return;
+
+      gsap.set(media, {
+        scale: 0,
+        opacity: 0.3,
         force3D: true,
-        opacity: 1,
+        transformOrigin: "50% 50%",
       });
+      gsap.set(mediaCard, {
+        borderRadius: "24px",
+        force3D: true,
+      });
+      gsap.set([left, right], {
+        xPercent: 0,
+        opacity: 1,
+        force3D: true,
+      });
+      if (smallImages.length) {
+        gsap.set(smallImages, {
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1,
+          opacity: 1,
+          force3D: true,
+        });
+      }
 
+      // Native sticky avoids JS pin-spacer insertion and fixes the snap/jump glitch
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: containerRef.current,
           start: "top top",
-          end: "+=150%",
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const progress = gsap.parseEase("power1.inOut")(self.progress);
-            if (sectionRef.current) {
-              sectionRef.current.style.setProperty(
-                "--progress",
-                progress.toString(),
-              );
-            }
-          },
+          end: "bottom bottom",
+          scrub: 0.8, // Smooth touch scroll damping on mobile
+          invalidateOnRefresh: true,
         },
       });
 
-      // Four corner images zoom outward towards camera in 3D perspective with smooth fade
+      // 1. Central media scales up smoothly without layout thrashing
       tl.to(
-        smallImages,
+        media,
         {
-          z: "85vh",
-          opacity: 0,
-          scale: 1.15,
+          scale: 1,
+          opacity: 1,
+          duration: 1,
+          ease: "power1.inOut",
+        },
+        0,
+      );
+
+      tl.to(
+        mediaCard,
+        {
+          borderRadius: "0px",
           duration: 0.85,
+          ease: "power1.inOut",
+        },
+        0,
+      );
+
+      // 2. Central splitting headline moves outward smoothly
+      tl.to(
+        left,
+        {
+          xPercent: -100,
+          opacity: 0,
+          duration: 0.7,
           ease: "power1.in",
         },
         0,
       );
-    }, sectionRef);
+      tl.to(
+        right,
+        {
+          xPercent: 100,
+          opacity: 0,
+          duration: 0.7,
+          ease: "power1.in",
+        },
+        0,
+      );
 
-    return () => ctx.revert();
+      // 3. Four corner images glide outward and fade cleanly
+      const mobileVectors = [
+        { xPercent: -45, yPercent: -35 }, // Top-Left
+        { xPercent: 45, yPercent: -35 },  // Top-Right
+        { xPercent: -45, yPercent: 35 },  // Bottom-Left
+        { xPercent: 45, yPercent: 35 },   // Bottom-Right
+      ];
+
+      smallImages.forEach((img, idx) => {
+        const v = mobileVectors[idx] || mobileVectors[0];
+        tl.to(
+          img,
+          {
+            xPercent: v.xPercent,
+            yPercent: v.yPercent,
+            scale: 1.15,
+            opacity: 0,
+            duration: 0.75,
+            ease: "power1.in",
+          },
+          0,
+        );
+      });
+    });
+
+    // Desktop (>= 769px)
+    mm.add("(min-width: 769px)", () => {
+      const smallImages = cornerImagesRef.current.filter(Boolean) as HTMLDivElement[];
+      const media = mediaRef.current;
+      const mediaCard = mediaCardRef.current;
+      const left = titleLeftRef.current;
+      const right = titleRightRef.current;
+
+      if (!media || !mediaCard || !left || !right) return;
+
+      gsap.set(media, {
+        scale: 0,
+        opacity: 0.2,
+        force3D: true,
+        transformOrigin: "50% 50%",
+      });
+      gsap.set(mediaCard, {
+        borderRadius: "44px",
+        force3D: true,
+      });
+      gsap.set([left, right], {
+        xPercent: 0,
+        opacity: 1,
+        force3D: true,
+      });
+      if (smallImages.length) {
+        gsap.set(smallImages, {
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1,
+          opacity: 1,
+          force3D: true,
+        });
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // 1. Central media scales up to fill viewport
+      tl.to(
+        media,
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1,
+          ease: "power1.inOut",
+        },
+        0,
+      );
+
+      tl.to(
+        mediaCard,
+        {
+          borderRadius: "0px",
+          duration: 0.9,
+          ease: "power1.inOut",
+        },
+        0,
+      );
+
+      // 2. Central splitting headline moves outward
+      tl.to(
+        left,
+        {
+          xPercent: -130,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power1.in",
+        },
+        0,
+      );
+      tl.to(
+        right,
+        {
+          xPercent: 130,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power1.in",
+        },
+        0,
+      );
+
+      // 3. Four corner images glide outward and expand
+      const desktopVectors = [
+        { xPercent: -60, yPercent: -45 }, // Top-Left
+        { xPercent: 60, yPercent: -45 },  // Top-Right
+        { xPercent: -60, yPercent: 45 },  // Bottom-Left
+        { xPercent: 60, yPercent: 45 },   // Bottom-Right
+      ];
+
+      smallImages.forEach((img, idx) => {
+        const v = desktopVectors[idx] || desktopVectors[0];
+        tl.to(
+          img,
+          {
+            xPercent: v.xPercent,
+            yPercent: v.yPercent,
+            scale: 1.25,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power1.in",
+          },
+          0,
+        );
+      });
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
+    <div
+      ref={containerRef}
       aria-label="Telescope Zoom Animation"
-      className={`telescope-section relative w-full h-screen h-dvh flex items-center justify-center overflow-hidden select-none bg-warm-ivory ${className}`}
-      style={{
-        ["--progress" as string]: 0,
-      }}
+      className={`relative w-full h-[220vh] md:h-[250vh] bg-warm-ivory ${className}`}
     >
-      <style jsx global>{`
-        .telescope-section {
-          --progress: 0;
-        }
-
-        .telescope-media {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 1;
-          transform: scale(var(--progress, 0)) translateZ(0);
-          transform-origin: 50% 50%;
-          border-radius: calc((1 - var(--progress, 0)) * 84px);
-          overflow: hidden;
-          will-change: transform, border-radius;
-          isolation: isolate;
-          -webkit-mask-image: -webkit-radial-gradient(white, black);
-        }
-
-        .telescope-media > div,
-        .telescope-media video {
-          border-radius: inherit;
-        }
-
-        .telescope-title {
-          font-family: var(--font-antessa, "Antesa", "Antessa", serif);
-          font-size: 7.5vw;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transform: translateY(-15%);
-          z-index: 10;
-          pointer-events: none;
-          white-space: nowrap;
-          padding: 0 1rem;
-        }
-
-        .telescope-title .split-left {
-          display: inline-block;
-          transform: translate3d(
-            calc(var(--progress, 0) * (-100vw + 100%) - 0.5vw),
-            0,
-            0
-          );
-          opacity: calc(1 - var(--progress, 0) * 1.5);
-          will-change: transform, opacity;
-        }
-
-        .telescope-title .split-right {
-          display: inline-block;
-          transform: translate3d(
-            calc(var(--progress, 0) * (100vw - 100%)),
-            0,
-            0
-          );
-          opacity: calc(1 - var(--progress, 0) * 1.5);
-          will-change: transform, opacity;
-        }
-
-        .telescope-images-container {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          perspective: 100vh;
-          perspective-origin: 50% 50%;
-          z-index: 5;
-          pointer-events: none;
-        }
-
-        .telescope-small-img {
-          position: absolute;
-          width: 25vw;
-          max-width: 115px;
-          height: auto;
-          aspect-ratio: 4/5;
-          object-fit: contain;
-          border-radius: 8px;
-          will-change: transform, opacity;
-        }
-
-        /* Mobile corner offsets */
-        @media (max-width: 768px) {
-          .telescope-title {
-            font-size: clamp(1.75rem, 7.5vw, 2.75rem);
-            letter-spacing: 0.02em;
-          }
-          .img-pos-tl {
-            top: 7vh !important;
-            left: 4vw !important;
-          }
-          .img-pos-tr {
-            top: 7vh !important;
-            right: 4vw !important;
-          }
-          .img-pos-bl {
-            bottom: 7vh !important;
-            left: 4vw !important;
-          }
-          .img-pos-br {
-            bottom: 7vh !important;
-            right: 4vw !important;
-          }
-        }
-
-        /* Tablet (769px - 1023px) */
-        @media (min-width: 769px) and (max-width: 1023px) {
-          .telescope-title {
-            font-size: 6.5vw;
-          }
-          .telescope-title .split-left {
-            transform: translate3d(
-              calc(var(--progress, 0) * (-75vw + 100%) - 0.5vw),
-              0,
-              0
-            );
-          }
-          .telescope-title .split-right {
-            transform: translate3d(
-              calc(var(--progress, 0) * (75vw - 100%)),
-              0,
-              0
-            );
-          }
-          .telescope-small-img {
-            width: 18vw;
-            max-width: 160px;
-            border-radius: 10px;
-          }
-        }
-
-        /* Large Screens / Desktop (1024px+) */
-        @media (min-width: 1024px) {
-          .telescope-title {
-            font-size: 5.2vw;
-          }
-          .telescope-title .split-left {
-            transform: translate3d(
-              calc(var(--progress, 0) * (-66vw + 100%) - 0.5vw),
-              0,
-              0
-            );
-          }
-          .telescope-title .split-right {
-            transform: translate3d(
-              calc(var(--progress, 0) * (66vw - 100%)),
-              0,
-              0
-            );
-          }
-          .telescope-small-img {
-            width: 14vw;
-            max-width: 220px;
-            border-radius: 0.8vw;
-          }
-        }
-      `}</style>
-
-      {/* Central Background Media (Scales from 0 to 1 smoothly with scroll) */}
-      <div className="telescope-media rounded-[inherit]">
-        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-[inherit]">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="object-cover w-full h-full object-center rounded-[inherit]"
+      {/* 
+        Native CSS Sticky:
+        Pins natively at the compositor level with 0ms latency.
+        Completely eliminates JS pin-spacer DOM thrashing and Lenis scroll snap-backs.
+      */}
+      <div
+        ref={stickyRef}
+        className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden select-none"
+      >
+        {/* Central Background Media */}
+        <div
+          ref={mediaRef}
+          className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-[1] will-change-transform"
+          style={{
+            transformOrigin: "50% 50%",
+          }}
+        >
+          <div
+            ref={mediaCardRef}
+            className="relative w-full h-full overflow-hidden rounded-2xl md:rounded-[40px] will-change-transform"
           >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-          {/* Soft luxury film tone */}
-          <div className="absolute inset-0 bg-black/10 pointer-events-none rounded-[inherit]" />
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="object-cover w-full h-full object-center pointer-events-none select-none"
+            >
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+            {/* Soft luxury film tone */}
+            <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Central Splitting Headline */}
+        <h2 className="relative z-10 flex items-center justify-center font-antessa uppercase text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider pointer-events-none select-none whitespace-nowrap px-4 -translate-y-[15%]">
+          <span
+            ref={titleLeftRef}
+            className="inline-block mr-2 sm:mr-3 lg:mr-[0.8vw] will-change-transform"
+          >
+            {leftText}
+          </span>
+          <span
+            ref={titleRightRef}
+            className="inline-block will-change-transform"
+          >
+            {rightText}
+          </span>
+        </h2>
+
+        {/* 4 Corner Images in Perspective */}
+        <div className="absolute inset-0 w-full h-full z-[5] pointer-events-none select-none overflow-hidden">
+          {displayImages.map((src, idx) => {
+            const pos = FOUR_POSITIONS[idx] || FOUR_POSITIONS[0];
+            return (
+              <div
+                key={idx}
+                ref={(el) => {
+                  cornerImagesRef.current[idx] = el;
+                }}
+                className={`absolute ${pos.posClasses} will-change-transform`}
+              >
+                <Image
+                  src={src}
+                  alt={`Product card ${idx + 1}`}
+                  width={400}
+                  height={500}
+                  priority
+                  sizes="(max-width: 768px) 25vw, (max-width: 1024px) 18vw, 14vw"
+                  className="w-[24vw] max-w-[110px] sm:w-[20vw] sm:max-w-[140px] md:w-[16vw] md:max-w-[170px] lg:w-[14vw] lg:max-w-[220px] aspect-[4/5] object-contain rounded-lg md:rounded-xl shadow-xs"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {/* Central Splitting Headline */}
-      <h2 className="telescope-title font-antessa uppercase text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider">
-        <span className="split-left mr-2 sm:mr-3 lg:mr-[0.8vw]">{leftText}</span>
-        <span className="split-right">{rightText}</span>
-      </h2>
-
-      {/* 4 Corner Images in 3D Perspective */}
-      <div className="telescope-images-container">
-        {displayImages.map((src, idx) => {
-          const pos = FOUR_POSITIONS[idx] || FOUR_POSITIONS[0];
-          return (
-            <Image
-              key={idx}
-              src={src}
-              alt={`Product card ${idx + 1}`}
-              width={400}
-              height={500}
-              sizes="(max-width: 768px) 26vw, (max-width: 1024px) 18vw, 14vw"
-              className={`telescope-small-img ${pos.className}`}
-              style={pos.defaultStyle}
-            />
-          );
-        })}
-      </div>
-    </section>
+    </div>
   );
 }
