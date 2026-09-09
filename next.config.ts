@@ -4,6 +4,7 @@ const API_BASE = process.env.API_BASE_URL ?? "https://api.gveda.com/v1/";
 
 const nextConfig: NextConfig = {
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       { protocol: "https", hostname: "api.gveda.com", pathname: "/static/**" },
       { protocol: "https", hostname: "files-r2.ayana.com", pathname: "/**" },

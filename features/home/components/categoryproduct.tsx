@@ -3,34 +3,33 @@
 import React, { useId, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Title from "@/shared/ui/Title";
 import { useProductCategories } from "@/features/product";
-import { staticUrl } from "@/shared/api";
 import type { ProductCategory } from "@/features/product/interface";
 
-/** Curated fallback images mapped by category keywords */
-function getFallbackCategoryVisual(slug: string, name: string): string {
+/** Coordinated editorial category photography from public/categoris. */
+function getCategoryVisual(slug: string, name: string): string {
   const query = `${slug} ${name}`.toLowerCase();
   if (query.includes("skin") || query.includes("face")) {
-    return "/images/categories/category-face.jpg";
+    return "/categoris/skin-editorial-v2.webp";
   }
   if (query.includes("tool") || query.includes("wellness")) {
-    return "/images/categories/category-tools.jpg";
+    return "/categoris/wellness-editorial-v2.webp";
   }
   if (query.includes("body") || query.includes("personal")) {
-    return "/images/categories/category-body.jpg";
+    return "/categoris/personal-editorial-v2.webp";
   }
   if (query.includes("hair")) {
-    return "/images/home/process-4.jpeg";
+    return "/categoris/hair-editorial-v2.webp";
   }
   if (query.includes("tea") || query.includes("coffee")) {
-    return "/images/products/tea-coffee.jpg";
+    return "/categoris/tea-editorial-v2.webp";
   }
   if (query.includes("fragrance")) {
-    return "/images/home/process-1.jpeg";
+    return "/categoris/fragrance-editorial-v2.webp";
   }
-  return "/images/categories/category-face.jpg";
+  return "/categoris/skin-editorial-v2.webp";
 }
 
 /** Fallback categories if API is unavailable or returns an empty list */
@@ -55,17 +54,17 @@ const DEFAULT_FALLBACK_CATEGORIES: ProductCategory[] = [
   },
 ];
 
-function CategoryVisual({ category }: { category: ProductCategory }) {
-  const fallback = getFallbackCategoryVisual(category.slug, category.name);
-  const [imageSrc, setImageSrc] = useState(staticUrl(category.image?.name) || fallback);
+function CategoryVisual({ category, eager = false }: { category: ProductCategory; eager?: boolean }) {
+  const imageSrc = getCategoryVisual(category.slug, category.name);
 
   return (
     <Image
       src={imageSrc}
       alt={`GVEDA ${category.name}`}
       fill
-      sizes="(max-width: 768px) 90vw, 45vw"
-      onError={() => setImageSrc(fallback)}
+      sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1599px) 45vw, 680px"
+      quality={90}
+      loading={eager ? "eager" : "lazy"}
       className="object-cover object-center"
     />
   );
@@ -97,7 +96,7 @@ export default function CategoryProduct() {
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [mobileClosed, setMobileClosed] = useState(false);
   const apiCategories = data?.results ?? [];
-  const displayCategories = (apiCategories.length > 0 ? apiCategories : DEFAULT_FALLBACK_CATEGORIES).slice(0, 4);
+  const displayCategories = apiCategories.length > 0 ? apiCategories : DEFAULT_FALLBACK_CATEGORIES;
   const activeCategory = displayCategories.find((category) => category.slug === activeSlug) ?? displayCategories[0];
 
   return (
@@ -109,23 +108,23 @@ export default function CategoryProduct() {
           description="Pure, cold-extracted botanical formulations engineered for biological synergy across face, tools, and body."
         />
 
-        <div className="grid items-center md:grid-cols-2 md:gap-10 lg:gap-20">
-          <div className="relative hidden aspect-[4/5] max-h-[620px] w-full overflow-hidden rounded-md bg-soft-white md:block">
+        <div className="grid items-start md:grid-cols-2 md:gap-10 lg:gap-20">
+          <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-2xl bg-soft-white md:sticky md:top-28 md:block md:self-start">
             {isLoading ? (
               <div className="absolute inset-0 bg-secondary/10" role="status" aria-label="Loading categories" />
             ) : (
-              <AnimatePresence initial={false}>
+              displayCategories.map((category) => (
                 <motion.div
-                  key={activeCategory.slug}
+                  key={category.slug}
                   className="absolute inset-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeInOut" }}
+                  aria-hidden={category.slug !== activeCategory.slug}
+                  initial={false}
+                  animate={{ opacity: category.slug === activeCategory.slug ? 1 : 0 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  <CategoryVisual key={activeCategory.image?.name || activeCategory.slug} category={activeCategory} />
+                  <CategoryVisual category={category} eager />
                 </motion.div>
-              </AnimatePresence>
+              ))
             )}
           </div>
 
@@ -136,7 +135,7 @@ export default function CategoryProduct() {
                 const isOpen = isActive && !mobileClosed;
                 const panelId = `${sectionId}-panel-${index}`;
                 const buttonId = `${sectionId}-button-${index}`;
-                const href = `/product?category=${encodeURIComponent(category.slug)}`;
+                const href = `/product?category=${encodeURIComponent(category.slug)}#products-display-section`;
                 const description = getCategoryDescription(category);
 
                 return (
@@ -145,13 +144,13 @@ export default function CategoryProduct() {
                       href={href}
                       onMouseEnter={() => setActiveSlug(category.slug)}
                       onFocus={() => setActiveSlug(category.slug)}
-                      className="group hidden items-center justify-between gap-6 py-8 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary md:flex lg:py-10"
+                      className="group hidden items-center justify-between gap-5 py-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary md:flex lg:py-5"
                     >
                       <div className="min-w-0">
-                        <h3 className="font-antessa text-2xl font-medium capitalize leading-tight tracking-tight text-primary lg:text-3xl">
+                        <h3 className={`font-antessa text-xl font-medium capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none lg:text-2xl ${isActive ? "text-secondary" : "text-primary group-hover:text-secondary group-focus-visible:text-secondary"}`}>
                           {category.name}
                         </h3>
-                        <p className="mt-3 max-w-sm font-primary text-sm leading-[1.7] text-primary/65">
+                        <p className="mt-2 max-w-sm font-primary text-xs leading-[1.7] text-primary/65 lg:text-[13px]">
                           {description}
                         </p>
                       </div>
@@ -171,7 +170,7 @@ export default function CategoryProduct() {
                           }}
                           className="flex w-full items-center justify-between gap-5 py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary"
                         >
-                          <span className="font-antessa text-2xl font-medium capitalize leading-tight tracking-tight text-primary">
+                          <span className={`font-antessa text-xl font-medium capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none ${isOpen ? "text-secondary" : "text-primary"}`}>
                             {category.name}
                           </span>
                           <span aria-hidden="true" className="font-primary text-2xl font-light text-secondary">

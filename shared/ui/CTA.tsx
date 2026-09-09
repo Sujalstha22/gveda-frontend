@@ -33,11 +33,11 @@ export default function CTA({
   return (
     <section
       aria-label="Call to action"
-      className={`relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-[5vw] bg-[#F7F5F1] border-t border-b border-rich-black/10 overflow-hidden select-none ${className}`}
+      className={`relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-[5vw] bg-[#F7F5F1] overflow-hidden select-none ${className}`}
     >
       <div className="w-full">
         {/* Luxury Architectural Container - Aligned exactly with Navbar content width */}
-        <div className="group relative w-full bg-[#EEE8E0] rounded-2xl sm:rounded-3xl border border-secondary/40 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.02)] grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 hover:border-secondary/70">
+        <div className="group relative w-full bg-[#EEE8E0] rounded-2xl sm:rounded-3xl border border-secondary/20 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.02)] grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500">
           {/* ── Left Column: Editorial Content & Actions (col-span-7) ── */}
           <div className="lg:col-span-7 p-8 sm:p-12 lg:p-14 xl:p-16 flex flex-col justify-center">
             <div>
