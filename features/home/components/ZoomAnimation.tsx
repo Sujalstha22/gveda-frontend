@@ -115,11 +115,18 @@ export default function ZoomAnimation({
           width: 100%;
           height: 100%;
           z-index: 1;
-          transform: scale(var(--progress, 0));
+          transform: scale(var(--progress, 0)) translateZ(0);
           transform-origin: 50% 50%;
-          border-radius: calc((1 - var(--progress, 0)) * 28px);
+          border-radius: calc((1 - var(--progress, 0)) * 84px);
           overflow: hidden;
           will-change: transform, border-radius;
+          isolation: isolate;
+          -webkit-mask-image: -webkit-radial-gradient(white, black);
+        }
+
+        .telescope-media > div,
+        .telescope-media video {
+          border-radius: inherit;
         }
 
         .telescope-title {
@@ -261,19 +268,19 @@ export default function ZoomAnimation({
       `}</style>
 
       {/* Central Background Media (Scales from 0 to 1 smoothly with scroll) */}
-      <div className="telescope-media">
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <div className="telescope-media rounded-[inherit]">
+        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-[inherit]">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="object-cover w-full h-full object-center"
+            className="object-cover w-full h-full object-center rounded-[inherit]"
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
           {/* Soft luxury film tone */}
-          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/10 pointer-events-none rounded-[inherit]" />
         </div>
       </div>
 
