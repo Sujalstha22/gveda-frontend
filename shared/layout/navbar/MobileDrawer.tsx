@@ -15,6 +15,7 @@ interface MobileDrawerProps {
 
 export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
   const pathname = usePathname();
+  const previousPathname = useRef(pathname);
   const asideRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
 
@@ -43,7 +44,9 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
 
   /* Close drawer on route change */
   useEffect(() => {
-    if (open) {
+    const routeChanged = previousPathname.current !== pathname;
+    previousPathname.current = pathname;
+    if (routeChanged && open) {
       onClose();
     }
   }, [pathname, open, onClose]);
@@ -63,9 +66,11 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
 
       {/* ── Slide-out Drawer ── */}
       <aside
+        id="mobile-navigation"
         ref={asideRef}
         aria-label="Mobile Navigation Menu"
         aria-hidden={!open}
+        inert={!open}
         className={[
           'fixed top-0 right-0 bottom-0 z-1040 lg:hidden',
           'w-[85vw] max-w-80 h-full flex flex-col justify-between shadow-xl',
@@ -79,6 +84,16 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
           WebkitBackdropFilter: 'blur(24px)',
         }}
       >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close menu"
+          className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full text-primary hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+        >
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="m6 6 12 12M6 18 18 6" strokeLinecap="round" />
+          </svg>
+        </button>
         <div className="pt-24 px-6 sm:px-8 pb-8 flex-1 overflow-y-auto flex flex-col justify-between">
           <nav className="flex flex-col space-y-2">
             {NAV_LINKS.map(({ label, href }, idx) => {

@@ -321,6 +321,8 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setMobileOpen((prev) => !prev)}
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation"
                 className={`lg:hidden ${
                   searchOpen ? 'hidden' : 'flex'
                 } flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 ${

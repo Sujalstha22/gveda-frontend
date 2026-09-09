@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -68,46 +68,14 @@ const BOTANICAL_FEATURES = [
 
 const VOLUMES = ['30 ml / 1.0 fl. oz.', '50 ml / 1.7 fl. oz.', '100 ml / 3.4 fl. oz.'];
 
-function DescriptionPreview({ description, onReadMore }: { description: string; onReadMore: () => void }) {
-    const textRef = useRef<HTMLParagraphElement>(null);
-    const [isTruncated, setIsTruncated] = useState(false);
-
-    useEffect(() => {
-        const element = textRef.current;
-        if (!element) return;
-        const observer = new ResizeObserver(() => {
-            setIsTruncated(element.scrollHeight > element.clientHeight + 1);
-        });
-        observer.observe(element);
-        return () => observer.disconnect();
-    }, [description]);
-
-    return (
-        <div className="relative mt-4 text-sm leading-[1.8]">
-            <p ref={textRef} className="m-0 max-h-[5.4em] overflow-hidden text-sm leading-[1.8] text-primary/65">
-                {description}
-            </p>
-            {isTruncated && (
-                <button
-                    type="button"
-                    onClick={onReadMore}
-                    aria-controls="product-description"
-                    className="absolute bottom-0 right-0 h-[1.8em] bg-background py-0 pl-2 text-sm leading-[1.8] text-primary hover:text-primary/65 transition-colors cursor-pointer"
-                >
-                    <span aria-hidden="true">... </span>
-                    <span className="underline underline-offset-4">Read more</span>
-                </button>
-            )}
-        </div>
-    );
-}
-
 export default function ProductDetail({ slug }: { slug: string }) {
     const { data, isLoading, isError } = useProduct(slug);
     const product = data?.results;
     const { addToCart } = useCart();
 
-    const [activeTab, setActiveTab] = useState<Tab>('Description');
+    const visibleTabs = TABS.filter((tab) => slug !== 'hair-growth-oil' || tab !== 'Description');
+    const [selectedTab, setActiveTab] = useState<Tab>('Description');
+    const activeTab = visibleTabs.includes(selectedTab) ? selectedTab : visibleTabs[0];
     const [selectedVolume, setSelectedVolume] = useState<string>(VOLUMES[1]);
     const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(1);
@@ -116,7 +84,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
 
-    const detailsStoryRef = useRef<HTMLDivElement>(null);
 
     /* ── Product Images Extractor ── */
     const images = useMemo(() => {
@@ -287,7 +254,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
             {/* ── TOP HERO SECTION: Left Scrolling Column + Sticky Purchasing Sidebar ── */}
             <div className="mx-auto max-w-[1600px] flex flex-col lg:flex-row items-start gap-10 lg:gap-12 xl:gap-20">
 
-                {/* ════ LEFT SCROLLING COLUMN (Images, Story, Tabs, Suitability, Performance) ════ */}
+                {/* â•â•â•â• LEFT SCROLLING COLUMN (Images, Story, Tabs, Suitability, Performance) â•â•â•â• */}
                 <div className="contents lg:block lg:flex-1 lg:min-w-0 lg:w-full lg:space-y-16 [&>div]:order-2">
 
                     {/* PRODUCT GALLERY: Main Image + Horizontal Thumbnails */}
@@ -377,7 +344,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     </div>
 
                     {/* PRODUCT DETAILS & BOTANICAL STORY */}
-                    <div id="product-description" ref={detailsStoryRef} className="scroll-mt-28 border-t border-secondary/30 pt-8 sm:pt-10 w-full">
+                    <div id="product-description" className="scroll-mt-28 border-t border-secondary/30 pt-8 sm:pt-10 w-full">
                         <h3 className="font-antessa font-normal text-2xl sm:text-3xl text-primary tracking-tight mb-4">
                             The Philosophy of Pure Restoration
                         </h3>
@@ -390,7 +357,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     {/* TABS & COMPREHENSIVE SPECIFICATIONS SECTION */}
                     <div className="pt-2 w-full">
                         <div className="flex flex-wrap gap-x-6 sm:gap-x-8 gap-y-2 border-b border-secondary/30 pb-3">
-                            {TABS.map((t) => (
+                            {visibleTabs.map((t) => (
                                 <button
                                     key={t}
                                     type="button"
@@ -594,7 +561,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                 </div>
 
-                {/* ════ RIGHT SIDEBAR: PINNED STICKY PURCHASING OPTIONS (Frameless / No Card) ════ */}
+                {/* â•â•â•â• RIGHT SIDEBAR: PINNED STICKY PURCHASING OPTIONS (Frameless / No Card) â•â•â•â• */}
                 <div className="order-1 w-full lg:w-[420px] xl:w-[500px] 2xl:w-[540px] shrink-0 flex flex-col gap-7 lg:sticky lg:top-28 lg:self-start z-10 lg:py-3">
 
                     {/* Breadcrumb: Category > Product Name */}
@@ -618,16 +585,16 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         <h1 className="font-antessa text-[34px] sm:text-[40px] lg:text-[36px] xl:text-[42px] text-primary font-normal leading-[1.15] tracking-[-0.02em] text-balance">
                             {product.title}
                         </h1>
-                        <p className="mt-3 text-xs sm:text-sm text-primary/50">
-                            Reviews not yet available
-                        </p>
-                        <DescriptionPreview
-                            description={product.description || 'Thoughtfully formulated for your daily ritual.'}
-                            onReadMore={() => detailsStoryRef.current?.scrollIntoView({
-                                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-                                block: 'start',
-                            })}
-                        />
+                        <div className="mt-3 flex items-center gap-3">
+                            <span aria-hidden="true" className="flex items-center gap-1 text-secondary">
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <svg key={index} className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="m12 3 2.78 5.63L21 9.54l-4.5 4.39 1.06 6.2L12 17.2l-5.56 2.93 1.06-6.2L3 9.54l6.22-.91L12 3Z" />
+                                    </svg>
+                                ))}
+                            </span>
+                            <span className="text-xs text-primary/60 sm:text-sm">0 reviews</span>
+                        </div>
                     </div>
 
                     {/* Price Display */}
@@ -753,7 +720,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                 </div>
             </div>
 
-            {/* ════ RELATED PRODUCTS ("Complete Your Ritual") ════ */}
+            {/* â•â•â•â• RELATED PRODUCTS ("Complete Your Ritual") â•â•â•â• */}
             {product.category?.slug && (
                 <div className="mt-20 pt-10 border-t border-secondary/30">
                     <RelatedProducts
@@ -763,7 +730,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                 </div>
             )}
 
-            {/* ════ FULLSCREEN MAMMUT-STYLE LIGHTBOX MODAL ════ */}
+            {/* â•â•â•â• FULLSCREEN MAMMUT-STYLE LIGHTBOX MODAL â•â•â•â• */}
             {lightboxOpen && (
                 <div className="fixed inset-0 z-[9999] flex flex-col justify-between bg-black/90 backdrop-blur-md p-4 sm:p-6 select-none animate-in fade-in duration-200">
                     {/* Top Control Bar */}
