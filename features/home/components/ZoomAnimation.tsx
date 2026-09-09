@@ -54,6 +54,7 @@ export default function ZoomAnimation({
         transformStyle: "preserve-3d",
         backfaceVisibility: "hidden",
         force3D: true,
+        opacity: 1,
       });
 
       const tl = gsap.timeline({
@@ -76,11 +77,13 @@ export default function ZoomAnimation({
         },
       });
 
-      // Four corner images zoom outward towards camera in 3D perspective
+      // Four corner images zoom outward towards camera in 3D perspective with smooth fade
       tl.to(
         smallImages,
         {
-          z: "135vh",
+          z: "85vh",
+          opacity: 0,
+          scale: 1.15,
           duration: 0.85,
           ease: "power1.in",
         },
@@ -95,7 +98,7 @@ export default function ZoomAnimation({
     <section
       ref={sectionRef}
       aria-label="Telescope Zoom Animation"
-      className={`telescope-section relative w-full h-screen flex items-center justify-center overflow-hidden select-none bg-warm-ivory ${className}`}
+      className={`telescope-section relative w-full h-screen h-dvh flex items-center justify-center overflow-hidden select-none bg-warm-ivory ${className}`}
       style={{
         ["--progress" as string]: 0,
       }}
@@ -114,12 +117,14 @@ export default function ZoomAnimation({
           z-index: 1;
           transform: scale(var(--progress, 0));
           transform-origin: 50% 50%;
-          will-change: transform;
+          border-radius: calc((1 - var(--progress, 0)) * 28px);
+          overflow: hidden;
+          will-change: transform, border-radius;
         }
 
         .telescope-title {
           font-family: var(--font-antessa, "Antesa", "Antessa", serif);
-          font-size: 9vw;
+          font-size: 7.5vw;
           text-transform: uppercase;
           letter-spacing: 0.04em;
           font-weight: 500;
@@ -129,6 +134,8 @@ export default function ZoomAnimation({
           transform: translateY(-15%);
           z-index: 10;
           pointer-events: none;
+          white-space: nowrap;
+          padding: 0 1rem;
         }
 
         .telescope-title .split-left {
@@ -138,7 +145,8 @@ export default function ZoomAnimation({
             0,
             0
           );
-          will-change: transform;
+          opacity: calc(1 - var(--progress, 0) * 1.5);
+          will-change: transform, opacity;
         }
 
         .telescope-title .split-right {
@@ -148,7 +156,8 @@ export default function ZoomAnimation({
             0,
             0
           );
-          will-change: transform;
+          opacity: calc(1 - var(--progress, 0) * 1.5);
+          will-change: transform, opacity;
         }
 
         .telescope-images-container {
@@ -165,31 +174,35 @@ export default function ZoomAnimation({
 
         .telescope-small-img {
           position: absolute;
-          width: 26vw;
+          width: 25vw;
+          max-width: 115px;
           height: auto;
           aspect-ratio: 4/5;
           object-fit: contain;
           border-radius: 8px;
-
-          will-change: transform;
+          will-change: transform, opacity;
         }
 
         /* Mobile corner offsets */
         @media (max-width: 768px) {
+          .telescope-title {
+            font-size: clamp(1.75rem, 7.5vw, 2.75rem);
+            letter-spacing: 0.02em;
+          }
           .img-pos-tl {
-            top: 14vw !important;
+            top: 7vh !important;
             left: 4vw !important;
           }
           .img-pos-tr {
-            top: 14vw !important;
+            top: 7vh !important;
             right: 4vw !important;
           }
           .img-pos-bl {
-            bottom: 14vw !important;
+            bottom: 7vh !important;
             left: 4vw !important;
           }
           .img-pos-br {
-            bottom: 14vw !important;
+            bottom: 7vh !important;
             right: 4vw !important;
           }
         }
@@ -215,6 +228,7 @@ export default function ZoomAnimation({
           }
           .telescope-small-img {
             width: 18vw;
+            max-width: 160px;
             border-radius: 10px;
           }
         }
@@ -240,6 +254,7 @@ export default function ZoomAnimation({
           }
           .telescope-small-img {
             width: 14vw;
+            max-width: 220px;
             border-radius: 0.8vw;
           }
         }
@@ -253,16 +268,18 @@ export default function ZoomAnimation({
             muted
             loop
             playsInline
-            className="object-cover w-full h-full object-top"
+            className="object-cover w-full h-full object-center"
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
+          {/* Soft luxury film tone */}
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
         </div>
       </div>
 
       {/* Central Splitting Headline */}
-      <h2 className="telescope-title font-antessa uppercase text-5xl sm:text-6xl md:text-7xl lg:text-[5.2vw] text-primary tracking-wider">
-        <span className="split-left mr-3 lg:mr-[0.8vw]">{leftText}</span>
+      <h2 className="telescope-title font-antessa uppercase text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider">
+        <span className="split-left mr-2 sm:mr-3 lg:mr-[0.8vw]">{leftText}</span>
         <span className="split-right">{rightText}</span>
       </h2>
 

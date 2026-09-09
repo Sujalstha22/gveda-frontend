@@ -77,10 +77,10 @@ function SearchProductCard({
   return (
     <div
       onClick={handleClick}
-      className="group relative flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-secondary/20 hover:bg-secondary/30 border border-secondary/20 hover:border-secondary transition-all duration-300 cursor-pointer overflow-hidden"
+      className="group relative flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-white/90 hover:bg-white border border-border hover:border-botanical-gold/50 transition-all duration-300 cursor-pointer overflow-hidden shadow-subtle"
     >
       {/* Product Image Stage (Left) */}
-      <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg bg-white border border-secondary/15 flex items-center justify-center p-1.5 overflow-hidden">
+      <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg bg-warm-ivory/80 border border-border/80 flex items-center justify-center p-1.5 overflow-hidden">
         <Image
           src={product.image}
           alt={product.name}
@@ -254,17 +254,17 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
         }`}
       >
         <div className="w-full flex-1 flex items-center">
-          <div className="w-full px-4 sm:px-8 lg:px-[5vw] flex items-center justify-between">
+          <div className="w-full px-3 sm:px-8 lg:px-[5vw] flex items-center justify-between">
             {/* Spacer matching Logo width on desktop so input doesn't overlap logo */}
             <div className="shrink-0 w-24 sm:w-28 md:w-32 hidden sm:block pointer-events-none" />
 
             {/* Search Input Form */}
             <form
               onSubmit={handleSubmit}
-              className="flex-1 flex items-center mx-1 sm:mx-6 md:mx-10 max-w-2xl px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-secondary/35 bg-warm-ivory/60 focus-within:border-accent-gold focus-within:bg-white transition-all duration-300"
+              className="flex-1 flex items-center mr-2 sm:mx-6 md:mx-10 max-w-2xl px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full border border-secondary/35 bg-white/95 sm:bg-warm-ivory/60 focus-within:border-accent-gold focus-within:bg-white shadow-xs transition-all duration-300"
             >
               <svg
-                className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-accent-gold shrink-0 mr-3 transition-transform duration-300"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-accent-gold shrink-0 mr-2 sm:mr-3 transition-transform duration-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -282,14 +282,14 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search botanical skincare, ingredients, rituals..."
-                className="w-full bg-transparent text-primary text-sm sm:text-base font-primary placeholder:text-primary/40 focus:outline-none tracking-wide"
+                placeholder="Search botanical skincare, rituals..."
+                className="w-full bg-transparent text-primary text-base sm:text-sm md:text-base font-primary placeholder:text-primary/45 focus:outline-none tracking-wide"
               />
 
               {isSearchPending && (
                 <div
                   aria-label="Searching"
-                  className="w-4 h-4 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-2 shrink-0"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-2 shrink-0"
                 />
               )}
 
@@ -317,13 +317,13 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
               )}
             </form>
 
-            {/* Spacer matching right icons container (Search/Close toggle, Cart, User, Menu) */}
-            <div className="shrink-0 w-24 sm:w-32 md:w-40 pointer-events-none" />
+            {/* Spacer matching right Close button on mobile and all icons on desktop */}
+            <div className="shrink-0 w-8 sm:w-32 md:w-40 pointer-events-none" />
           </div>
         </div>
 
         {/* ── BORDER DIRECTLY BELOW SEARCH BAR ── */}
-        <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
+        <div className="w-full px-3 sm:px-8 lg:px-[5vw]">
           <div className="w-full border-b border-[#ECE4DA]" />
         </div>
       </div>
@@ -332,47 +332,67 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
       <div
         className={`absolute left-0 right-0 top-full bg-[#F7F5F1] shadow-xl overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isOpen
-            ? "max-h-[85vh] opacity-100 py-6 sm:py-8 border-b border-secondary/25"
+            ? "max-h-[calc(100dvh-3.75rem)] sm:max-h-[85vh] opacity-100 py-4 sm:py-8 border-b border-secondary/25"
             : "max-h-0 opacity-0 pointer-events-none py-0 border-b-0"
         }`}
       >
-        <div className="w-full px-4 sm:px-8 lg:px-[5vw] overflow-y-auto max-h-[75vh]">
-          {/* STATE 1: No Query -> Popular Searches + Popular Products From First Page */}
-          {!query.trim() && (
-            <div className="flex flex-col gap-6 sm:gap-7">
-              {/* Popular Products From First / Home Page */}
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-antessa capitalize font-medium text-3xl sm:text-4xl md:text-7xl lg:text-[4vw] lg:leading-[1.15] text-primary">
-                    Popular Botanical Formulations
-                  </h3>
-                </div>
+        <div className="w-full px-4 sm:px-8 lg:px-[5vw] overflow-y-auto max-h-[calc(100dvh-5.5rem)] sm:max-h-[75vh] overscroll-contain pb-8">
+          {/* Suggested Quick Tags (Always accessible for rapid tap search) */}
+          <div className="mb-4 sm:mb-6">
+            <span className="block font-primary text-[10px] sm:text-xs tracking-[0.15em] uppercase text-primary/50 font-medium mb-2">
+              Popular Searches
+            </span>
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 -mx-4 px-4 sm:mx-0 sm:px-0">
+              {POPULAR_SEARCH_TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => setQuery(tag)}
+                  className={`shrink-0 px-3 py-1 sm:py-1.5 rounded-full text-xs font-primary transition-all duration-200 cursor-pointer ${
+                    query === tag
+                      ? "bg-primary text-white border border-primary"
+                      : "bg-white/80 hover:bg-white text-primary/80 hover:text-primary border border-secondary/25 hover:border-accent-gold"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
 
-                {isHomeLoading && popularList.length === 0 ? (
-                  <div className="py-8 flex justify-center items-center text-primary/50 text-xs font-primary">
-                    <div className="w-4 h-4 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-2" />
-                    Loading popular formulations...
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-                    {popularList.slice(0, 8).map((item) => (
-                      <SearchProductCard
-                        key={item._id}
-                        product={toCardProduct(item)}
-                        onSelect={onClose}
-                      />
-                    ))}
-                  </div>
-                )}
+          {/* STATE 1: No Query -> Popular Products */}
+          {!query.trim() && (
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex items-center justify-between pb-1 border-b border-secondary/20">
+                <h3 className="font-antessa capitalize font-normal text-lg sm:text-2xl md:text-3xl text-primary">
+                  Popular Botanical Formulations
+                </h3>
               </div>
+
+              {isHomeLoading && popularList.length === 0 ? (
+                <div className="py-8 flex justify-center items-center text-primary/50 text-xs font-primary">
+                  <div className="w-4 h-4 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-2" />
+                  Loading popular formulations...
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4">
+                  {popularList.slice(0, 8).map((item) => (
+                    <SearchProductCard
+                      key={item._id}
+                      product={toCardProduct(item)}
+                      onSelect={onClose}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
           {/* STATE 2: Query Typed -> Live Instant Search Results */}
           {query.trim() && (
-            <div className="flex flex-col gap-4">
-              <div className="flex items-end justify-between gap-4">
-                <h3 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-7xl lg:text-[4vw] lg:leading-[1.15] text-primary">
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5 sm:gap-4 pb-2 border-b border-secondary/20">
+                <h3 className="font-antessa uppercase font-normal text-base sm:text-xl md:text-2xl text-primary">
                   {isSearchPending
                     ? "Searching catalog..."
                     : `Results for "${debouncedQuery}" (${searchResults.length})`}
@@ -381,7 +401,7 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                   <Link
                     href={`/product?search=${encodeURIComponent(debouncedQuery)}`}
                     onClick={onClose}
-                    className="text-xs text-primary/70 hover:text-accent-gold font-primary uppercase tracking-wider transition-colors shrink-0 mb-1"
+                    className="text-[11px] sm:text-xs text-accent-gold hover:text-primary font-primary uppercase tracking-wider transition-colors shrink-0"
                   >
                     View all in collection →
                   </Link>
@@ -389,12 +409,12 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
               </div>
 
               {isSearchPending ? (
-                <div className="py-12 flex justify-center items-center text-primary/50 text-xs font-primary">
-                  <div className="w-5 h-5 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-3" />
+                <div className="py-10 flex justify-center items-center text-primary/50 text-xs font-primary">
+                  <div className="w-4 h-4 border-2 border-accent-gold border-t-transparent rounded-full animate-spin mr-2.5" />
                   Searching formulations...
                 </div>
               ) : searchResults.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4">
                   {searchResults.map((item) => (
                     <SearchProductCard
                       key={item._id}
@@ -404,7 +424,7 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                   ))}
                 </div>
               ) : (
-                <div className="py-12 text-center flex flex-col items-center">
+                <div className="py-10 text-center flex flex-col items-center">
                   <p className="font-primary text-sm text-primary/80 mb-1">
                     No botanical formulations found for &ldquo;{debouncedQuery}
                     &rdquo;.

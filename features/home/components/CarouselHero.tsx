@@ -33,6 +33,7 @@ export default function CarouselHero() {
 
   // Drag handling references
   const dragStartXRef = useRef<number | null>(null);
+  const dragStartYRef = useRef<number | null>(null);
   const isDraggingRef = useRef(false);
 
   const TRANSITION_DURATION = 1800; // 1.8 seconds fluid wave wipe
@@ -157,13 +158,17 @@ export default function CarouselHero() {
   // Touch and Drag handlers for smooth swipe
   const handlePointerDown = (e: React.PointerEvent) => {
     dragStartXRef.current = e.clientX;
+    dragStartYRef.current = e.clientY;
     isDraggingRef.current = true;
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDraggingRef.current || dragStartXRef.current === null) return;
     const deltaX = e.clientX - dragStartXRef.current;
-    if (Math.abs(deltaX) > 50) {
+    const deltaY = dragStartYRef.current !== null ? e.clientY - dragStartYRef.current : 0;
+
+    // Trigger swipe only if horizontal movement dominates and exceeds threshold
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX < 0) {
         goToNext();
       } else {
@@ -171,6 +176,13 @@ export default function CarouselHero() {
       }
     }
     dragStartXRef.current = null;
+    dragStartYRef.current = null;
+    isDraggingRef.current = false;
+  };
+
+  const handlePointerCancel = () => {
+    dragStartXRef.current = null;
+    dragStartYRef.current = null;
     isDraggingRef.current = false;
   };
 
@@ -179,9 +191,10 @@ export default function CarouselHero() {
 
   return (
     <div
-      className="relative w-full h-dvh min-h-155 overflow-hidden select-none text-white"
+      className="relative w-full h-dvh min-h-[560px] md:min-h-[640px] overflow-hidden select-none text-white touch-pan-y"
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
     >
       {/* ── BACKGROUND IMAGE SLIDES (AYANA ORGANIC WAVE MASK ENGINE) ── */}
       <CarouselSlides
@@ -193,7 +206,7 @@ export default function CarouselHero() {
       />
 
       {/* ── GRADIENT OVERLAY (Bottom to Top: deep contrast for bottom text, natural luminous top) ── */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/10 to-transparent z-[25] pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/20 to-transparent sm:from-black/45 sm:via-black/10 sm:to-transparent z-[25] pointer-events-none" />
 
       {/* ── EDITORIAL CONTENT OVERLAY (Bottom Left) ── */}
       <CarouselEditorial activeSlide={activeSlide} />
