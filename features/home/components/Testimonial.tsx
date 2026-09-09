@@ -200,73 +200,77 @@ export default function Testimonial() {
                     </div>
 
                     {/* ── Carousel Bottom Controls (< Dots >) ── */}
-                    <div className="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-10 lg:mt-[2.5vw]">
-                        {/* Left Arrow Button (<) */}
-                        <button
-                            type="button"
-                            onClick={scrollPrev}
-                            disabled={!canScrollPrev}
-                            aria-label="Previous testimonial"
-                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full flex items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/95 disabled:hover:text-primary disabled:hover:border-black/10 cursor-pointer shrink-0"
-                        >
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] -translate-x-px"
-                                aria-hidden="true"
+                    {TESTIMONIALS.length > 1 && (
+                        <div className="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-10 lg:mt-[2.5vw]">
+                            {/* Left Arrow Button (<) */}
+                            <button
+                                type="button"
+                                onClick={scrollPrev}
+                                disabled={!canScrollPrev}
+                                aria-label="Previous testimonial"
+                                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-soft-white transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
                             >
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
+                                <svg
+                                    className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] -translate-x-px text-soft-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M15 19l-7-7 7-7"
+                                    />
+                                </svg>
+                            </button>
 
-                        {/* Navigation Dots */}
-                        <div
-                            className="flex items-center gap-2 lg:gap-[0.5vw]"
-                            role="tablist"
-                            aria-label="Customer testimonials pagination"
-                        >
-                            {TESTIMONIALS.map((_, index) => (
-                                <button
-                                    key={index}
-                                    type="button"
-                                    onClick={() => scrollTo(index)}
-                                    aria-label={`Go to testimonial ${index + 1}`}
-                                    aria-current={selectedIndex === index ? 'true' : undefined}
-                                    className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${
-                                        selectedIndex === index
-                                            ? 'w-7 lg:w-[1.8vw] bg-primary'
-                                            : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-primary/45'
-                                    }`}
-                                />
-                            ))}
+                            {/* Dot Indicators */}
+                            <div
+                                className="flex items-center gap-2 lg:gap-[0.5vw]"
+                                role="tablist"
+                                aria-label="Customer testimonials pagination"
+                            >
+                                {TESTIMONIALS.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        onClick={() => scrollTo(index)}
+                                        aria-label={`Go to testimonial ${index + 1}`}
+                                        aria-current={selectedIndex === index ? 'true' : undefined}
+                                        className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${
+                                            selectedIndex === index
+                                                ? 'w-7 lg:w-[1.8vw] bg-accent-gold'
+                                                : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-accent-gold/50'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Right Arrow Button (>) */}
+                            <button
+                                type="button"
+                                onClick={scrollNext}
+                                disabled={!canScrollNext}
+                                aria-label="Next testimonial"
+                                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-soft-white transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
+                            >
+                                <svg
+                                    className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] translate-x-px text-soft-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </button>
                         </div>
-
-                        {/* Right Arrow Button (>) */}
-                        <button
-                            type="button"
-                            onClick={scrollNext}
-                            disabled={!canScrollNext}
-                            aria-label="Next testimonial"
-                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full flex items-center justify-center bg-white/95 backdrop-blur-sm border border-black/10 text-primary shadow-subtle hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-white/95 disabled:hover:text-primary disabled:hover:border-black/10 cursor-pointer shrink-0"
-                        >
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] translate-x-px"
-                                aria-hidden="true"
-                            >
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
-                    </div>
+                    )}
                 </div>
             </div>
         </section>

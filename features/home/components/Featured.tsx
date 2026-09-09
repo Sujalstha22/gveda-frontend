@@ -104,10 +104,10 @@ export default function Featured() {
                 onClick={scrollPrev}
                 disabled={!canScrollPrev}
                 aria-label="Previous products"
-                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-rich-black transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
+                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-soft-white transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
               >
                 <svg
-                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] -translate-x-px"
+                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] -translate-x-px text-soft-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -149,10 +149,10 @@ export default function Featured() {
                 onClick={scrollNext}
                 disabled={!canScrollNext}
                 aria-label="Next products"
-                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-rich-black transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
+                className="w-9 h-9 sm:w-10 sm:h-10 lg:w-[2.4vw] lg:h-[2.4vw] rounded-full bg-accent-gold hover:bg-[#A88D6D] border border-accent-gold/80 flex items-center justify-center text-soft-white transition-all duration-300 cursor-pointer active:scale-95 shadow-md hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-gold disabled:active:scale-100 shrink-0"
               >
                 <svg
-                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] translate-x-px"
+                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[1vw] lg:h-[1vw] translate-x-px text-soft-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
