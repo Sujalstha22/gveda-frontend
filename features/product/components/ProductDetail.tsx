@@ -41,14 +41,7 @@ const SUITABILITY_ITEMS = [
     },
 ];
 
-const EFFICACY_METRICS = [
-    { label: 'Barrier Restoration', score: '6 / 6', fill: '100%' },
-    { label: 'Deep Hydration Lock', score: '6 / 6', fill: '100%' },
-    { label: 'Antioxidant Defense', score: '5 / 6', fill: '83.3%' },
-    { label: 'Soothing & Anti-Redness', score: '6 / 6', fill: '100%' },
-    { label: 'Biocompatible Absorption', score: '5 / 6', fill: '83.3%' },
-    { label: 'Sebum Regulation', score: '5 / 6', fill: '83.3%' },
-];
+
 
 const RITUAL_GAUGES = [
     { label: 'Nourish', score: '6 / 6' },
@@ -83,6 +76,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const [addedToCart, setAddedToCart] = useState<boolean>(false);
     const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+    const [copied, setCopied] = useState<boolean>(false);
 
 
     /* ── Product Images Extractor ── */
@@ -194,6 +188,33 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const toggleWishlist = () => {
         setIsSaved((prev) => !prev);
     };
+
+    const handleShare = useCallback(async () => {
+        const shareData = {
+            title: product?.title ? `${product.title} | GVEDA` : 'GVEDA Botanical Skincare',
+            text: product?.description ? product.description.slice(0, 120) + '…' : 'Discover botanical skincare from GVEDA.',
+            url: typeof window !== 'undefined' ? window.location.href : '',
+        };
+
+        if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+            try {
+                await navigator.share(shareData);
+                return;
+            } catch (err) {
+                if ((err as Error).name === 'AbortError') return;
+            }
+        }
+
+        if (typeof navigator !== 'undefined' && navigator.clipboard) {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2400);
+            } catch {
+                // ignore
+            }
+        }
+    }, [product]);
 
     /* ── Loading Skeleton ── */
     if (isLoading) {
@@ -485,38 +506,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         </dl>
                     </section>
 
-                    {/* PERFORMANCE & CLINICAL EFFICACY SECTION */}
-                    <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
-                        <div className="flex items-center gap-2">
-                            <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
-                                Clinical Botanical Efficacy
-                            </h3>
-                            <div className="p-1 rounded-full bg-accent-gold/15 text-accent-gold">
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-5">
-                            {EFFICACY_METRICS.map((metric) => (
-                                <div key={metric.label} className="space-y-2 p-4 rounded-lg bg-white border border-secondary/25 shadow-xs">
-                                    <div className="flex items-center justify-between text-xs">
-                                        <span className="text-primary font-medium">
-                                            {metric.label}
-                                        </span>
-                                        <span className="font-mono text-accent-gold font-bold">{metric.score}</span>
-                                    </div>
-                                    <div className="h-1.5 w-full bg-background rounded-full overflow-hidden border border-secondary/20 flex">
-                                        <div
-                                            className="h-full bg-accent-gold transition-all duration-1000"
-                                            style={{ width: metric.fill }}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
 
                     {/* RITUAL FOCUS CIRCLE GAUGES */}
                     <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
@@ -629,7 +618,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     aria-pressed={selectedVolume === vol}
                                     className={`py-3.5 px-2 text-center rounded-md text-xs font-medium border transition-all cursor-pointer ${
                                         selectedVolume === vol
-                                            ? 'bg-secondary/10 text-primary border-primary'
+                                            ? 'bg-secondary/10 text-primary border-accent-gold'
                                             : 'bg-transparent text-primary/60 border-secondary/40 hover:border-accent-gold'
                                     }`}
                                 >
@@ -691,29 +680,84 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     />
                                 </svg>
                             </button>
+
+                            {/* Share Button */}
+                            <div className="relative">
+                                <button
+                                    type="button"
+                                    onClick={handleShare}
+                                    aria-label="Share product"
+                                    title={copied ? 'Link copied!' : 'Share formulation'}
+                                    className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${
+                                        copied
+                                            ? 'border-accent-gold bg-secondary/15 text-primary'
+                                            : 'border-secondary/40 bg-white text-primary/60 hover:text-primary hover:border-accent-gold'
+                                    }`}
+                                >
+                                    {copied ? (
+                                        <svg
+                                            className="w-5 h-5 text-accent-gold transition-transform duration-200 scale-110"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    ) : (
+                                        <svg
+                                            className="w-5 h-5"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.6"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <circle cx="18" cy="5" r="3" />
+                                            <circle cx="6" cy="12" r="3" />
+                                            <circle cx="18" cy="19" r="3" />
+                                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                        </svg>
+                                    )}
+                                </button>
+                                {copied && (
+                                    <div
+                                        role="status"
+                                        className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded bg-rich-black text-white text-[10px] tracking-wide font-medium shadow-md pointer-events-none animate-in fade-in zoom-in-95 duration-150"
+                                    >
+                                        Link copied!
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {/* Add to Cart / Ritual Button */}
-                        <button
-                            type="button"
-                            onClick={handleAddToCart}
-                            className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                                addedToCart
-                                    ? 'bg-primary/85 text-white'
-                                    : 'bg-primary text-white hover:bg-primary/90 active:scale-[0.99]'
-                            }`}
-                        >
-                            {addedToCart ? (
-                                <>
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Added to Bag
-                                </>
-                            ) : (
-                                'Add to Bag'
-                            )}
-                        </button>
+                        <div className="pt-2 sm:pt-3">
+                            <button
+                                type="button"
+                                onClick={handleAddToCart}
+                                className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                                    addedToCart
+                                        ? 'bg-primary/85 text-white'
+                                        : 'bg-primary text-white hover:bg-primary/90 active:scale-[0.99]'
+                                }`}
+                            >
+                                {addedToCart ? (
+                                    <>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Added to Bag
+                                    </>
+                                ) : (
+                                    'Add to Bag'
+                                )}
+                            </button>
+                        </div>
 
                     </div>
 
