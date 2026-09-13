@@ -13,17 +13,6 @@ interface SearchBarProps {
   onClose: () => void;
 }
 
-const POPULAR_SEARCH_TAGS = [
-  "Botanical Serum",
-  "Hydrating Cleanser",
-  "Daily Moisturizer",
-  "Facial Oil",
-  "Eye Elixir",
-  "Vitamin C",
-  "Night Cream",
-  "Barrier Restore",
-];
-
 function SearchProductCard({
   product,
   onSelect,
@@ -77,7 +66,7 @@ function SearchProductCard({
   return (
     <div
       onClick={handleClick}
-      className="group relative flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-white/90 hover:bg-white border border-border hover:border-botanical-gold/50 transition-all duration-300 cursor-pointer overflow-hidden shadow-subtle"
+      className="group relative flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-secondary/20 hover:bg-secondary/30 border border-secondary/30 hover:border-secondary transition-all duration-300 cursor-pointer overflow-hidden shadow-subtle"
     >
       {/* Product Image Stage (Left) */}
       <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg bg-warm-ivory/80 border border-border/80 flex items-center justify-center p-1.5 overflow-hidden">
@@ -337,34 +326,12 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
         }`}
       >
         <div className="w-full px-4 sm:px-8 lg:px-[5vw] overflow-y-auto max-h-[calc(100dvh-5.5rem)] sm:max-h-[75vh] overscroll-contain pb-8">
-          {/* Suggested Quick Tags (Always accessible for rapid tap search) */}
-          <div className="mb-4 sm:mb-6">
-            <span className="block font-primary text-[10px] sm:text-xs tracking-[0.15em] uppercase text-primary/50 font-medium mb-2">
-              Popular Searches
-            </span>
-            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 -mx-4 px-4 sm:mx-0 sm:px-0">
-              {POPULAR_SEARCH_TAGS.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={() => setQuery(tag)}
-                  className={`shrink-0 px-3 py-1 sm:py-1.5 rounded-full text-xs font-primary transition-all duration-200 cursor-pointer ${
-                    query === tag
-                      ? "bg-primary text-white border border-primary"
-                      : "bg-white/80 hover:bg-white text-primary/80 hover:text-primary border border-secondary/25 hover:border-accent-gold"
-                  }`}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* STATE 1: No Query -> Popular Products */}
           {!query.trim() && (
             <div className="flex flex-col gap-3 sm:gap-4">
-              <div className="flex items-center justify-between pb-1 border-b border-secondary/20">
-                <h3 className="font-antessa capitalize font-normal text-lg sm:text-2xl md:text-3xl text-primary">
+              <div className="flex items-center justify-between pb-2 sm:pb-3 border-b border-secondary/20">
+                <h3 className="font-antessa capitalize font-normal text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary leading-tight">
                   Popular Botanical Formulations
                 </h3>
               </div>
