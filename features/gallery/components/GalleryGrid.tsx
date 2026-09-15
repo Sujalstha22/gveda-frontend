@@ -66,7 +66,7 @@ function GalleryCard({ item, index, priority }: GalleryCardProps) {
                         <span className="font-primary text-[10px] tracking-[0.2em] uppercase text-botanical-gold font-medium block mb-1">
                             Archive {String(index + 1).padStart(2, '0')}
                         </span>
-                        <h3 className="font-antessa text-lg sm:text-xl font-medium text-white line-clamp-2 group-hover:text-botanical-gold transition-colors">
+                        <h3 className="font-heading text-lg sm:text-xl font-medium text-white line-clamp-2 group-hover:text-botanical-gold transition-colors">
                             {item.title.trim()}
                         </h3>
                     </div>

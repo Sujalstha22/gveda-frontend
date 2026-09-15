@@ -12,7 +12,7 @@ interface PillarItem {
 const pillars: PillarItem[] = [
     {
         id: 1,
-        title: 'Cold-Pressed Extraction',
+        title: 'Cold–Pressed Extraction',
         description: 'Heat-free mechanical extraction preserves vital living phytonutrients, vitamins, and antioxidants in their most bio-active state.',
         icon: (
             <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-[2.2vw] lg:h-[2.2vw] text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -22,7 +22,7 @@ const pillars: PillarItem[] = [
     },
     {
         id: 2,
-        title: 'Bio-Active Ingredients',
+        title: 'Bio–Active Ingredients',
         description: 'Pure plant lipids and biocompatible botanical actives that nourish your skin’s natural lipid barrier without disruption.',
         icon: (
             <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-[2.2vw] lg:h-[2.2vw] text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ const AboutIngredients = () => {
                             </div>
 
                             {/* Title */}
-                            <h3 className="font-antessa uppercase font-medium text-lg sm:text-xl lg:text-[1.15vw] text-primary mb-2.5 sm:mb-3 lg:mb-[0.7vw]">
+                            <h3 className="font-heading uppercase font-medium text-lg sm:text-xl lg:text-[1.15vw] text-primary mb-2.5 sm:mb-3 lg:mb-[0.7vw]">
                                 {pillar.title}
                             </h3>
 

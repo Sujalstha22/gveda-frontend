@@ -64,7 +64,7 @@ export default function CartDrawer() {
             <span className="font-primary text-[10px] tracking-[0.2em] uppercase text-botanical-gold font-medium block">
               GVEDA Rituals
             </span>
-            <h2 className="font-antessa text-lg sm:text-xl font-medium text-rich-black tracking-wide flex items-center gap-2">
+            <h2 className="font-heading text-lg sm:text-xl font-medium text-rich-black tracking-wide flex items-center gap-2">
               Your Selection <span className="font-editorial italic font-normal text-botanical-gold border-b border-botanical-gold/20 pb-0.5">({totalItems})</span>
             </h2>
           </div>
@@ -108,7 +108,7 @@ export default function CartDrawer() {
                   />
                 </svg>
               </div>
-              <h3 className="font-antessa text-lg font-medium text-rich-black mb-1">
+              <h3 className="font-heading text-lg font-medium text-rich-black mb-1">
                 Your Cart is Empty
               </h3>
               <p className="font-primary text-xs text-rich-black/70 max-w-[260px] leading-relaxed mb-6">

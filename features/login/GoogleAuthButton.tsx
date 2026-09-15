@@ -4,7 +4,7 @@ export default function GoogleAuthButton() {
   return (
     <button
       type="button"
-      className="w-full flex items-center justify-center gap-3 py-3 sm:py-3.5 px-4 rounded-xl border border-secondary/30 bg-warm-ivory/40 hover:bg-warm-ivory/80 active:scale-[0.99] transition-all duration-300 cursor-pointer text-xs sm:text-sm font-medium text-primary shadow-2xs group"
+      className="w-full flex items-center justify-center gap-3 py-3 sm:py-3.5 px-4 rounded-full border border-secondary/35 bg-white hover:bg-warm-ivory/50 active:scale-[0.99] transition-all duration-300 cursor-pointer text-xs sm:text-sm font-medium text-primary shadow-2xs group"
     >
       <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 24 24">
         <path

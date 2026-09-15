@@ -9,7 +9,7 @@
 @font-face {
   font-family: "Montserrat";
   src: url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype-variations"),
-       url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
+    url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -18,7 +18,7 @@
 @font-face {
   font-family: "Montserrat";
   src: url("/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-       url("/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
+    url("/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -69,7 +69,7 @@
 @font-face {
   font-family: "Cormorant Garamond";
   src: url("/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype-variations"),
-       url("/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
+    url("/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
@@ -78,7 +78,7 @@
 @font-face {
   font-family: "Cormorant Garamond";
   src: url("/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-       url("/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+    url("/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
   font-weight: 300 700;
   font-style: italic;
   font-display: swap;
@@ -170,8 +170,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -180,8 +180,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -190,8 +190,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -200,8 +200,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -210,8 +210,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -220,8 +220,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -230,8 +230,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -240,8 +240,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 500;
   font-style: italic;
   font-display: swap;
@@ -250,8 +250,8 @@
 @font-face {
   font-family: "Madison-Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 600;
   font-style: italic;
   font-display: swap;
@@ -260,8 +260,8 @@
 @font-face {
   font-family: "Madison Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -270,8 +270,8 @@
 @font-face {
   font-family: "Madison Sauvage";
   src: url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
-       url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
+    url("/fonts/madison-sauvage/Madison Sauvage Script.otf") format("opentype"),
+    url("/fonts/madison-sauvage/Madison%20Sauvage%20Script.otf");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -282,16 +282,17 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
+
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -300,7 +301,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -309,7 +310,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -318,7 +319,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -327,7 +328,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -336,7 +337,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -345,7 +346,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -354,7 +355,7 @@
 @font-face {
   font-family: "Antesa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 500;
   font-style: italic;
   font-display: swap;
@@ -363,7 +364,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -372,7 +373,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -381,7 +382,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -390,7 +391,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -399,7 +400,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -408,7 +409,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -417,7 +418,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -426,7 +427,7 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -435,9 +436,327 @@
 @font-face {
   font-family: "Antessa";
   src: url("/fonts/antesa/Antesa.otf") format("opentype"),
-       url("/fonts/antesa/Antesa.otf");
+    url("/fonts/antesa/Antesa.otf");
   font-weight: 500;
   font-style: italic;
+  font-display: swap;
+}
+
+/* font orange avenue ========================================================== */
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Orange-Avenue / OrangeAvenue alternate name mapping */
+@font-face {
+  font-family: "Orange-Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange-Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange-Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange-Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange-Avenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenue";
+  src: url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueDEMO-Regular.otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Orange Avenue Outline Variant */
+@font-face {
+  font-family: "Orange Avenue Outline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue Outline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orange Avenue Outline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenueOutline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenueOutline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OrangeAvenueOutline";
+  src: url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf") format("opentype"),
+    url("/fonts/orange_avenue/OrangeAvenueOutlineDEMO-Regular.otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   TEMPORARY FONTS (For visualization & testing)
+   ========================================================================== */
+
+/* ── Astoria Classic (Fixed: Astoria-Classic-light.otf) ── */
+@font-face {
+  font-family: "Astoria";
+  src: url("/fonts/astoria/Astoria-Classic-light.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Astoria Classic";
+  src: url("/fonts/astoria/Astoria-Classic-light.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Astoria-Classic";
+  src: url("/fonts/astoria/Astoria-Classic-light.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Galvero DEMO ── */
+@font-face {
+  font-family: "Galvero";
+  src: url("/fonts/galvero_demo/GalveroDEMO.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galvero-DEMO";
+  src: url("/fonts/galvero_demo/GalveroDEMO.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galvero DEMO";
+  src: url("/fonts/galvero_demo/GalveroDEMO.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Rekova Marove ── */
+@font-face {
+  font-family: "Rekova Marove";
+  src: url("/fonts/rekova-marove/RekovaMarove-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rekova-Marove";
+  src: url("/fonts/rekova-marove/RekovaMarove-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RekovaMarove";
+  src: url("/fonts/rekova-marove/RekovaMarove-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Inter ── */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype-variations"),
+       url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -449,16 +768,21 @@
   color-scheme: light !important;
 
   /* ── 90% Primary Brand Canvas ── */
-  --warm-ivory: #F7F5F1;         /* Website, presentations, main brand background */
-  --soft-white: #FAFAF8;         /* Packaging base, surface & card containers */
-  --surface-alt: #FFFFFF;        /* Pure clean surface */
-  
+  --warm-ivory: #F7F5F1;
+  /* Website, presentations, main brand background */
+  --soft-white: #FAFAF8;
+  /* Packaging base, surface & card containers */
+  --surface-alt: #FFFFFF;
+  /* Pure clean surface */
+
   --background: #F7F5F1;
   --surface: #FAFAF8;
 
   /* ── 10% Contrast & Accent ── */
-  --rich-black: #111111;         /* Logo, typography, icons */
-  --botanical-gold: #BD9F7D;     /* Muted Botanical Gold (Leaf, dividers, subtle highlights) */
+  --rich-black: #111111;
+  /* Logo, typography, icons */
+  --botanical-gold: #BD9F7D;
+  /* Muted Botanical Gold (Leaf, dividers, subtle highlights) */
 
   --foreground: #111111;
   --primary: #111111;
@@ -535,15 +859,26 @@
   --color-border-gold: var(--border-gold);
 
   /* Typography */
-  --font-primary: "Montserrat", system-ui, -apple-system, sans-serif;
-  --font-heading: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-primary: "inter", system-ui, -apple-system, sans-serif;
+  --font-heading: "astoria", serif;
+  /* --font-heading: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif; */
   --font-secondary: "Madison-Sauvage", Georgia, serif;
   --font-madison: "Madison-Sauvage", cursive, Georgia, serif;
   --font-madision: "Madison-Sauvage", cursive, Georgia, serif;
   --font-antesa: "Antesa", "Antessa", cursive, Georgia, serif;
   --font-antessa: "Antesa", "Antessa", cursive, Georgia, serif;
+  --font-orange-avenue: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif;
+  --font-orange: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif;
+  --font-orange-avenue-outline: "Orange Avenue Outline", "OrangeAvenueOutline", Georgia, serif;
   --font-editorial: "Cormorant Garamond", Georgia, serif;
   --font-serif: "Cormorant Garamond", Georgia, serif;
+
+  /* Temporary fonts (for visualization & testing) */
+  --font-astoria: "Astoria", "Astoria Classic", "Astoria-Classic", serif;
+  --font-galvero: "Galvero", "Galvero-DEMO", "Galvero DEMO", serif;
+  --font-rekova: "Rekova Marove", "Rekova-Marove", "RekovaMarove", serif;
+  --font-rekova-marove: "Rekova Marove", "Rekova-Marove", "RekovaMarove", serif;
+  --font-inter: "Inter", sans-serif;
 }
 
 
@@ -570,6 +905,7 @@ body {
 }
 
 @layer base {
+
   *,
   *::before,
   *::after {
@@ -762,6 +1098,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -814,4 +1151,39 @@ video::-webkit-media-controls-enclosure {
 .font-antesa,
 .font-antessa {
   font-family: "Antesa", "Antessa", serif !important;
+}
+
+/* Orange Avenue Custom Font Utility */
+.font-orange-avenue,
+.font-orange,
+.font-orangeavenue {
+  font-family: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif !important;
+}
+
+.font-orange-avenue-outline,
+.font-orange-outline {
+  font-family: "Orange Avenue Outline", "OrangeAvenueOutline", Georgia, serif !important;
+}
+
+/* ==========================================================================
+   Temporary Fonts Utility Classes (For visualization & testing)
+   ========================================================================== */
+.font-astoria,
+.font-astoria-classic {
+  font-family: "Astoria", "Astoria Classic", "Astoria-Classic", serif !important;
+}
+
+.font-galvero,
+.font-galvero-demo,
+.font-galvero\! {
+  font-family: "Galvero", "Galvero-DEMO", "Galvero DEMO", serif !important;
+}
+
+.font-rekova,
+.font-rekova-marove {
+  font-family: "Rekova Marove", "Rekova-Marove", "RekovaMarove", serif !important;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif !important;
 }

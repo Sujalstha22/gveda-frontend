@@ -11,11 +11,7 @@ export default function Login() {
   const [mode, setMode] = useState<AuthMode>('login');
 
   return (
-    <main
-      className={`w-full min-h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-32 select-none bg-warm-ivory transition-all duration-300 ${
-        mode === 'signup' ? 'pb-24 lg:pb-36' : 'pb-14 lg:pb-16'
-      }`}
-    >
+    <main className="w-full min-h-screen bg-warm-ivory select-none pt-[84px] sm:pt-[88px] lg:pt-[92px] pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-10">
       {/* Hidden preloader for smooth Next.js image caching */}
       <div className="hidden" aria-hidden="true">
         {LOGIN_SLIDES.map((slide) => (
@@ -30,16 +26,16 @@ export default function Login() {
         ))}
       </div>
 
-      <div className="w-full max-w-5xl xl:max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-start">
-        {/* ── Left Column: Venetian Blinds Image Stage (Permanent Sticky & Constant Size) ── */}
-        <div className="lg:col-span-6 w-full flex flex-col lg:sticky lg:top-24 xl:top-28 self-start">
+      <div className="w-full max-w-[1540px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-4 items-start">
+        {/* ── Left Column (40% Width): Visual Image Stage (Sticky below Navbar) ── */}
+        <aside className="w-full lg:col-span-5 lg:sticky lg:top-[92px] self-start order-1">
           <LoginVisualStage />
-        </div>
+        </aside>
 
-        {/* ── Right Column: Warm Ivory Authentication Card ── */}
-        <div className="lg:col-span-6 w-full flex flex-col">
+        {/* ── Right Column (60% Width): Scrollable Form Area ── */}
+        <section className="w-full lg:col-span-7 order-2 flex flex-col">
           <AuthCard mode={mode} onSelectMode={setMode} />
-        </div>
+        </section>
       </div>
     </main>
   );

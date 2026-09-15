@@ -366,7 +366,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     {/* PRODUCT DETAILS & BOTANICAL STORY */}
                     <div id="product-description" className="scroll-mt-28 border-t border-secondary/30 pt-8 sm:pt-10 w-full">
-                        <h3 className="font-antessa font-normal text-2xl sm:text-3xl text-primary tracking-tight mb-4">
+                        <h3 className="font-heading font-normal text-2xl sm:text-3xl text-primary tracking-tight mb-4">
                             The Philosophy of Pure Restoration
                         </h3>
                         <p className="font-primary font-normal text-sm sm:text-base leading-relaxed text-primary/80 whitespace-pre-line">
@@ -452,17 +452,17 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 01</span>
-                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Dispense & Warm</h4>
+                                            <h4 className="font-heading text-xl font-normal text-primary mb-1">Dispense & Warm</h4>
                                             <p className="text-xs text-primary/70">Place 3–4 drops into palms and gently warm together.</p>
                                         </div>
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 02</span>
-                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Press In</h4>
+                                            <h4 className="font-heading text-xl font-normal text-primary mb-1">Press In</h4>
                                             <p className="text-xs text-primary/70">Press into clean face, neck, and chest in upward lifting motions.</p>
                                         </div>
                                         <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
                                             <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 03</span>
-                                            <h4 className="font-antessa text-xl font-normal text-primary mb-1">Seal & Protect</h4>
+                                            <h4 className="font-heading text-xl font-normal text-primary mb-1">Seal & Protect</h4>
                                             <p className="text-xs text-primary/70">Follow with daily sunscreen in morning or night cream at dusk.</p>
                                         </div>
                                     </div>
@@ -485,7 +485,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     {/* SKIN TYPE & TARGET SUITABILITY SECTION */}
                     <section className="order-2 w-full border-t border-secondary/30 pt-10" aria-labelledby="skin-suitability-title">
-                        <h3 id="skin-suitability-title" className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
+                        <h3 id="skin-suitability-title" className="font-heading text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                             Skin Type & Target Suitability
                         </h3>
                         <p className="mt-3 max-w-md text-sm leading-relaxed text-primary/60">
@@ -510,7 +510,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     {/* RITUAL FOCUS CIRCLE GAUGES */}
                     <div className="border-t border-secondary/30 pt-10 space-y-6 w-full">
                         <div className="flex items-center gap-2">
-                            <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
+                            <h3 className="font-heading text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                                 Ritual Focus Matrix
                             </h3>
                         </div>
@@ -534,7 +534,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     {/* BOTANICAL FEATURES CHECKLIST */}
                     <div className="rounded-lg bg-soft-white p-5 sm:p-8 space-y-6 w-full">
-                        <h3 className="font-antessa text-2xl sm:text-3xl font-normal text-primary tracking-tight">
+                        <h3 className="font-heading text-2xl sm:text-3xl font-normal text-primary tracking-tight">
                             Key Botanical Highlights
                         </h3>
 
@@ -571,7 +571,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     {/* Title & Review Availability */}
                     <div>
-                        <h1 className="font-antessa text-[34px] sm:text-[40px] lg:text-[36px] xl:text-[42px] text-primary font-normal leading-[1.15] tracking-[-0.02em] text-balance">
+                        <h1 className="font-heading text-[34px] sm:text-[40px] lg:text-[36px] xl:text-[42px] text-primary font-normal leading-[1.15] tracking-[-0.02em] text-balance">
                             {product.title}
                         </h1>
                         <div className="mt-3 flex items-center gap-3">
@@ -588,7 +588,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     {/* Price Display */}
                     <div className="flex flex-wrap items-baseline gap-3 border-b border-secondary/30 pb-7">
-                        <span className="text-2xl font-normal text-primary font-antessa">
+                        <span className="text-2xl font-normal text-primary font-heading">
                             Rs. {price.toLocaleString()}
                         </span>
                         {hasDiscount && (

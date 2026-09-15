@@ -93,7 +93,7 @@ export default function CheckoutForm({ onSubmitOrder, isSubmitting }: CheckoutFo
       {/* 1. Contact Information */}
       <section className="bg-white p-6 sm:p-8 rounded-2xl border border-rich-black/10 space-y-4">
         <div className="flex items-center justify-between border-b border-rich-black/10 pb-3">
-          <h3 className="font-antessa text-lg font-medium text-rich-black tracking-wide">
+          <h3 className="font-heading text-lg font-medium text-rich-black tracking-wide">
             1. Contact Information
           </h3>
           <span className="font-primary text-[11px] text-rich-black/50">Required</span>
@@ -136,7 +136,7 @@ export default function CheckoutForm({ onSubmitOrder, isSubmitting }: CheckoutFo
       {/* 2. Shipping Address */}
       <section className="bg-white p-6 sm:p-8 rounded-2xl border border-rich-black/10 space-y-4">
         <div className="flex items-center justify-between border-b border-rich-black/10 pb-3">
-          <h3 className="font-antessa text-lg font-medium text-rich-black tracking-wide">
+          <h3 className="font-heading text-lg font-medium text-rich-black tracking-wide">
             2. Shipping Address
           </h3>
           <span className="font-primary text-[11px] text-rich-black/50">Physical destination</span>
@@ -255,7 +255,7 @@ export default function CheckoutForm({ onSubmitOrder, isSubmitting }: CheckoutFo
       {/* 3. Shipping Options */}
       <section className="bg-white p-6 sm:p-8 rounded-2xl border border-rich-black/10 space-y-4">
         <div className="border-b border-rich-black/10 pb-3">
-          <h3 className="font-antessa text-lg font-medium text-rich-black tracking-wide">
+          <h3 className="font-heading text-lg font-medium text-rich-black tracking-wide">
             3. Shipping Speed
           </h3>
         </div>
@@ -310,7 +310,7 @@ export default function CheckoutForm({ onSubmitOrder, isSubmitting }: CheckoutFo
       {/* 4. Payment Method */}
       <section className="bg-white p-6 sm:p-8 rounded-2xl border border-rich-black/10 space-y-4">
         <div className="border-b border-rich-black/10 pb-3">
-          <h3 className="font-antessa text-lg font-medium text-rich-black tracking-wide">
+          <h3 className="font-heading text-lg font-medium text-rich-black tracking-wide">
             4. Payment Selection
           </h3>
         </div>

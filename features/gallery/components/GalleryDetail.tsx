@@ -55,7 +55,7 @@ export default function GalleryDetail({ id }: { id: number }) {
                     <p className="py-16 font-primary text-primary/60 text-sm">Gallery not found.</p>
                 ) : (
                     <>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-primary font-antessa font-medium mb-10 tracking-wide">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-primary font-heading font-medium mb-10 tracking-wide">
                             {gallery.title.trim()}
                         </h1>
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 [&>*]:mb-4 sm:[&>*]:mb-6">

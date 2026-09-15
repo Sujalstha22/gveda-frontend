@@ -15,11 +15,10 @@ export default function AuthTabs({ mode, onSelectMode }: AuthTabsProps) {
       <button
         type="button"
         onClick={() => onSelectMode("login")}
-        className={`relative pb-3 text-sm sm:text-base font-antessa transition-colors cursor-pointer ${
-          mode === "login"
-            ? "text-primary font-semibold"
-            : "text-primary/35 hover:text-primary font-medium"
-        }`}
+        className={`relative pb-3 text-md sm:text-base font-heading transition-colors cursor-pointer ${mode === "login"
+          ? "text-primary font-semibold"
+          : "text-primary/35 hover:text-primary font-medium"
+          }`}
       >
         Login
         {mode === "login" && (
@@ -34,11 +33,10 @@ export default function AuthTabs({ mode, onSelectMode }: AuthTabsProps) {
       <button
         type="button"
         onClick={() => onSelectMode("signup")}
-        className={`relative pb-3 text-sm sm:text-base font-antessa transition-colors cursor-pointer ${
-          mode === "signup"
-            ? "text-primary font-semibold"
-            : "text-primary/35 hover:text-primary font-medium"
-        }`}
+        className={`relative pb-3 text-sm sm:text-base font-heading transition-colors cursor-pointer ${mode === "signup"
+          ? "text-primary font-semibold"
+          : "text-primary/35 hover:text-primary font-medium"
+          }`}
       >
         Sign Up
         {mode === "signup" && (

@@ -331,7 +331,7 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
           {!query.trim() && (
             <div className="flex flex-col gap-3 sm:gap-4">
               <div className="flex items-center justify-between pb-2 sm:pb-3 border-b border-secondary/20">
-                <h3 className="font-antessa capitalize font-normal text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary leading-tight">
+                <h3 className="font-heading capitalize font-normal text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-primary leading-tight">
                   Popular Botanical Formulations
                 </h3>
               </div>
@@ -359,7 +359,7 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
           {query.trim() && (
             <div className="flex flex-col gap-3 sm:gap-4">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5 sm:gap-4 pb-2 border-b border-secondary/20">
-                <h3 className="font-antessa uppercase font-normal text-base sm:text-xl md:text-2xl text-primary">
+                <h3 className="font-heading uppercase font-normal text-base sm:text-xl md:text-2xl text-primary">
                   {isSearchPending
                     ? "Searching catalog..."
                     : `Results for "${debouncedQuery}" (${searchResults.length})`}

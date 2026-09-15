@@ -29,7 +29,7 @@ const BlogDisplay: React.FC = () => {
         >
             <Title
                 eyebrow="Botanical Journal"
-                title="Stories & Insights"
+                title="Stories and Insights"
                 description="Stay updated with the latest news, daily rituals, and botanical science insights from GVEDA."
                 className="mb-12 sm:mb-16 lg:mb-[3.5vw] max-w-4xl"
             />
@@ -76,7 +76,7 @@ const BlogDisplay: React.FC = () => {
                                         </span>
 
                                         <Link href={`/blog/${post.slug}`}>
-                                            <h3 className="font-antessa text-lg sm:text-xl lg:text-[1.15vw] font-medium text-primary line-clamp-2 hover:text-accent-gold transition-colors cursor-pointer leading-snug">
+                                            <h3 className="font-heading text-lg sm:text-xl lg:text-[1.15vw] font-medium text-primary line-clamp-2 hover:text-accent-gold transition-colors cursor-pointer leading-snug">
                                                 {post.title}
                                             </h3>
                                         </Link>

@@ -23,7 +23,7 @@ export default function Footer() {
           badge="Ready to Transform"
           title="Discover Your Ritual"
           description="Experience the intersection of botanical wisdom and modern skincare science. Thoughtfully formulated in small batches for luminous, balanced skin."
-          ctaText="Explore Formulations"
+          ctaText="Meet the Formula"
           ctaHref="/product"
           secondaryText="Discover The Science"
           secondaryHref="/about"

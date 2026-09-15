@@ -66,7 +66,7 @@ export default function CTA({
               </div>
 
               {/* Grand Architectural Title */}
-              <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl lg:text-5xl xl:text-[3.2vw] lg:leading-[1.12] text-rich-black tracking-tight mb-5">
+              <h2 className="font-heading font-medium text-3xl sm:text-4xl lg:text-5xl xl:text-[3.2vw] lg:leading-[1.12] text-rich-black tracking-tight mb-5">
                 {title}
               </h2>
 
@@ -83,7 +83,7 @@ export default function CTA({
                   <Button
                     variant={variant === "secondary" ? "secondary" : "primary"}
                     size="lg"
-                    className="!h-12 sm:!h-13 !px-8 sm:!px-10 text-xs sm:text-[13px] tracking-[0.16em] uppercase flex items-center justify-center"
+                    className="!h-12 sm:!h-13 !px-8 sm:!px-10 text-xs sm:text-[13px] tracking-[0.16em]  flex items-center justify-center"
                   >
                     {ctaText}
                   </Button>
@@ -94,7 +94,7 @@ export default function CTA({
                     <Button
                       variant="ghost"
                       size="lg"
-                      className="!h-12 sm:!h-13 !px-7 sm:!px-9 text-xs sm:text-[13px] tracking-[0.16em] uppercase flex items-center justify-center"
+                      className="!h-12 sm:!h-13 !px-7 sm:!px-9 text-xs sm:text-[13px] tracking-[0.16em]  flex items-center justify-center"
                     >
                       {secondaryText}
                     </Button>

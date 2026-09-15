@@ -31,7 +31,7 @@ const WhyUs = () => {
                         <span className="font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw]">
                             Mindful Wellness
                         </span>
-                        <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
+                        <h2 className="font-heading capitalize font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary">
                             The Art Of Thoughtful Beauty
                         </h2>
                     </div>

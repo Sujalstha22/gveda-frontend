@@ -75,7 +75,7 @@ export default function CheckoutPage() {
               <span>/</span>
               <span className="text-botanical-gold font-semibold">Checkout</span>
             </div>
-            <h1 className="font-antessa text-3xl sm:text-4xl md:text-5xl font-medium text-rich-black tracking-wide">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium text-rich-black tracking-wide">
               Botanical Checkout
             </h1>
           </div>
@@ -103,7 +103,7 @@ export default function CheckoutPage() {
                 />
               </svg>
             </div>
-            <h2 className="font-antessa text-xl font-medium text-rich-black">
+            <h2 className="font-heading text-xl font-medium text-rich-black">
               Your Cart is Empty
             </h2>
             <p className="font-primary text-xs text-rich-black/70">

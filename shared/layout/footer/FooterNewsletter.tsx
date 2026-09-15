@@ -120,7 +120,7 @@ export default function FooterNewsletter() {
 
   return (
     <div className="flex flex-col items-start w-full">
-      <h3 className="font-antessa font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
+      <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
         Stay Connected
       </h3>
       <p className="font-primary text-sm font-medium lg:text-[1vw] text-primary/70 leading-relaxed max-w-sm mb-4 lg:mb-[1vw]">

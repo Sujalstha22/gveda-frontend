@@ -13,7 +13,7 @@ const Intro = () => {
         </span>
 
         {/* ── Heading / Title ── */}
-        <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary">
+        <h2 className="font-heading capitalize font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary">
           Welcome to Gveda Botanical Science
         </h2>
 

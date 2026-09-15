@@ -61,7 +61,7 @@ export default function Intro() {
         className="relative z-10 w-full lg:max-w-[75vw] flex flex-col items-center text-center mx-auto will-change-transform"
       >
         <div className="flex flex-col items-center">
-          <span className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
+          <span className="font-heading capitalize font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
             Flaunt the
           </span>
           <span className="font-madison italic font-normal text-7xl sm:text-8xl md:text-9xl lg:text-[7.5vw] lg:leading-[0.92] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">
@@ -69,7 +69,7 @@ export default function Intro() {
           </span>
         </div>
         <div className="flex flex-col items-center mt-8 sm:mt-10 lg:mt-[2.2vw]">
-          <span className="font-antessa font-medium uppercase text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
+          <span className="font-heading font-medium capitalize text-3xl sm:text-4xl md:text-5xl lg:text-[3.2vw] lg:leading-[1.15] text-primary tracking-wide">
             Forget the
           </span>
           <span className="font-madison italic font-normal text-7xl sm:text-8xl md:text-9xl lg:text-[7.5vw] lg:leading-[0.92] text-accent-gold mt-1 sm:mt-2 lg:mt-[0.4vw]">

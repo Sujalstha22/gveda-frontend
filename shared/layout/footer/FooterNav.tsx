@@ -6,7 +6,7 @@ import { FOOTER_NAV_LINKS } from "./footerData";
 export default function FooterNav() {
   return (
     <div className="flex flex-col items-start">
-      <h3 className="font-antessa font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
+      <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
         Navigate
       </h3>
 

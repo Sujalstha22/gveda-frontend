@@ -23,8 +23,8 @@ const POLICIES = [
 export default function FooterPolicies() {
   return (
     <div className="flex flex-col items-start">
-      <h3 className="font-antessa font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
-        Policies & Care
+      <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
+        Policies and Care
       </h3>
 
       <div className="flex flex-col items-start gap-2.5 sm:gap-3 lg:gap-[0.55vw]">

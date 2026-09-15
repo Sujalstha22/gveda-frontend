@@ -31,7 +31,7 @@ export default function Title({
         </span>
       )}
       <h2
-        className={`font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-7xl lg:text-[4vw] lg:leading-[1.15] text-primary ${titleClassName}`}
+        className={`font-heading font-medium text-3xl sm:text-4xl md:text-7xl lg:text-[4vw] lg:leading-[1.15] text-primary ${titleClassName}`}
       >
         {title}
       </h2>

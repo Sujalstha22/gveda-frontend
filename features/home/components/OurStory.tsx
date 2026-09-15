@@ -31,7 +31,7 @@ export default function OurStory() {
                             Discover
                         </span>
 
-                        <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
+                        <h2 className="font-heading uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.1] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
                             Our Story
                         </h2>
 

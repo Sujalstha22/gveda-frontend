@@ -71,7 +71,7 @@ const ContactLink = () => {
 
               {/* Text content - Right side */}
               <div className="flex flex-col justify-center min-w-0 flex-1">
-                <h3 className="font-antessa text-xs lg:text-[0.72vw] font-semibold uppercase tracking-[0.2em] text-primary/55 mb-1 lg:mb-[0.2vw]">
+                <h3 className="font-heading text-xs lg:text-[0.72vw] font-semibold uppercase tracking-[0.2em] text-primary/55 mb-1 lg:mb-[0.2vw]">
                   {info.title}
                 </h3>
 

@@ -42,8 +42,8 @@ const FOUR_POSITIONS = [
 ];
 
 export default function ZoomAnimation({
-  leftText = "Nature's",
-  rightText = "Precision",
+  leftText = "Everyday",
+  rightText = "Wellness",
   videoSrc = "/videos/gveda-hero-3.mp4",
   images = DEFAULT_IMAGES,
   className = "bg-secondary",
@@ -65,7 +65,7 @@ export default function ZoomAnimation({
     // Ensure video is playing smoothly
     const video = videoRef.current;
     if (video) {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     }
 
     const mm = gsap.matchMedia();
@@ -346,7 +346,10 @@ export default function ZoomAnimation({
         </div>
 
         {/* Central Splitting Headline */}
-        <h2 className="relative z-10 flex items-center justify-center font-antessa uppercase text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider pointer-events-none select-none whitespace-nowrap px-4 -translate-y-[15%]">
+        <h2
+          className="relative z-10 uppercase flex items-center justify-center  text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider pointer-events-none select-none whitespace-nowrap px-4 md:translate-x-8"
+          style={{ fontFamily: 'var(--font-galvero, "Galvero", "Galvero DEMO", serif)' }}
+        >
           <span
             ref={titleLeftRef}
             className="inline-block mr-2 sm:mr-3 lg:mr-[0.8vw] will-change-transform"
@@ -380,7 +383,7 @@ export default function ZoomAnimation({
                   height={500}
                   priority
                   sizes="(max-width: 768px) 25vw, (max-width: 1024px) 18vw, 14vw"
-                  className="w-[24vw] max-w-[110px] sm:w-[20vw] sm:max-w-[140px] md:w-[16vw] md:max-w-[170px] lg:w-[14vw] lg:max-w-[220px] aspect-[4/5] object-contain rounded-lg md:rounded-xl shadow-xs"
+                  className="w-[24vw] max-w-[110px] sm:w-[20vw] sm:max-w-[140px] md:w-[16vw] md:max-w-[170px] lg:w-[14vw] lg:max-w-[220px] aspect-[4/5] object-contain rounded-lg md:rounded-xl "
                 />
               </div>
             );

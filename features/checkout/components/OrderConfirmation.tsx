@@ -38,7 +38,7 @@ export default function OrderConfirmation({
         <span className="font-primary text-[10px] tracking-[0.2em] uppercase text-botanical-gold font-bold">
           Order Confirmed
         </span>
-        <h1 className="font-antessa text-2xl sm:text-4xl font-medium text-rich-black">
+        <h1 className="font-heading text-2xl sm:text-4xl font-medium text-rich-black">
           Thank You, {formData.firstName}!
         </h1>
         <p className="font-primary text-xs sm:text-sm text-rich-black/70 max-w-md">
@@ -98,7 +98,7 @@ export default function OrderConfirmation({
 
       {/* Purchased Items List */}
       <div className="space-y-4">
-        <h3 className="font-antessa text-base font-medium text-rich-black border-b border-rich-black/10 pb-2">
+        <h3 className="font-heading text-base font-medium text-rich-black border-b border-rich-black/10 pb-2">
           Formulations Summary ({orderItems.reduce((acc, i) => acc + i.quantity, 0)})
         </h3>
 
@@ -119,7 +119,7 @@ export default function OrderConfirmation({
                   />
                 </div>
                 <div>
-                  <h4 className="font-antessa text-sm font-semibold text-rich-black">
+                  <h4 className="font-heading text-sm font-semibold text-rich-black">
                     {item.name}
                   </h4>
                   <span className="font-primary text-[11px] text-rich-black/60">

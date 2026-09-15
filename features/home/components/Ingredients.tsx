@@ -88,7 +88,7 @@ export default function Ingredients() {
                       {item.tag}
                     </span>
                   )}
-                  <h3 className="font-antessa font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-primary">
+                  <h3 className="font-heading font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-primary">
                     {item.title}
                   </h3>
                 </div>
@@ -142,7 +142,7 @@ export default function Ingredients() {
                       {item.tag}
                     </span>
                   )}
-                  <h3 className="font-antessa font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-primary">
+                  <h3 className="font-heading font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-primary">
                     {item.title}
                   </h3>
                 </div>

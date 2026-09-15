@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Link from 'next/link';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
-import { LOGIN_SLIDES } from './loginData';
+import { LOGIN_STORIES, LOGIN_SLIDES } from './loginData';
 import { BlindItem } from './loginTypes';
 
-const BLIND_COUNT = 14;
+const BLIND_COUNT = 10;
 
 export default function LoginVisualStage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,6 +25,8 @@ export default function LoginVisualStage() {
     width: 100,
     height: 85,
   });
+
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
 
   // Calculate viewBox dimensions and build blinds geometry
   const updateDimensionsAndBlinds = useCallback(() => {
@@ -75,7 +79,7 @@ export default function LoginVisualStage() {
     blindsRef.current = newBlinds;
   }, []);
 
-  const startAutoplayRef = useRef<() => void>(() => {});
+  const startAutoplayRef = useRef<() => void>(() => { });
 
   // Main Transition Execution with SVG attribute animation & subpixel overlap
   const triggerTransition = useCallback((nextIndex: number) => {
@@ -84,6 +88,7 @@ export default function LoginVisualStage() {
     if (nextIndex === currentIdx) return;
 
     isTransitioningRef.current = true;
+    setActiveStoryIndex(nextIndex);
 
     if (timerRef.current) clearTimeout(timerRef.current);
     if (transitionTlRef.current) transitionTlRef.current.kill();
@@ -206,11 +211,12 @@ export default function LoginVisualStage() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[480px] sm:h-[520px] lg:h-[540px] overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-secondary/30 shadow-2xs"
+      className="relative w-full h-[520px] sm:h-[580px] lg:h-[calc(100vh-7.5rem)] max-h-[820px] overflow-hidden rounded-3xl bg-neutral-900 border border-[#e8e2d9]/60 shadow-[0_16px_45px_rgba(0,0,0,0.06)] flex flex-col justify-between p-6 sm:p-8 lg:p-9 text-white group"
     >
+      {/* Background Animated Blinds SVG */}
       <svg
         ref={svgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         preserveAspectRatio="none"
       >
@@ -252,6 +258,60 @@ export default function LoginVisualStage() {
           className="w-full h-full transition-none"
         />
       </svg>
+
+      {/* Subtle Dark Editorial Gradients for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/20 to-black/80 pointer-events-none z-1" />
+
+      {/* Top Header Overlay */}
+      <div className="relative z-10 flex items-start justify-between">
+        <div className="max-w-xs">
+          <p className="text-[10px] sm:text-[11px] font-primary font-medium tracking-[0.22em] text-accent-gold uppercase mb-1.5">
+            Modern Botanical Care
+          </p>
+          <h2 className="text-xl sm:text-2xl xl:text-3xl font-heading font-normal tracking-tight text-white leading-snug transition-all duration-500">
+            {LOGIN_STORIES[activeStoryIndex]?.title || 'Guiding you to healthy, radiant skin'}
+          </h2>
+        </div>
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shrink-0 shadow-xs">
+          <Sparkles className="w-4 h-4 text-accent-gold" />
+        </div>
+      </div>
+
+      {/* Dominant Frosted Glass Story Card with Black Heading */}
+      <div className="relative z-10 mt-auto pt-6">
+        <div className="bg-white/80 backdrop-blur-2xl border border-white/70 rounded-3xl p-6 sm:p-7 text-primary shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col gap-3.5 transition-all duration-500">
+          <div className="flex items-center justify-between">
+            <h3 className="text-base sm:text-lg font-heading font-bold text-primary tracking-tight">
+              {LOGIN_STORIES[activeStoryIndex]?.tag}
+            </h3>
+            {/* Slide indicators that trigger transition between the 3 stories & 3 images */}
+            <div className="flex items-center gap-1.5">
+              {LOGIN_STORIES.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => triggerTransition(idx)}
+                  aria-label={`Story ${idx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${activeStoryIndex === idx
+                      ? 'w-6 bg-primary shadow-xs'
+                      : 'w-2 bg-primary/25 hover:bg-primary/60'
+                    }`}
+                />
+              ))}
+            </div>
+          </div>
+          <p className="text-sm sm:text-[14.5px] text-primary/85 leading-relaxed font-primary font-normal">
+            {LOGIN_STORIES[activeStoryIndex]?.quote}
+          </p>
+          <Link
+            href={LOGIN_STORIES[activeStoryIndex]?.link || '/about'}
+            className="inline-flex items-center justify-between mt-1 px-5 py-2.5 rounded-full bg-primary text-white hover:bg-black active:scale-[0.99] transition-all text-xs sm:text-[13px] font-semibold group/btn shadow-md self-start"
+          >
+            <span>{LOGIN_STORIES[activeStoryIndex]?.linkText}</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

@@ -147,7 +147,7 @@ export default function CategoryProduct() {
                       className="group hidden items-center justify-between gap-5 py-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary md:flex lg:py-5"
                     >
                       <div className="min-w-0">
-                        <h3 className={`font-antessa text-xl font-medium capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none lg:text-2xl ${isActive ? "text-secondary" : "text-primary group-hover:text-secondary group-focus-visible:text-secondary"}`}>
+                        <h3 className={`font-heading text-xl font-capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none lg:text-2xl ${isActive ? "text-secondary" : "text-primary group-hover:text-secondary group-focus-visible:text-secondary"}`}>
                           {category.name}
                         </h3>
                         <p className="mt-2 max-w-sm font-primary text-xs leading-[1.7] text-primary/65 lg:text-[13px]">
@@ -170,7 +170,7 @@ export default function CategoryProduct() {
                           }}
                           className="flex w-full items-center justify-between gap-5 py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary"
                         >
-                          <span className={`font-antessa text-xl font-medium capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none ${isOpen ? "text-secondary" : "text-primary"}`}>
+                          <span className={`font-heading text-xl font-capitalize leading-tight tracking-tight transition-colors duration-300 motion-reduce:transition-none ${isOpen ? "text-secondary" : "text-primary"}`}>
                             {category.name}
                           </span>
                           <span aria-hidden="true" className="font-primary text-2xl font-light text-secondary">

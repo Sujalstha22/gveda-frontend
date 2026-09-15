@@ -32,7 +32,7 @@ const FoundersMessage = () => {
           </span>
 
           {/* Section Title */}
-          <h2 className="font-antessa uppercase font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
+          <h2 className="font-heading capitalize font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[2.8vw] lg:leading-[1.15] text-primary mb-6 sm:mb-8 lg:mb-[1.8vw]">
             Message From Our Founder
           </h2>
 

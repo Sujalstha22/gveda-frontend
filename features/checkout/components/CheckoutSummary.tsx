@@ -43,7 +43,7 @@ export default function CheckoutSummary({
         <span className="font-primary text-[10px] tracking-[0.2em] uppercase text-botanical-gold font-medium block mb-1">
           GVEDA Formulations
         </span>
-        <h2 className="font-antessa text-xl font-medium text-rich-black tracking-wide flex items-center justify-between">
+        <h2 className="font-heading text-xl font-medium text-rich-black tracking-wide flex items-center justify-between">
           <span>Order Summary</span>
           <span className="font-primary text-xs font-normal text-rich-black/60 lowercase">
             ({items.reduce((acc, i) => acc + i.quantity, 0)} items)
@@ -77,7 +77,7 @@ export default function CheckoutSummary({
               </div>
 
               <div className="flex-1 min-w-0">
-                <h4 className="font-antessa text-sm font-semibold text-rich-black truncate">
+                <h4 className="font-heading text-sm font-semibold text-rich-black truncate">
                   {item.name}
                 </h4>
                 {item.size && (
@@ -154,7 +154,7 @@ export default function CheckoutSummary({
           <span className="text-rich-black font-medium">${estimatedTax.toFixed(2)}</span>
         </div>
 
-        <div className="flex justify-between items-center text-base sm:text-lg font-bold font-antessa text-rich-black pt-3 border-t border-rich-black/10 uppercase tracking-wide">
+        <div className="flex justify-between items-center text-base sm:text-lg font-bold font-heading text-rich-black pt-3 border-t border-rich-black/10 uppercase tracking-wide">
           <span>Total</span>
           <span className="text-botanical-gold">${total.toFixed(2)}</span>
         </div>

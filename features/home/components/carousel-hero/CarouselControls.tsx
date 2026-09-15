@@ -35,7 +35,7 @@ export default function CarouselControls({
           </p>
           <h3
             key={`sub-${activeSlide.id}`}
-            className="font-antessa font-normal text-sm sm:text-lg md:text-2xl lg:text-3xl tracking-wide text-white capitalize mt-0.5 animate-in fade-in duration-500"
+            className="font-heading font-normal text-sm sm:text-lg md:text-2xl lg:text-3xl tracking-wide text-white capitalize mt-0.5 animate-in fade-in duration-500"
           >
             {activeSlide.subtitle}
           </h3>
