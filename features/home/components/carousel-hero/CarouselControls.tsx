@@ -1,6 +1,9 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { usePreloader } from '@/shared/context/PreloaderContext';
 import { SlideData } from './types';
 
 interface CarouselControlsProps {
@@ -22,8 +25,25 @@ export default function CarouselControls({
   onPrev,
   onNext,
 }: CarouselControlsProps) {
+  const { heroReady } = usePreloader();
+  const pathname = usePathname();
+
   return (
-    <div className="absolute bottom-5 sm:bottom-8 md:bottom-12 lg:bottom-16 left-5 sm:left-8 md:left-auto right-5 sm:right-8 md:right-12 lg:right-16 z-30 pointer-events-auto select-none">
+    <motion.div
+      key={`controls-${pathname}`}
+      initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+      animate={
+        heroReady
+          ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+          : { opacity: 0, y: 40, filter: 'blur(8px)' }
+      }
+      transition={{
+        duration: 1.4,
+        delay: 0.2,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className="absolute bottom-5 sm:bottom-8 md:bottom-12 lg:bottom-16 left-5 sm:left-8 md:left-auto right-5 sm:right-8 md:right-12 lg:right-16 z-30 pointer-events-auto select-none"
+    >
       <div className="w-full flex flex-row md:flex-col items-end justify-between md:justify-start gap-4">
         {/* Slide Category & Name */}
         <div className="text-left md:text-right">
@@ -103,6 +123,6 @@ export default function CarouselControls({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

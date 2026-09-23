@@ -8,6 +8,7 @@ import CategoryProduct from "@/features/home/components/categoryproduct";
 import Faq from "@/features/home/components/Faq";
 import Testimonial from "@/features/home/components/Testimonial";
 import About from "@/features/home/components/About";
+
 // import OurStory from "@/features/home/components/OurStory";
 // import VideoAnimation from "@/features/home/components/VideoAnimation";
 

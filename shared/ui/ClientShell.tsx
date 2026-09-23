@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { usePreloader } from "../context/PreloaderContext";
 import Preloader from "./Preloader";
@@ -12,14 +12,22 @@ import Preloader from "./Preloader";
  */
 export default function ClientShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { setSoundEnabled } = usePreloader();
+  const { setSoundEnabled, setHeroReady } = usePreloader();
 
   const isHomePage = pathname === "/";
+  // Only show preloader on initial entry if arriving on the home page
   const [showPreloader, setShowPreloader] = useState(isHomePage);
+
+  useLayoutEffect(() => {
+    if (showPreloader) {
+      setHeroReady(false);
+    }
+  }, [showPreloader, setHeroReady]);
 
   const handlePreloaderComplete = () => {
     setSoundEnabled(false);
     setShowPreloader(false);
+    setHeroReady(true);
   };
 
   return (

@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TransitionRouter } from 'next-transition-router';
 import TransitionOverlay from './transition/TransitionOverlay';
+import { usePreloader } from '@/shared/context/PreloaderContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
   const panelRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { setHeroReady } = usePreloader();
 
   const lockScroll = () => {
     document.body.style.overflow = 'hidden';
@@ -39,6 +41,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           if (!el) return next();
 
           lockScroll();
+          setHeroReady(false);
 
           // Reset logo before curtain slides in
           if (logoRef.current) {
@@ -125,7 +128,11 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               duration: 0.25,
               ease: 'power2.in',
             })
-            // 5. Slide curtain up to reveal page
+            // 5. Trigger destination page entrance animations (Navbar & Hero Editorial)
+            .call(() => {
+              setHeroReady(true);
+            })
+            // 6. Slide curtain up to reveal page
             .to(
               el,
               {
@@ -135,7 +142,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               },
               '-=0.06'
             )
-            // 6. Smooth reveal of destination page
+            // 7. Smooth reveal of destination page
             .to(
               content,
               {

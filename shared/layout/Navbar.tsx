@@ -8,6 +8,7 @@ import MobileDrawer from './navbar/MobileDrawer';
 import SearchBar from './navbar/SearchBar';
 import { NAV_LINKS } from './navbar/navData';
 import { useCart } from '@/shared/context/CartContext';
+import { usePreloader } from '@/shared/context/PreloaderContext';
 
 function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -75,6 +76,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
+  const { heroReady } = usePreloader();
+  // Slow, controlled entrance from bottom on page load & on route transitions,
+  // then snap back to the fast duration used for the scroll show/hide behavior.
+  const [entered, setEntered] = useState(false);
+  useEffect(() => {
+    if (!heroReady) return;
+    setEntered(false);
+    const timer = setTimeout(() => setEntered(true), 2200);
+    return () => clearTimeout(timer);
+  }, [pathname, heroReady]);
 
   // Only the home page ('/') has a dark cinematic carousel hero requiring white text/logo;
   // all other pages (/about, /product, /blog, /contact, etc.) use black text & black logo.
@@ -141,21 +152,29 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const isNavVisible = heroReady && (visible || mobileOpen || searchOpen);
+
   return (
     <>
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transform-gpu transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transform-gpu will-change-transform transition-all ${
+          entered
+            ? 'duration-300 ease-in-out'
+            : 'duration-[2200ms] ease-[cubic-bezier(0.22,1,0.36,1)]'
+        } ${
           searchOpen
             ? 'bg-[#F7F5F1] shadow-none'
             : isTransparent
-            ? 'bg-transparent border-b border-transparent shadow-none'
-            : 'bg-[#F7F5F1] border-b border-[#ECE4DA] shadow-subtle'
+              ? 'bg-transparent border-b border-transparent shadow-none'
+              : 'bg-[#F7F5F1] border-b border-[#ECE4DA] shadow-subtle'
         } ${
-          visible || mobileOpen || searchOpen
+          isNavVisible
             ? 'translate-y-0 opacity-100 pointer-events-auto'
-            : '-translate-y-full opacity-0 pointer-events-none'
+            : !entered
+              ? 'translate-y-10 sm:translate-y-12 opacity-0 pointer-events-none'
+              : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">
@@ -163,9 +182,8 @@ export default function Navbar() {
           <div className="w-full px-4 sm:px-8 lg:px-[5vw] flex items-center justify-between">
             {/* ── LEFT: Brand Logo (hidden on mobile when search is open) ── */}
             <div
-              className={`flex-1 flex items-center justify-start z-30 transition-all duration-300 ${
-                searchOpen ? 'hidden sm:flex' : 'flex'
-              }`}
+              className={`flex-1 flex items-center justify-start z-30 transition-all duration-300 ${searchOpen ? 'hidden sm:flex' : 'flex'
+                }`}
             >
               <Link
                 href="/"
@@ -181,9 +199,8 @@ export default function Navbar() {
                   alt="GVEDA Logo"
                   width={150}
                   height={40}
-                  className={`w-24 sm:w-28 md:w-32 h-auto object-contain object-left transition-all duration-300 ${
-                    isWhiteNav && !searchOpen ? 'brightness-0 invert' : ''
-                  }`}
+                  className={`w-24 sm:w-28 md:w-32 h-auto object-contain object-left transition-all duration-300 ${isWhiteNav && !searchOpen ? 'brightness-0 invert' : ''
+                    }`}
                   priority
                 />
               </Link>
@@ -192,11 +209,10 @@ export default function Navbar() {
             {/* ── CENTER: Primary Nav Links ── */}
             <nav
               aria-label="Primary Navigation"
-              className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-all duration-300 ${
-                searchOpen
+              className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-all duration-300 ${searchOpen
                   ? 'opacity-0 invisible pointer-events-none'
                   : 'opacity-100 visible pointer-events-auto'
-              } ${isWhiteNav ? 'text-white/80' : 'text-primary/80'}`}
+                } ${isWhiteNav ? 'text-white/80' : 'text-primary/80'}`}
             >
               {NAV_LINKS.map((item) => {
                 const isActive =
@@ -207,23 +223,20 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={`group relative py-1 transition-colors duration-200 ${
-                      isWhiteNav
+                    className={`group relative py-1 transition-colors duration-200 ${isWhiteNav
                         ? isActive
                           ? 'text-white font-semibold'
                           : 'text-white/80 hover:text-white font-normal'
                         : isActive
-                        ? 'text-primary font-semibold'
-                        : 'text-primary/75 hover:text-primary font-normal'
-                    }`}
+                          ? 'text-primary font-semibold'
+                          : 'text-primary/75 hover:text-primary font-normal'
+                      }`}
                   >
                     {item.label}
                     <span
-                      className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full transition-transform duration-200 origin-left ${
-                        isWhiteNav ? 'bg-white' : 'bg-primary'
-                      } ${
-                        isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                      }`}
+                      className={`absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full transition-transform duration-200 origin-left ${isWhiteNav ? 'bg-white' : 'bg-primary'
+                        } ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                        }`}
                     />
                   </Link>
                 );
@@ -232,9 +245,8 @@ export default function Navbar() {
 
             {/* ── RIGHT: Search/Close, Cart & User Login Icons (+ Mobile Toggle) ── */}
             <div
-              className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 z-30 ${
-                isWhiteNav && !searchOpen ? 'text-white/85' : 'text-primary/80'
-              }`}
+              className={`flex-1 flex items-center justify-end gap-1.5 sm:gap-2.5 transition-colors duration-300 z-30 ${isWhiteNav && !searchOpen ? 'text-white/85' : 'text-primary/80'
+                }`}
             >
               {/* Search / Close Toggle Button */}
               <button
@@ -245,13 +257,12 @@ export default function Navbar() {
                 }}
                 aria-label={searchOpen ? 'Close search' : 'Search products'}
                 title={searchOpen ? 'Close search' : 'Search'}
-                className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                  isWhiteNav && !searchOpen
+                className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${isWhiteNav && !searchOpen
                     ? 'text-white hover:bg-white/15'
                     : searchOpen
-                    ? 'text-primary bg-black/5 hover:bg-black/10'
-                    : 'text-primary/80 hover:text-primary hover:bg-black/5'
-                }`}
+                      ? 'text-primary bg-black/5 hover:bg-black/10'
+                      : 'text-primary/80 hover:text-primary hover:bg-black/5'
+                  }`}
               >
                 {searchOpen ? (
                   <svg
@@ -277,13 +288,11 @@ export default function Navbar() {
                 type="button"
                 aria-label={`Shopping Cart (${totalItems} items)`}
                 title="Cart"
-                className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${
-                  searchOpen ? 'hidden sm:flex' : 'flex'
-                } items-center justify-center cursor-pointer ${
-                  isWhiteNav
+                className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${searchOpen ? 'hidden sm:flex' : 'flex'
+                  } items-center justify-center cursor-pointer ${isWhiteNav
                     ? 'text-white hover:bg-white/15'
                     : 'text-primary/80 hover:text-primary hover:bg-black/5'
-                }`}
+                  }`}
                 onClick={() => {
                   setMobileOpen(false);
                   openCart();
@@ -302,15 +311,13 @@ export default function Navbar() {
                 href="/login"
                 aria-label="Account / Login"
                 title="Account"
-                className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${
-                  searchOpen ? 'hidden sm:flex' : 'flex'
-                } items-center justify-center cursor-pointer ${
-                  isWhiteNav
+                className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${searchOpen ? 'hidden sm:flex' : 'flex'
+                  } items-center justify-center cursor-pointer ${isWhiteNav
                     ? 'text-white hover:bg-white/15'
                     : pathname === '/login'
-                    ? 'text-primary bg-black/10'
-                    : 'text-primary/80 hover:text-primary hover:bg-black/5'
-                }`}
+                      ? 'text-primary bg-black/10'
+                      : 'text-primary/80 hover:text-primary hover:bg-black/5'
+                  }`}
                 onClick={() => setMobileOpen(false)}
               >
                 <UserIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
@@ -323,28 +330,23 @@ export default function Navbar() {
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-navigation"
-                className={`lg:hidden ${
-                  searchOpen ? 'hidden' : 'flex'
-                } flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 ${
-                  isWhiteNav
+                className={`lg:hidden ${searchOpen ? 'hidden' : 'flex'
+                  } flex-col items-center justify-center w-8 h-8 sm:w-8.5 sm:h-8.5 gap-1 focus:outline-none cursor-pointer rounded-full transition-colors ml-0.5 ${isWhiteNav
                     ? 'text-white hover:bg-white/15'
                     : 'text-primary hover:bg-black/5'
-                }`}
+                  }`}
               >
                 <span
-                  className={`w-5 h-[1.5px] transition-all duration-300 ${
-                    isWhiteNav ? 'bg-white' : 'bg-primary'
-                  } ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`}
+                  className={`w-5 h-[1.5px] transition-all duration-300 ${isWhiteNav ? 'bg-white' : 'bg-primary'
+                    } ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`}
                 />
                 <span
-                  className={`w-5 h-[1.5px] transition-all duration-300 ${
-                    isWhiteNav ? 'bg-white' : 'bg-primary'
-                  } ${mobileOpen ? 'opacity-0' : ''}`}
+                  className={`w-5 h-[1.5px] transition-all duration-300 ${isWhiteNav ? 'bg-white' : 'bg-primary'
+                    } ${mobileOpen ? 'opacity-0' : ''}`}
                 />
                 <span
-                  className={`w-5 h-[1.5px] transition-all duration-300 ${
-                    isWhiteNav && !searchOpen ? 'bg-white' : 'bg-primary'
-                  } ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`}
+                  className={`w-5 h-[1.5px] transition-all duration-300 ${isWhiteNav && !searchOpen ? 'bg-white' : 'bg-primary'
+                    } ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`}
                 />
               </button>
             </div>
@@ -360,9 +362,8 @@ export default function Navbar() {
 
       {/* ── BACKDROP OVERLAY (Covers viewport below the navbar when search is open) ── */}
       <div
-        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 ${
-          searchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 ${searchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         onClick={() => setSearchOpen(false)}
         aria-hidden="true"
       />

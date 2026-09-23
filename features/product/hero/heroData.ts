@@ -24,9 +24,9 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     ctaText: 'Discover Formulas',
   },
   {
-    id: 'bioactive-nothing',
-    title: 'Living',
-    titleAccent: 'Formulas',
+    id: 'cellular-renewal',
+    title: 'Cellular',
+    titleAccent: 'Renewal',
     subtitle: 'Micro-Molecular Synergy',
     description:
       'High-potency botanical bioactives, targeted peptides, and antioxidant defense designed for deep cellular resilience and clarity.',
@@ -35,9 +35,9 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     ctaText: 'Discover Formulas',
   },
   {
-    id: 'bioactive-potency',
-    title: 'Living',
-    titleAccent: 'Formulas',
+    id: 'botanical-alchemy',
+    title: 'Botanical',
+    titleAccent: 'Alchemy',
     subtitle: 'Micro-Molecular Synergy',
     description:
       'High-potency botanical bioactives, targeted peptides, and antioxidant defense designed for deep cellular resilience and clarity.',
@@ -45,5 +45,4 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     tag: 'Formulation Mastery',
     ctaText: 'Discover Formulas',
   },
-
 ];

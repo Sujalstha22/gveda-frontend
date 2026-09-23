@@ -99,7 +99,7 @@ export default function ProductCard({
             />
 
             {/* 1. Base Product Image Stage */}
-            <div className="relative w-full aspect-square bg-warm-ivory  overflow-hidden pointer-events-none">
+            <div className="relative w-full aspect-square bg-warm-ivory overflow-hidden pointer-events-none">
                 <Image
                     src={product.image}
                     alt={product.name}
@@ -217,11 +217,10 @@ export default function ProductCard({
                         onClick={handleAddToCart}
                         disabled={added}
                         aria-label={added ? 'Added to bag' : `Add ${product.name} to bag`}
-                        className={`h-9 px-4 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 pointer-events-auto flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0 shadow-2xs ${
-                            added
+                        className={`h-9 px-4 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 pointer-events-auto flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0 shadow-2xs ${added
                                 ? 'bg-botanical-gold text-white border border-botanical-gold'
                                 : 'bg-primary text-white hover:bg-neutral-800 border border-primary'
-                        }`}
+                            }`}
                     >
                         {added ? (
                             <>

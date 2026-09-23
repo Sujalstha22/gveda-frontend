@@ -347,8 +347,7 @@ export default function ZoomAnimation({
 
         {/* Central Splitting Headline */}
         <h2
-          className="relative z-10 uppercase flex items-center justify-center  text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider pointer-events-none select-none whitespace-nowrap px-4 md:translate-x-8"
-          style={{ fontFamily: 'var(--font-galvero, "Galvero", "Galvero DEMO", serif)' }}
+          className="font-heading relative z-10 capitalize flex items-center justify-center  text-2xl min-[360px]:text-3xl min-[420px]:text-4xl sm:text-5xl md:text-6xl lg:text-[5.2vw] text-primary tracking-normal sm:tracking-wider pointer-events-none select-none whitespace-nowrap px-4 md:translate-x-8"
         >
           <span
             ref={titleLeftRef}

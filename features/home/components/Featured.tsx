@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useSyncExternalStore } from "react";
+import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import ProductCard from "@/features/product/components/ProductCard";
 import Title from "@/shared/ui/Title";
@@ -34,7 +35,7 @@ export default function Featured() {
 
   const subscribe = useCallback(
     (callback: () => void) => {
-      if (!emblaApi) return () => {};
+      if (!emblaApi) return () => { };
       emblaApi.on("select", callback);
       emblaApi.on("reInit", callback);
       return () => {
@@ -66,9 +67,21 @@ export default function Featured() {
   return (
     <section
       aria-label="Bestsellers Section"
-      className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-secondary/20"
+      className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-warm-ivory"
     >
-      <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
+      {/* ── Background Texture Image ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image
+          src="/images/home/bg-texture-b.jpeg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-70"
+          priority={false}
+        />
+      </div>
+
+      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Center Header: Title ── */}
         <Title
           eyebrow="Most Loved"
@@ -134,11 +147,10 @@ export default function Featured() {
                     onClick={() => scrollTo(index)}
                     aria-label={`Go to slide ${index + 1}`}
                     aria-current={selectedIndex === index ? "true" : undefined}
-                    className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${
-                      selectedIndex === index
-                        ? "w-7 lg:w-[1.8vw] bg-accent-gold"
-                        : "w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-accent-gold/50"
-                    }`}
+                    className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${selectedIndex === index
+                      ? "w-7 lg:w-[1.8vw] bg-accent-gold"
+                      : "w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-accent-gold/50"
+                      }`}
                   />
                 ))}
               </div>

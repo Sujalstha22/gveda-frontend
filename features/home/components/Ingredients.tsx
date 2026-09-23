@@ -77,6 +77,7 @@ export default function Ingredients() {
                         src={item.icon || "/vector/leaves.png"}
                         alt={`${item.title} Botanical Icon`}
                         fill
+                        sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 60px"
                         className="object-contain"
                       />
                     </div>
@@ -128,6 +129,7 @@ export default function Ingredients() {
                         src={item.icon || "/vector/leaves.png"}
                         alt={`${item.title} Botanical Icon`}
                         fill
+                        sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 60px"
                         className="object-contain"
                       />
                     </div>

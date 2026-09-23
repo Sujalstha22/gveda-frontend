@@ -754,8 +754,17 @@
 @font-face {
   font-family: "Inter";
   src: url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype-variations"),
-       url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
   font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Forum ── */
+@font-face {
+  font-family: "Forum";
+  src: url("/fonts/Forum/Forum-Regular.ttf") format("truetype");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -859,8 +868,11 @@
   --color-border-gold: var(--border-gold);
 
   /* Typography */
-  --font-primary: "inter", system-ui, -apple-system, sans-serif;
-  --font-heading: "astoria", serif;
+  /* --font-primary: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif; */
+  /* --font-primary: "Forum", Georgia, serif; */
+  --font-primary: "Inter", sans-serif;
+  --font-heading: "Libre Baskerville", "Libre", Georgia, serif;
+  /* --font-heading: "astoria", serif; */
   /* --font-heading: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif; */
   --font-secondary: "Madison-Sauvage", Georgia, serif;
   --font-madison: "Madison-Sauvage", cursive, Georgia, serif;
@@ -879,8 +891,10 @@
   --font-rekova: "Rekova Marove", "Rekova-Marove", "RekovaMarove", serif;
   --font-rekova-marove: "Rekova Marove", "Rekova-Marove", "RekovaMarove", serif;
   --font-inter: "Inter", sans-serif;
+  --font-forum: "Forum", Georgia, serif;
+  --font-libre: "Libre Baskerville", "Libre", Georgia, serif;
+  --font-libre-baskerville: "Libre Baskerville", "Libre", Georgia, serif;
 }
-
 
 /* ==========================================================================
    BASE STYLES & HIERARCHY
@@ -913,19 +927,19 @@ body {
   }
 
   /* ── Typography Hierarchy ── */
-  /* H1: Bold (700) */
+  /* H1: Bold (500) */
   h1 {
     font-family: var(--font-heading);
-    font-weight: 700;
+    font-weight: 500;
     color: var(--text-heading);
     line-height: 1.15;
     letter-spacing: -0.02em;
   }
 
-  /* H2: SemiBold (600) */
+  /* H2: SemiBold (400) */
   h2 {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-heading);
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -934,7 +948,7 @@ body {
   /* H3: Medium (500) */
   h3 {
     font-family: var(--font-heading);
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-heading);
     line-height: 1.35;
   }
@@ -944,7 +958,7 @@ body {
   h5,
   h6 {
     font-family: var(--font-heading);
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-heading);
     line-height: 1.4;
   }
@@ -1186,4 +1200,13 @@ video::-webkit-media-controls-enclosure {
 
 .font-inter {
   font-family: "Inter", sans-serif !important;
+}
+
+.font-forum {
+  font-family: "Forum", Georgia, serif !important;
+}
+
+.font-libre,
+.font-libre-baskerville {
+  font-family: "Libre Baskerville", "Libre", Georgia, serif !important;
 }
