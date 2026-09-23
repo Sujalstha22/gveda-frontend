@@ -87,7 +87,7 @@ export default function ProductCard({
     return (
         <div
             onClick={handleCardClick}
-            className={`group relative flex flex-col w-full h-full rounded-lg overflow-hidden bg-white transition-all duration-300 cursor-pointer border border-secondary/30 hover:border-secondary hover:shadow-subtle ${className}`}
+            className={`group relative flex flex-col w-full h-full rounded-lg overflow-hidden bg-warm-ivory transition-all duration-300 cursor-pointer border border-primary/5 hover:border-secondary/25 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${className}`}
         >
             {/* Base Link for SEO & right-click / middle-click tab support */}
             <Link
@@ -99,7 +99,7 @@ export default function ProductCard({
             />
 
             {/* 1. Base Product Image Stage */}
-            <div className="relative w-full aspect-square bg-transparent overflow-hidden pointer-events-none">
+            <div className="relative w-full aspect-square bg-warm-ivory  overflow-hidden pointer-events-none">
                 <Image
                     src={product.image}
                     alt={product.name}
@@ -110,7 +110,7 @@ export default function ProductCard({
             </div>
 
             {/* 2. Product Details & Actions (Editorial Split Layout) */}
-            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-transparent z-10 border-t border-secondary/15">
+            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-transparent z-10 border-t border-primary/5">
                 <div className="w-full flex flex-col items-start text-left">
                     {/* Category Eyebrow */}
                     {product.category && product.category.toLowerCase() !== 'gveda' && (
@@ -188,7 +188,7 @@ export default function ProductCard({
                 </div>
 
                 {/* 3. Bottom Editorial Row: Price & Volume on Left, Compact Add Button on Right */}
-                <div className="mt-4 pt-3.5 border-t border-secondary/15 w-full flex items-center justify-between gap-3">
+                <div className="mt-4 pt-3.5 border-t border-primary/5 w-full flex items-center justify-between gap-3">
                     {/* Left: Price & Size/Volume */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-baseline gap-1.5">
