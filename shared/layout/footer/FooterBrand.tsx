@@ -42,11 +42,11 @@ export default function FooterBrand() {
           alt="Gveda - Whisper of Nature"
           width={200}
           height={58}
-          className="object-contain w-40 sm:w-48 lg:w-[12vw] h-auto"
+          className="object-contain w-40 sm:w-48 lg:w-[12vw] h-auto brightness-0 invert"
         />
       </Link>
 
-      <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.8vw] lg:leading-[1.6] text-primary/75 max-w-xs lg:max-w-[20vw] mt-4 lg:mt-[1vw] leading-relaxed">
+      <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.8vw] lg:leading-[1.6] text-white/80 max-w-xs lg:max-w-[20vw] mt-4 lg:mt-[1vw] leading-relaxed">
         Organic ingredients that nourish the skin and promote its natural radiance.
       </p>
 
@@ -58,7 +58,7 @@ export default function FooterBrand() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={social.label}
-            className="w-10 h-10 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded lg:rounded-[0.3vw] border border-black/25 flex items-center justify-center text-primary/80 hover:text-white hover:bg-primary hover:border-primary transition-all duration-200"
+            className="w-10 h-10 sm:w-11 sm:h-11 lg:w-[2.6vw] lg:h-[2.6vw] rounded lg:rounded-[0.3vw] border border-white/20 flex items-center justify-center text-white/80 hover:text-rich-black hover:bg-white hover:border-white transition-all duration-200"
           >
             <SocialIcon type={social.type} />
           </a>

@@ -31,15 +31,15 @@ export default function CarouselControls({
   return (
     <motion.div
       key={`controls-${pathname}`}
-      initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+      initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
       animate={
         heroReady
           ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-          : { opacity: 0, y: 40, filter: 'blur(8px)' }
+          : { opacity: 0, y: 30, filter: 'blur(4px)' }
       }
       transition={{
-        duration: 1.4,
-        delay: 0.2,
+        duration: 0.85,
+        delay: 0.1,
         ease: [0.16, 1, 0.3, 1],
       }}
       className="absolute bottom-5 sm:bottom-8 md:bottom-12 lg:bottom-16 left-5 sm:left-8 md:left-auto right-5 sm:right-8 md:right-12 lg:right-16 z-30 pointer-events-auto select-none"

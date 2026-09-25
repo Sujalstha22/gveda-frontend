@@ -40,9 +40,8 @@ export default function CarouselSlides({
         className="absolute inset-0 w-full h-full z-10"
       >
         <div
-          className={`relative w-full h-full transform transition-transform duration-[10000ms] ease-out ${
-            !isTransitioning ? 'scale-105' : 'scale-100'
-          }`}
+          className={`relative w-full h-full transform transition-transform duration-[10000ms] ease-out ${!isTransitioning ? 'scale-105' : 'scale-100'
+            }`}
         >
           <Image
             src={previousSlide.image}
@@ -53,8 +52,6 @@ export default function CarouselSlides({
             className="object-cover object-center brightness-[0.88]"
             onLoad={() => setHeroImageLoaded(true)}
           />
-          {/* Soft luxury vignette */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
         </div>
       </div>
 
@@ -62,9 +59,8 @@ export default function CarouselSlides({
       <div
         ref={incomingSlideRef}
         key={`incoming-${activeSlide.id}`}
-        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
-          isTransitioning ? 'opacity-100 z-20' : 'opacity-0 z-0'
-        }`}
+        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${isTransitioning ? 'opacity-100 z-20' : 'opacity-0 z-0'
+          }`}
         style={{
           maskImage: 'url(/images/mask_side_s.webp)',
           WebkitMaskImage: 'url(/images/mask_side_s.webp)',
@@ -78,9 +74,8 @@ export default function CarouselSlides({
       >
         <div
           ref={activeSlideImageRef}
-          className={`relative w-full h-full transform transition-transform duration-[10000ms] ease-out ${
-            isTransitioning ? 'scale-105' : 'scale-100'
-          }`}
+          className={`relative w-full h-full transform transition-transform duration-[10000ms] ease-out ${isTransitioning ? 'scale-105' : 'scale-100'
+            }`}
         >
           <Image
             src={activeSlide.image}
@@ -90,10 +85,17 @@ export default function CarouselSlides({
             sizes="100vw"
             className="object-cover object-center brightness-[0.88]"
           />
-          {/* Soft luxury vignette */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
         </div>
       </div>
+
+      {/* Persistent global overlay over images that stays continuous across all slide transitions */}
+      <div className="absolute inset-0 bg-black/30 z-30 pointer-events-none" />
+
+      {/* Bottom linear gradient to transition seamlessly into next section */}
+      <div
+        className="absolute bottom-0 inset-x-0 h-48 sm:h-64 lg:h-80 bg-linear-to-b from-transparent via-[#0F0D0E]/70 to-[#0F0D0E] z-30 pointer-events-none"
+        aria-hidden="true"
+      />
     </div>
   );
 }

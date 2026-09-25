@@ -20,15 +20,15 @@ export default function CarouselEditorial({ }: CarouselEditorialProps) {
       <div className="overflow-hidden py-1">
         <motion.h1
           key={`hero-title-${pathname}`}
-          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          initial={{ opacity: 0, y: 35, filter: "blur(6px)" }}
           animate={
             heroReady
               ? { opacity: 1, y: 0, filter: "blur(0px)" }
-              : { opacity: 0, y: 40, filter: "blur(8px)" }
+              : { opacity: 0, y: 35, filter: "blur(6px)" }
           }
           transition={{
-            duration: 1.4,
-            delay: 0.35,
+            duration: 0.85,
+            delay: 0.1,
             ease: [0.16, 1, 0.3, 1],
           }}
           className="font-heading font-medium text-2xl min-[360px]:text-3xl min-[410px]:text-4xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-9xl text-white tracking-tight leading-[1.05] md:leading-none"

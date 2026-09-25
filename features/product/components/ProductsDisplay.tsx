@@ -83,7 +83,7 @@ const ProductsDisplay: React.FC = () => {
   };
 
   return (
-    <section id="products-display-section" className="w-full scroll-mt-24 py-16 sm:py-20 lg:py-[5vw] select-none bg-secondary/20">
+    <section id="products-display-section" className="w-full scroll-mt-24 py-16 sm:py-20 lg:py-[5vw] select-none bg-warm-ivory">
       <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
         {/* ── Section Header ── */}
         <Title
@@ -100,11 +100,10 @@ const ProductsDisplay: React.FC = () => {
               type="button"
               onClick={() => setSelectedCategory("all")}
               aria-pressed={selectedCategory === "all"}
-              className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
-                selectedCategory === "all"
+              className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${selectedCategory === "all"
                   ? "bg-primary text-white shadow-xs"
                   : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
-              }`}
+                }`}
             >
               All
             </button>
@@ -117,11 +116,10 @@ const ProductsDisplay: React.FC = () => {
                   type="button"
                   onClick={() => setSelectedCategory(cat.slug)}
                   aria-pressed={isSelected}
-                  className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${
-                    isSelected
+                  className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${isSelected
                       ? "bg-primary text-white shadow-xs"
                       : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
-                  }`}
+                    }`}
                 >
                   {cat.name.trim()}
                 </button>

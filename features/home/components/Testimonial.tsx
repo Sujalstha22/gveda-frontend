@@ -124,7 +124,7 @@ export default function Testimonial() {
     return (
         <section
             aria-label="Customer Testimonials"
-            className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-warm-ivory"
         >
             <div className="w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Section Header ── */}
@@ -140,22 +140,22 @@ export default function Testimonial() {
 
                     {/* Embla Viewport */}
                     <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing px-1 sm:px-2">
-                        <div className="flex -ml-4 sm:-ml-6 lg:ml-[-2vw] pt-14 sm:pt-16 lg:pt-[3.5vw] pb-8 lg:pb-[2vw]">
+                        <div className="flex -ml-4 sm:-ml-6 lg:ml-[-2vw] pt-14 sm:pt-16 lg:pt-[3.5vw] pb-8 lg:pb-[2vw] ">
                             {TESTIMONIALS.map((item, index) => (
                                 <div
                                     key={item.id}
-                                    className="flex-[0_0_100%] sm:flex-[0_0_55%] md:flex-[0_0_46%] lg:flex-[0_0_34%] min-w-0 pl-4 sm:pl-6 lg:pl-[2vw]"
+                                    className="flex-[0_0_100%] sm:flex-[0_0_55%] md:flex-[0_0_46%] lg:flex-[0_0_30%] min-w-0 pl-4 sm:pl-6 lg:pl-[2vw] "
                                 >
                                     {/* Testimonial Card */}
                                     <div
                                         onClick={() => scrollTo(index)}
-                                        className={`relative bg-white/95 rounded-3xl lg:rounded-[1.2vw] border border-black/5 p-6 pt-14 sm:p-8 sm:pt-16 lg:p-[1.8vw] lg:pt-[3vw] flex flex-col items-center text-center transition-all duration-500 cursor-pointer h-full justify-between  ${selectedIndex === index
+                                        className={`relative  rounded-3xl lg:rounded-[1.2vw] border border-secondary/85 p-6 pt-14 sm:p-8 sm:pt-16 lg:p-[1.8vw] lg:pt-[3vw] flex flex-col items-center text-center transition-all duration-500 cursor-pointer h-full justify-between  ${selectedIndex === index
                                             ? 'border-black/10 scale-[1.03] '
                                             : 'opacity-85 hover:opacity-100'
                                             }`}
                                     >
                                         {/* Overlapping Top Circular Avatar */}
-                                        <div className="absolute -top-10 sm:-top-12 lg:top-[-3vw] left-1/2 -translate-x-1/2 w-20 h-20 sm:w-24 sm:h-24 lg:w-[6vw] lg:h-[6vw] rounded-full border-4 lg:border-[0.22vw] border-white overflow-hidden bg-secondary/20 shadow-xs">
+                                        <div className="absolute -top-10 sm:-top-12 lg:top-[-3vw] left-1/2 -translate-x-1/2 w-20 h-20 sm:w-24 sm:h-24 lg:w-[6vw] lg:h-[6vw] rounded-full border-4 lg:border-[0.22vw] border-secondary/85 overflow-hidden shadow-xs">
                                             <Image
                                                 src={item.avatar}
                                                 alt={item.name}
@@ -238,11 +238,10 @@ export default function Testimonial() {
                                         onClick={() => scrollTo(index)}
                                         aria-label={`Go to testimonial ${index + 1}`}
                                         aria-current={selectedIndex === index ? 'true' : undefined}
-                                        className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${
-                                            selectedIndex === index
-                                                ? 'w-7 lg:w-[1.8vw] bg-accent-gold'
-                                                : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-accent-gold/50'
-                                        }`}
+                                        className={`h-2 lg:h-[0.4vw] rounded-full transition-all duration-300 cursor-pointer ${selectedIndex === index
+                                            ? 'w-7 lg:w-[1.8vw] bg-accent-gold'
+                                            : 'w-2 lg:w-[0.4vw] bg-primary/20 hover:bg-accent-gold/50'
+                                            }`}
                                     />
                                 ))}
                             </div>

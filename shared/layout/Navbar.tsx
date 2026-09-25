@@ -77,19 +77,41 @@ export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
   const { heroReady } = usePreloader();
-  // Slow, controlled entrance from bottom on page load & on route transitions,
-  // then snap back to the fast duration used for the scroll show/hide behavior.
-  const [entered, setEntered] = useState(false);
+
+  // Smooth entrance fade-in & slide-down once hero/preloader is ready on each page
+  const [navEntered, setNavEntered] = useState(false);
+
   useEffect(() => {
-    if (!heroReady) return;
-    setEntered(false);
-    const timer = setTimeout(() => setEntered(true), 2200);
+    if (!heroReady) {
+      setNavEntered(false);
+      return;
+    }
+
+    // Minimal delay (200ms) right after preloader finishes or route transition enters
+    const timer = setTimeout(() => {
+      setNavEntered(true);
+    }, 200);
+
     return () => clearTimeout(timer);
   }, [pathname, heroReady]);
 
-  // Only the home page ('/') has a dark cinematic carousel hero requiring white text/logo;
-  // all other pages (/about, /product, /blog, /contact, etc.) use black text & black logo.
-  const isDarkContentPage = pathname !== '/';
+  // Pages with light top backgrounds that require dark text/logo
+  const LIGHT_TOP_PAGES = [
+    '/product',
+    '/blog',
+    '/contact',
+    '/gallery',
+    '/events',
+    '/cart',
+    '/checkout',
+    '/login',
+    '/policies',
+  ];
+
+  const isLightTopPage = LIGHT_TOP_PAGES.some(
+    (prefix) => pathname === prefix || pathname?.startsWith(prefix + '/')
+  );
+
   const isSolidPage =
     pathname?.startsWith('/product/') ||
     pathname === '/gallery' ||
@@ -97,11 +119,18 @@ export default function Navbar() {
     pathname === '/events' ||
     pathname?.startsWith('/events/');
   const isTransparent = !isSolidPage && !scrolled && !mobileOpen && !searchOpen;
-  const isWhiteNav = isTransparent && !isDarkContentPage;
 
-  // Auto-close search when route changes
+  // Dark background pages (home '/', '/about', and 404/not-found) use white logo, white text & white icons
+  const isWhiteNav = isTransparent && !isLightTopPage;
+
+  // Reset search, mobile, and sync scroll state on route changes
   useEffect(() => {
     setSearchOpen(false);
+    setMobileOpen(false);
+    setVisible(true);
+    if (typeof window !== 'undefined') {
+      setScrolled(window.scrollY > 80);
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -152,18 +181,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isNavVisible = heroReady && (visible || mobileOpen || searchOpen);
+  const isNavVisible = navEntered && (visible || mobileOpen || searchOpen);
 
   return (
     <>
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transform-gpu will-change-transform transition-all ${
-          entered
-            ? 'duration-300 ease-in-out'
-            : 'duration-[2200ms] ease-[cubic-bezier(0.22,1,0.36,1)]'
-        } ${
+        className={`fixed top-0 left-0 right-0 z-50 transform-gpu will-change-transform transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           searchOpen
             ? 'bg-[#F7F5F1] shadow-none'
             : isTransparent
@@ -172,9 +197,7 @@ export default function Navbar() {
         } ${
           isNavVisible
             ? 'translate-y-0 opacity-100 pointer-events-auto'
-            : !entered
-              ? 'translate-y-10 sm:translate-y-12 opacity-0 pointer-events-none'
-              : '-translate-y-full opacity-0 pointer-events-none'
+            : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">

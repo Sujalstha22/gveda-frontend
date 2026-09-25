@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/shared/ui/Button";
 import Title from "@/shared/ui/Title";
@@ -116,19 +117,20 @@ const ContactForm = () => {
   const inputClass = (field: string) =>
     `w-full bg-transparent border-0 border-b ${errors[field]
       ? "border-b-red-400 focus:border-b-red-400"
-      : "border-b-black/50 focus:border-b-primary"
-    } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.85vw] text-primary placeholder:text-primary/45 font-primary outline-none focus:outline-none focus:ring-0 transition-colors rounded-none`;
+      : "border-b-black/20 focus:border-b-primary"
+    } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.88vw] text-primary placeholder:text-primary/85 font-primary outline-none focus:outline-none focus:ring-0 transition-colors rounded-none`;
 
   return (
     <section
       aria-label="Contact Form"
-      className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-[5vw] my-12 sm:my-16 lg:my-[4vw] select-none"
+      className="relative w-full px-4 sm:px-6 lg:px-8 my-14 sm:my-20 lg:my-[5vw] select-none"
     >
       {/* ── Section Title ── */}
       <Title
+        eyebrow="Get In Touch"
         title="What is on your mind?"
         description="We’d love to hear from you. Send us a message and our specialists will be in touch."
-        className="mb-10 sm:mb-14 lg:mb-[3.5vw]"
+        className="mb-10 sm:mb-14 lg:mb-[3vw]"
       />
 
       {/* ── Success Modal ── */}
@@ -194,110 +196,131 @@ const ContactForm = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Underline Form ── */}
-      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 lg:space-y-[2vw]">
-        {/* Row 1: First Name & Last Name */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 lg:gap-[3vw]">
-          <div className="flex flex-col">
-            <input
-              type="text"
-              id="firstName"
-              placeholder="First name"
-              value={form.firstName}
-              onChange={handleChange}
-              className={inputClass("firstName")}
-            />
-            {errors.firstName && (
-              <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
-                {errors.firstName}
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <input
-              type="text"
-              id="lastName"
-              placeholder="Last name"
-              value={form.lastName}
-              onChange={handleChange}
-              className={inputClass("lastName")}
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
-                {errors.lastName}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Row 2: Phone & Email */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 lg:gap-[3vw]">
-          <div className="flex flex-col">
-            <input
-              type="tel"
-              id="phone"
-              placeholder="Phone"
-              value={form.phone}
-              onChange={handleChange}
-              className={inputClass("phone")}
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
-                {errors.phone}
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className={inputClass("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
-                {errors.email}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Row 3: Message Textarea */}
-        <div className="flex flex-col">
-          <textarea
-            id="message"
-            placeholder="Send us your message"
-            rows={5}
-            value={form.message}
-            onChange={handleChange}
-            className={`w-full bg-transparent border-0 border-b ${errors.message
-              ? "border-b-red-400 focus:border-b-red-400"
-              : "border-b-black/50 focus:border-b-primary"
-              } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.85vw] text-primary placeholder:text-primary/45 font-primary outline-none focus:outline-none focus:ring-0 transition-colors resize-none rounded-none`}
+      {/* ── 50vw White Card with Subtle Botanical Accents ── */}
+      <div className="relative w-full max-w-[94vw] lg:w-[70vw] mx-auto bg-secondary-light rounded-2xl sm:rounded-3xl lg:rounded-[1.6vw] p-8 sm:p-12 lg:p-[3.5vw] border border-[#ECE4DA] shadow-[0_10px_40px_rgba(0,0,0,0.03)] overflow-hidden">
+        {/* Subtle Botanical Corner Elements */}
+        <div className="absolute -top-8 -right-8 w-32 h-32 lg:w-[12vw] lg:h-[12vw] opacity-15 pointer-events-none select-none z-0">
+          <Image
+            src="/vector/leaves.png"
+            alt=""
+            fill
+            className="object-contain rotate-45"
           />
-          {errors.message && (
-            <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
-              {errors.message}
-            </p>
-          )}
+        </div>
+        <div className="absolute -bottom-8 -left-8 w-28 h-28 lg:w-[10vw] lg:h-[10vw] opacity-10 pointer-events-none select-none z-0">
+          <Image
+            src="/vector/fl.png"
+            alt=""
+            fill
+            className="object-contain -rotate-12"
+          />
         </div>
 
-        {/* Bottom Actions: Right-aligned Send Button */}
-        <div className="flex items-center justify-end pt-4 sm:pt-6 lg:pt-[1.5vw]">
-          <Button
-            type="submit"
-            disabled={loading}
-            variant="primary"
-            className="px-8 sm:px-10 lg:px-[2.5vw] py-3 lg:py-[0.7vw] rounded-full text-xs sm:text-sm lg:text-[0.8vw] tracking-wider uppercase"
-          >
-            {loading ? "Sending..." : "Send"}
-          </Button>
-        </div>
-      </form>
+        {/* ── Form Inputs ── */}
+        <form onSubmit={handleSubmit} className="relative z-10 space-y-6 sm:space-y-8 lg:space-y-[2vw]">
+          {/* Row 1: First Name & Last Name */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 lg:gap-[3vw]">
+            <div className="flex flex-col">
+              <input
+                type="text"
+                id="firstName"
+                placeholder="First name"
+                value={form.firstName}
+                onChange={handleChange}
+                className={inputClass("firstName")}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
+                  {errors.firstName}
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Last name"
+                value={form.lastName}
+                onChange={handleChange}
+                className={inputClass("lastName")}
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
+                  {errors.lastName}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Row 2: Phone & Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 lg:gap-[3vw]">
+            <div className="flex flex-col">
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Phone"
+                value={form.phone}
+                onChange={handleChange}
+                className={inputClass("phone")}
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
+                  {errors.phone}
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                className={inputClass("email")}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
+                  {errors.email}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Row 3: Message Textarea */}
+          <div className="flex flex-col">
+            <textarea
+              id="message"
+              placeholder="Send us your message"
+              rows={4}
+              value={form.message}
+              onChange={handleChange}
+              className={`w-full bg-transparent border-0 border-b ${errors.message
+                ? "border-b-red-400 focus:border-b-red-400"
+                : "border-b-black/20 focus:border-b-primary"
+                } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.88vw] text-primary placeholder:text-primary/80 font-primary outline-none focus:outline-none focus:ring-0 transition-colors resize-none rounded-none`}
+            />
+            {errors.message && (
+              <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
+                {errors.message}
+              </p>
+            )}
+          </div>
+
+          {/* Bottom Actions: Right-aligned Send Button */}
+          <div className="flex items-center justify-end pt-4 sm:pt-6 lg:pt-[1.5vw]">
+            <Button
+              type="submit"
+              disabled={loading}
+              variant="primary"
+              className="px-8 sm:px-10 lg:px-[2.5vw] py-3 lg:py-[0.7vw] rounded-full text-xs sm:text-sm lg:text-[0.8vw] tracking-wider uppercase"
+            >
+              {loading ? "Sending..." : "Send"}
+            </Button>
+          </div>
+        </form>
+      </div>
     </section>
   );
 };

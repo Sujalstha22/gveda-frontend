@@ -72,11 +72,11 @@ export default function Featured() {
       {/* ── Background Texture Image ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image
-          src="/images/home/bg-texture-b.jpeg"
+          src="/images/home/BG_IMAGE_1.png"
           alt=""
           fill
           sizes="100vw"
-          className="object-cover object-center opacity-70"
+          className="object-cover object-center opacity-30"
           priority={false}
         />
       </div>

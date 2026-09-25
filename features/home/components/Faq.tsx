@@ -53,14 +53,14 @@ export default function Faq() {
 
     return (
         <section
-            className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-secondary/20"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] overflow-hidden select-none bg-warm-ivory"
         >
             <div className="w-full max-w-4xl lg:max-w-[58vw] mx-auto px-4 sm:px-8 lg:px-0">
 
                 {/* ── Section Header ── */}
                 <Title
                     eyebrow="Clarity & Care"
-                    title="Frequently Asked Questions"
+                    title="Know Your Formula"
                     description="Everything you need to know about our clean botanical formulations and daily wellness rituals."
                 />
 
@@ -72,7 +72,7 @@ export default function Faq() {
                         return (
                             <div
                                 key={item.id}
-                                className="w-full bg-white/95 rounded-xl lg:rounded-[0.7vw] border border-black/5 overflow-hidden transition-all duration-300 hover:border-black/10"
+                                className="w-full bg-secondary/20 rounded-xl lg:rounded-[0.7vw] border border-secondary-dark/5 overflow-hidden transition-all duration-300 hover:border-black/10"
                             >
                                 <button
                                     type="button"

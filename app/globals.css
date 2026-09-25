@@ -769,6 +769,80 @@
   font-display: swap;
 }
 
+/* ── The Seasons ── */
+@font-face {
+  font-family: "The Seasons";
+  src: url("/fonts/theSeasons/the_seasons.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "The Seasons";
+  src: url("/fonts/theSeasons/the_seasons_itallic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "The-Seasons";
+  src: url("/fonts/theSeasons/the_seasons.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "The-Seasons";
+  src: url("/fonts/theSeasons/the_seasons_itallic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "theSeasons";
+  src: url("/fonts/theSeasons/the_seasons.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "theSeasons";
+  src: url("/fonts/theSeasons/the_seasons_itallic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Great Vibes (Script / Calligraphic Accent) ── */
+@font-face {
+  font-family: "Great Vibes";
+  src: url("/fonts/great-vibes/GreatVibes-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Great-Vibes";
+  src: url("/fonts/great-vibes/GreatVibes-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GreatVibes";
+  src: url("/fonts/great-vibes/GreatVibes-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ==========================================================================
    ROOT DESIGN TOKENS (GVEDA Official Brand Guidelines v1.2)
    ========================================================================== */
@@ -871,7 +945,9 @@
   /* --font-primary: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif; */
   /* --font-primary: "Forum", Georgia, serif; */
   --font-primary: "Inter", sans-serif;
-  --font-heading: "Libre Baskerville", "Libre", Georgia, serif;
+
+  --font-heading: "The Seasons", "theSeasons", serif;
+  /* --font-heading: "Libre Baskerville", "Libre", serif; */
   /* --font-heading: "astoria", serif; */
   /* --font-heading: "Orange Avenue", "Orange-Avenue", "OrangeAvenue", Georgia, serif; */
   --font-secondary: "Madison-Sauvage", Georgia, serif;
@@ -894,6 +970,11 @@
   --font-forum: "Forum", Georgia, serif;
   --font-libre: "Libre Baskerville", "Libre", Georgia, serif;
   --font-libre-baskerville: "Libre Baskerville", "Libre", Georgia, serif;
+  --font-the-seasons: "The Seasons", "The-Seasons", "theSeasons", serif;
+  --font-seasons: "The Seasons", "The-Seasons", "theSeasons", serif;
+  --font-great-vibes: "Great Vibes", "GreatVibes", cursive, Georgia, serif;
+  --font-greatvibes: "Great Vibes", "GreatVibes", cursive, Georgia, serif;
+  --font-vibes: "Great Vibes", "GreatVibes", cursive, Georgia, serif;
 }
 
 /* ==========================================================================
@@ -996,6 +1077,13 @@ body {
   font-family: "Cormorant Garamond", Georgia, serif !important;
   font-style: italic;
   font-weight: 500;
+}
+
+/* ── Great Vibes Script Utility ── */
+.font-great-vibes,
+.font-greatvibes,
+.font-vibes {
+  font-family: "Great Vibes", "GreatVibes", cursive, Georgia, serif !important;
 }
 
 /* ── Caption / Eyebrow: Light (300) ── */
@@ -1209,4 +1297,10 @@ video::-webkit-media-controls-enclosure {
 .font-libre,
 .font-libre-baskerville {
   font-family: "Libre Baskerville", "Libre", Georgia, serif !important;
+}
+
+.font-the-seasons,
+.font-seasons,
+.font-theseasons {
+  font-family: "The Seasons", "The-Seasons", "theSeasons", serif !important;
 }

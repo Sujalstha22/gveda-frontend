@@ -8,7 +8,7 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     subtitle: 'Synchronized Botanical Science',
     description:
       'Pure, cold-extracted herbal formulations engineered to nourish, protect, and restore biological harmony to modern skin and hair.',
-    image: '/images/products/product-hero-3.jpeg',
+    image: '/images/products/product-1.png',
     tag: 'Botanical Alchemy',
     ctaText: 'Explore Collection',
   },

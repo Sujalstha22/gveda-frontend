@@ -21,6 +21,8 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   useLayoutEffect(() => {
     if (showPreloader) {
       setHeroReady(false);
+    } else {
+      setHeroReady(true);
     }
   }, [showPreloader, setHeroReady]);
 

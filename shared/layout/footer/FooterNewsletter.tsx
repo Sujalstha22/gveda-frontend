@@ -120,10 +120,10 @@ export default function FooterNewsletter() {
 
   return (
     <div className="flex flex-col items-start w-full">
-      <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-primary mb-3 sm:mb-4 lg:mb-[0.8vw]">
+      <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-white mb-3 sm:mb-4 lg:mb-[0.8vw]">
         Stay Connected
       </h3>
-      <p className="font-primary text-sm font-medium lg:text-[1vw] text-primary/70 leading-relaxed max-w-sm mb-4 lg:mb-[1vw]">
+      <p className="font-primary text-sm font-medium lg:text-[1vw] text-white/80 leading-relaxed max-w-sm mb-4 lg:mb-[1vw]">
         Be the first to discover botanical releases and exclusive skincare
         rituals.
       </p>
@@ -139,12 +139,12 @@ export default function FooterNewsletter() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="ENTER YOUR EMAIL"
             required
-            className="w-full bg-transparent border-b border-black/25 pb-2.5 pt-2 text-xs sm:text-sm lg:text-[0.8vw] font-primary placeholder:text-muted placeholder:tracking-widest uppercase focus:outline-none focus:border-primary text-primary transition-colors"
+            className="w-full bg-transparent border-b border-white/25 pb-2.5 pt-2 text-xs sm:text-sm lg:text-[0.8vw] font-primary placeholder:text-white/50 placeholder:tracking-widest uppercase focus:outline-none focus:border-white text-white transition-colors"
           />
         </div>
         <Button
           type="submit"
-          variant="primary"
+          variant="secondary"
           className="h-11 sm:h-12 lg:h-[2.6vw] px-6 sm:px-7 lg:px-[1.6vw] text-xs lg:text-[0.75vw] tracking-wider uppercase shrink-0 font-medium cursor-pointer"
         >
           {subscribed ? "Subscribed ✓" : "Subscribe"}
@@ -159,7 +159,7 @@ export default function FooterNewsletter() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={social.label}
-            className="w-12 h-12 sm:w-[52px] sm:h-[52px] lg:w-[2.8vw] lg:h-[2.8vw] rounded-full border border-black/20 flex items-center justify-center text-primary/80 hover:text-white hover:bg-primary hover:border-primary transition-all duration-200 cursor-pointer shadow-xs"
+            className="w-12 h-12 sm:w-[52px] sm:h-[52px] lg:w-[2.8vw] lg:h-[2.8vw] rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:text-rich-black hover:bg-white hover:border-white transition-all duration-200 cursor-pointer shadow-xs"
           >
             <SocialIcon type={social.type} />
           </a>

@@ -206,7 +206,7 @@ export default function CarouselHero() {
       />
 
       {/* ── GRADIENT OVERLAY (Bottom to Top: deep contrast for bottom text, natural luminous top) ── */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/20 to-transparent sm:from-black/45 sm:via-black/10 sm:to-transparent z-[25] pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-t from-[#0F0D0E]/80 via-black/30 to-transparent sm:from-[#0F0D0E]/60 sm:via-black/15 sm:to-transparent z-[25] pointer-events-none" />
 
       {/* ── EDITORIAL CONTENT OVERLAY (Bottom Left) ── */}
       <CarouselEditorial activeSlide={activeSlide} />
