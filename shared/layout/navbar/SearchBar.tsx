@@ -148,23 +148,15 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [isDebouncing, setIsDebouncing] = useState(false);
+  const isDebouncing = query.trim() !== debouncedQuery;
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Debounce search input to prevent rapid refetches
   useEffect(() => {
     const trimmed = query.trim();
-    if (!trimmed) {
-      setDebouncedQuery("");
-      setIsDebouncing(false);
-      return;
-    }
-
-    setIsDebouncing(true);
     const handler = setTimeout(() => {
       setDebouncedQuery(trimmed);
-      setIsDebouncing(false);
-    }, 350);
+    }, trimmed ? 350 : 0);
 
     return () => clearTimeout(handler);
   }, [query]);

@@ -31,34 +31,29 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const LOCAL_STORAGE_KEY = 'gveda_cart_v1';
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+const getStoredCart = (): CartItem[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (e) {
+    console.error('Failed to load cart from localStorage:', e);
+    return [];
+  }
+};
 
-  // Load from localStorage on mount
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
-        setItems(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.error('Failed to load cart from localStorage:', e);
-    } finally {
-      setIsInitialized(true);
-    }
-  }, []);
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [items, setItems] = useState<CartItem[]>(() => getStoredCart());
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Save to localStorage whenever items change
   useEffect(() => {
-    if (!isInitialized) return;
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
     } catch (e) {
       console.error('Failed to save cart to localStorage:', e);
     }
-  }, [items, isInitialized]);
+  }, [items]);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);

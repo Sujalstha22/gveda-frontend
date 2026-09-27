@@ -29,14 +29,23 @@ export default function Herov2({
 
     // Preloader synchronization: notify context that hero image is ready
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const img = new window.Image();
-            img.src = imageSrc;
-            if (img.complete) {
-                setIsLoaded(true);
-                setHeroImageLoaded(true);
-            }
+        if (typeof window === "undefined") return;
+        let active = true;
+        const img = new window.Image();
+        const onLoad = () => {
+            if (!active) return;
+            setIsLoaded(true);
+            setHeroImageLoaded(true);
+        };
+        img.onload = onLoad;
+        img.src = imageSrc;
+        if (img.complete) {
+            requestAnimationFrame(onLoad);
         }
+        return () => {
+            active = false;
+            img.onload = null;
+        };
     }, [imageSrc, setHeroImageLoaded]);
 
     const handleImageLoad = () => {

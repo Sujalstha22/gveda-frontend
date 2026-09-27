@@ -22,12 +22,11 @@ export default function CarouselHero() {
   // References for animation state
   const animRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
-  const waveCountRef = useRef<number>(Math.random() * Math.PI);
+  const waveCountRef = useRef<number>(0);
   const incomingSlideRef = useRef<HTMLDivElement | null>(null);
   const activeSlideImageRef = useRef<HTMLDivElement | null>(null);
 
   // Autoplay timer references
-  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const progressAnimRef = useRef<number | null>(null);
   const progressStartRef = useRef<number | null>(null);
 
@@ -115,7 +114,6 @@ export default function CarouselHero() {
   // Autoplay and progress loop
   useEffect(() => {
     if (isTransitioning) {
-      if (autoplayTimerRef.current) clearTimeout(autoplayTimerRef.current);
       if (progressAnimRef.current)
         cancelAnimationFrame(progressAnimRef.current);
       return;
@@ -139,9 +137,9 @@ export default function CarouselHero() {
     progressAnimRef.current = requestAnimationFrame(updateProgress);
 
     return () => {
-      if (progressAnimRef.current)
+      if (progressAnimRef.current) {
         cancelAnimationFrame(progressAnimRef.current);
-      if (autoplayTimerRef.current) clearTimeout(autoplayTimerRef.current);
+      }
     };
   }, [currentIndex, isTransitioning, goToNext]);
 
@@ -149,9 +147,9 @@ export default function CarouselHero() {
   useEffect(() => {
     return () => {
       if (animRef.current) cancelAnimationFrame(animRef.current);
-      if (progressAnimRef.current)
+      if (progressAnimRef.current) {
         cancelAnimationFrame(progressAnimRef.current);
-      if (autoplayTimerRef.current) clearTimeout(autoplayTimerRef.current);
+      }
     };
   }, []);
 

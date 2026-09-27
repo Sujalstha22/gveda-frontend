@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { usePreloader } from "../context/PreloaderContext";
 
 // Generates a mathematically continuous sine wave path for any phase angle
@@ -25,9 +24,6 @@ function generateSinePath(phase: number): string {
 }
 
 export default function Audio() {
-  const pathname = usePathname();
-  const isResearchPage = pathname?.startsWith("/research");
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const pathRef = useRef<SVGPathElement | null>(null);
   const phaseRef = useRef(0);
@@ -117,25 +113,6 @@ export default function Audio() {
     return () =>
       window.removeEventListener("toggle-audio", handleToggle as EventListener);
   }, [setIsPlayingAudio]);
-
-  const toggleAudio = async () => {
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      setIsPlayingAudio(false);
-    } else {
-      try {
-        await audioRef.current.play();
-        setIsPlaying(true);
-        setIsPlayingAudio(true);
-      } catch {
-        setIsPlaying(false);
-        setIsPlayingAudio(false);
-      }
-    }
-  };
 
   return (
     <>

@@ -27,7 +27,6 @@ export default function CTA({
   secondaryText = "Discover The Science",
   secondaryHref = "/about",
   imageSrc = "/images/product/gveda.png",
-  variant = "primary",
   className = "",
 }: CTAProps) {
   return (

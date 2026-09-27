@@ -150,7 +150,7 @@ export default function CategoryProductv3() {
                 />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full">
-                {categoriesList.map((category, index) => {
+                {categoriesList.map((category) => {
                     const categoryHref = `/product?category=${encodeURIComponent(category.slug)}#products-display-section`;
 
                     return (

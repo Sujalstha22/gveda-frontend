@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import Title from "@/shared/ui/Title";
 
 const HeroSection = () => {
   return (

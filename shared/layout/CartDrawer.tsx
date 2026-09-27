@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/shared/context/CartContext';
 
+const emptySubscribe = () => () => {};
+
 export default function CartDrawer() {
   const { items, isCartOpen, closeCart, removeFromCart, updateQuantity, subtotal, totalItems } =
     useCart();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   // Lock body scroll when cart is open
   useEffect(() => {

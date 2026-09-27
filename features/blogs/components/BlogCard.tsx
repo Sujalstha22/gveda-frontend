@@ -18,10 +18,10 @@ const stripHtml = (html: string) =>
 const formatDate = (iso?: string) =>
     iso
         ? new Date(iso).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-          })
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        })
         : '';
 
 export default function BlogCard({
@@ -79,7 +79,7 @@ export default function BlogCard({
             <div className="w-full border-t border-[#EAEAEA]" />
 
             {/* Blog Details: Date, Title & Excerpt */}
-            <div className="w-full flex flex-col items-center text-center pt-5 pb-6 sm:pt-6 sm:pb-7 px-4 sm:px-6">
+            <div className="w-full flex flex-col items-start text-left pt-5 pb-6 sm:pt-6 sm:pb-7 px-4 sm:px-6">
                 {post.createdAt && (
                     <span className="font-primary text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-primary/60 font-medium mb-1.5">
                         {formatDate(post.createdAt)}

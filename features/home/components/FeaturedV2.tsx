@@ -115,11 +115,11 @@ export default function FeaturedV2() {
     return (
         <section
             aria-label="Featured Products Editorial Showcase"
-            className="relative w-full pt-14 sm:pt-20 lg:pt-[5vw] pb-16 sm:pb-24 lg:pb-[6vw] overflow-hidden select-none bg-warm-ivory"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-warm-ivory"
         >
-            <div className="relative z-10 w-full">
+            <div className="relative z-10 w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Top Header: Editorial Title ── */}
-                <div className="mb-8 sm:mb-12 lg:mb-[3vw] px-4 sm:px-8 lg:px-[5vw]">
+                <div className="mb-8 sm:mb-12 lg:mb-[3vw]">
                     <Title
                         eyebrow="Most Loved"
                         title="Our Botanical Best Sellers"
@@ -127,30 +127,25 @@ export default function FeaturedV2() {
                     />
                 </div>
 
-                {/* ── Editorial Pure CSS Grid Container Spanning Rows & Columns ── */}
-                <div className="relative w-full border-t border-b border-black/10">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
-                        {bestsellersList.map((product, index) => (
-                            <div
-                                key={product.id}
-                                className="min-w-0 border-b border-black/10 sm:border-r last:border-b-0 md:nth-[3n]:border-r-0 h-full"
-                            >
-                                <ProductCardV2
-                                    product={{
-                                        id: product.id,
-                                        name: product.name,
-                                        price: product.price,
-                                        comparePrice: product.comparePrice,
-                                        image: product.image,
-                                        category: product.category,
-                                        description: product.description,
-                                        slug: product.slug,
-                                    }}
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                />
-                            </div>
-                        ))}
-                    </div>
+                {/* ── Editorial Grid Layout Following Navbar & Global Layout ── */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
+                    {bestsellersList.map((product) => (
+                        <ProductCardV2
+                            key={product.id}
+                            product={{
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                comparePrice: product.comparePrice,
+                                image: product.image,
+                                category: product.category,
+                                description: product.description,
+                                slug: product.slug,
+                            }}
+                            className="border border-[#E5E5E5] transition-all duration-500 hover:border-black/40"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                    ))}
                 </div>
             </div>
         </section>

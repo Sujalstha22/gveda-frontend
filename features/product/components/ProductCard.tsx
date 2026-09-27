@@ -41,20 +41,6 @@ export default function ProductCard({
     const { addToCart } = useCart();
     const href = product.href || (product.slug ? `/product/${product.slug}` : '/product');
 
-    // Deterministically compute rating (including 4.5 on several products)
-    const cardRating = typeof product.rating === 'number'
-        ? product.rating
-        : (() => {
-            const str = String(product.id || product.slug || product.name || '');
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = (hash << 5) - hash + str.charCodeAt(i);
-                hash |= 0;
-            }
-            const sampleRatings = [5.0, 4.5, 4.8, 4.5, 5.0, 4.9, 4.5, 5.0];
-            return sampleRatings[Math.abs(hash) % sampleRatings.length];
-        })();
-
     const handleCardClick = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('button, a')) {
             return;

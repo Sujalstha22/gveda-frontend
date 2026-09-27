@@ -3,7 +3,6 @@
 import React from 'react';
 import {
   HeroSvgStage,
-  HeroContentOverlay,
   HeroControls,
   useHeroCarousel,
   DEFAULT_PRODUCT_HERO_SLIDES,
@@ -31,7 +30,6 @@ export default function ProductHero({
     handleManualNext,
     handleManualPrev,
     handleSelectSlide,
-    handleScrollToCollection,
   } = useHeroCarousel({
     slides,
     intervalMs,

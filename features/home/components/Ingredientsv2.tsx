@@ -73,7 +73,6 @@ export default function Ingredientsv2() {
   const yLeaves = useTransform(smoothProgress, [0, 1], [-90, 70]);
   const yLeaves1 = useTransform(smoothProgress, [0, 1], [80, -80]);
   const rotateFlower = useTransform(smoothProgress, [0, 1], [-15, 20]);
-  const rotateLeaves = useTransform(smoothProgress, [0, 1], [18, -14]);
 
   // ── Interactive Mouse Parallax for Desktop Stage ──
   const mouseX = useMotionValue(0);

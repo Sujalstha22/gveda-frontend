@@ -42,7 +42,6 @@ const ProductsDisplay: React.FC = () => {
   );
 
   const active = selectedCategory === "all" ? listQuery : categoryQuery;
-  const products = active.data?.results ?? [];
 
   const setSelectedCategory = (category: string) => {
     const url = new URL(window.location.href);
@@ -54,7 +53,8 @@ const ProductsDisplay: React.FC = () => {
 
   // Sort products based on selected sort option
   const sortedProducts = useMemo(() => {
-    const list = [...products];
+    const rawList = active.data?.results ?? [];
+    const list = [...rawList];
     switch (sortBy) {
       case "price-low-high":
         return list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
@@ -74,7 +74,7 @@ const ProductsDisplay: React.FC = () => {
       default:
         return list;
     }
-  }, [products, sortBy]);
+  }, [active.data?.results, sortBy]);
 
   // Wait for the transition's scroll-to-top reset before following category links.
   useEffect(() => {

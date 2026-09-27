@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Clock, FileText, ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, Clock, FileText, ArrowUpRight } from 'lucide-react';
 import { usePage } from '../hooks';
 
 const POLICY_LINKS = [

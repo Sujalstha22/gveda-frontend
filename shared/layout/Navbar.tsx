@@ -82,10 +82,7 @@ export default function Navbar() {
   const [navEntered, setNavEntered] = useState(false);
 
   useEffect(() => {
-    if (!heroReady) {
-      setNavEntered(false);
-      return;
-    }
+    if (!heroReady) return;
 
     // Minimal delay (200ms) right after preloader finishes or route transition enters
     const timer = setTimeout(() => {
@@ -93,7 +90,16 @@ export default function Navbar() {
     }, 200);
 
     return () => clearTimeout(timer);
-  }, [pathname, heroReady]);
+  }, [heroReady]);
+
+  // Reset search, mobile, and visible state during render when route changes
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setSearchOpen(false);
+    setMobileOpen(false);
+    setVisible(true);
+  }
 
   // Pages with light top backgrounds that require dark text/logo
   const LIGHT_TOP_PAGES = [
@@ -123,14 +129,12 @@ export default function Navbar() {
   // Dark background pages (home '/', '/about', and 404/not-found) use white logo, white text & white icons
   const isWhiteNav = isTransparent && !isLightTopPage;
 
-  // Reset search, mobile, and sync scroll state on route changes
+  // Sync scroll state on route changes
   useEffect(() => {
-    setSearchOpen(false);
-    setMobileOpen(false);
-    setVisible(true);
-    if (typeof window !== 'undefined') {
+    const frameId = requestAnimationFrame(() => {
       setScrolled(window.scrollY > 80);
-    }
+    });
+    return () => cancelAnimationFrame(frameId);
   }, [pathname]);
 
   useEffect(() => {

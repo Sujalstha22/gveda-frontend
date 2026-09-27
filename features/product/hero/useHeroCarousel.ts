@@ -253,7 +253,7 @@ export function useHeroCarousel({
 
   // Window resize handler
   useEffect(() => {
-    updateDimensionsAndBlinds();
+    const rafId = requestAnimationFrame(updateDimensionsAndBlinds);
 
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
@@ -263,6 +263,7 @@ export function useHeroCarousel({
 
     window.addEventListener('resize', handleResize);
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimer);
     };

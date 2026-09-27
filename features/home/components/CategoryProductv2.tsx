@@ -6,7 +6,6 @@ import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Title from "@/shared/ui/Title";
 import { useProductCategories } from "@/features/product";
-import type { ProductCategory } from "@/features/product/interface";
 
 interface EditorialCategoryItem {
     id: string;
@@ -167,11 +166,19 @@ export default function CategoryProductv2() {
     // Embla Carousel Setup: Strict 1-card snap per drag/swipe matching button controls
     const [emblaRef, emblaApi] = useEmblaCarousel({
         align: "start",
+        startIndex: 0,
         containScroll: "trimSnaps",
         dragFree: false,
         skipSnaps: false,
         loop: false,
     });
+
+    // Ensure carousel always starts at index 0 upon initial load or data arrival
+    useEffect(() => {
+        if (emblaApi) {
+            emblaApi.scrollTo(0, true);
+        }
+    }, [emblaApi, categoriesList.length]);
 
     const scrollPrev = useCallback(() => {
         if (emblaApi) emblaApi.scrollPrev();
