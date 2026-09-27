@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 export interface CartItem {
   id: string;
@@ -31,23 +31,34 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const LOCAL_STORAGE_KEY = 'gveda_cart_v1';
 
-const getStoredCart = (): CartItem[] => {
-  if (typeof window === 'undefined') return [];
-  try {
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch (e) {
-    console.error('Failed to load cart from localStorage:', e);
-    return [];
-  }
-};
-
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>(() => getStoredCart());
+  const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const initialLoadDone = useRef(false);
 
-  // Save to localStorage whenever items change
+  // Load from localStorage on client mount (avoids SSR hydration mismatch)
   useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const timer = setTimeout(() => {
+            setItems(parsed);
+            initialLoadDone.current = true;
+          }, 0);
+          return () => clearTimeout(timer);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load cart from localStorage:', e);
+    }
+    initialLoadDone.current = true;
+  }, []);
+
+  // Save to localStorage whenever items change (only after initial load has finished)
+  useEffect(() => {
+    if (!initialLoadDone.current) return;
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
     } catch (e) {

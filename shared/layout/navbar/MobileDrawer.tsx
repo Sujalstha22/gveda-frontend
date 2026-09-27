@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_LINKS } from './navData';
 import { useCart } from '@/shared/context/CartContext';
 
 import Button from '@/shared/ui/Button';
+
+const emptySubscribe = () => () => {};
 
 interface MobileDrawerProps {
   open: boolean;
@@ -18,6 +20,8 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
   const previousPathname = useRef(pathname);
   const asideRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const cartBadgeCount = isMounted ? totalItems : 0;
 
   /* Lock body scroll when mobile drawer is open */
   useEffect(() => {
@@ -136,7 +140,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
                   openCart();
                 }}
               >
-                CART {totalItems > 0 ? `(${totalItems})` : ''}
+                CART {cartBadgeCount > 0 ? `(${cartBadgeCount})` : ''}
               </Button>
               <Link href="/login" onClick={onClose} className="w-full">
                 <Button

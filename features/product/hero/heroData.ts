@@ -19,7 +19,7 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     subtitle: 'Micro-Molecular Synergy',
     description:
       'High-potency botanical bioactives, targeted peptides, and antioxidant defense designed for deep cellular resilience and clarity.',
-    image: '/images/products/product-hero-2.jpeg',
+    image: '/images/products/pdt-2.png',
     tag: 'Formulation Mastery',
     ctaText: 'Discover Formulas',
   },
@@ -30,7 +30,7 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     subtitle: 'Micro-Molecular Synergy',
     description:
       'High-potency botanical bioactives, targeted peptides, and antioxidant defense designed for deep cellular resilience and clarity.',
-    image: '/images/products/product-hero-4.jpeg',
+    image: '/images/products/pdt-4.png',
     tag: 'Formulation Mastery',
     ctaText: 'Discover Formulas',
   },
@@ -41,7 +41,7 @@ export const DEFAULT_PRODUCT_HERO_SLIDES: ProductHeroSlide[] = [
     subtitle: 'Micro-Molecular Synergy',
     description:
       'High-potency botanical bioactives, targeted peptides, and antioxidant defense designed for deep cellular resilience and clarity.',
-    image: '/images/products/product-hero-2.jpeg',
+    image: '/images/products/pdt-5.jpg',
     tag: 'Formulation Mastery',
     ctaText: 'Discover Formulas',
   },

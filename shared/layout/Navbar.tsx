@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -9,6 +9,8 @@ import SearchBar from './navbar/SearchBar';
 import { NAV_LINKS } from './navbar/navData';
 import { useCart } from '@/shared/context/CartContext';
 import { usePreloader } from '@/shared/context/PreloaderContext';
+
+const emptySubscribe = () => () => {};
 
 function CartIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -76,6 +78,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const cartBadgeCount = isMounted ? totalItems : 0;
   const { heroReady } = usePreloader();
 
   // Smooth entrance fade-in & slide-down once hero/preloader is ready on each page
@@ -94,6 +98,7 @@ export default function Navbar() {
 
   // Reset search, mobile, and visible state during render when route changes
   const [prevPathname, setPrevPathname] = useState(pathname);
+
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);
     setSearchOpen(false);
@@ -103,7 +108,7 @@ export default function Navbar() {
 
   // Pages with light top backgrounds that require dark text/logo
   const LIGHT_TOP_PAGES = [
-    '/product',
+
     '/blog',
     '/contact',
     '/gallery',
@@ -192,17 +197,15 @@ export default function Navbar() {
       <header
         ref={navRef}
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transform-gpu will-change-transform transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          searchOpen
+        className={`fixed top-0 left-0 right-0 z-50 transform-gpu will-change-transform transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${searchOpen
             ? 'bg-[#F7F5F1] shadow-none'
             : isTransparent
               ? 'bg-transparent border-b border-transparent shadow-none'
               : 'bg-[#F7F5F1] border-b border-[#ECE4DA] shadow-subtle'
-        } ${
-          isNavVisible
+          } ${isNavVisible
             ? 'translate-y-0 opacity-100 pointer-events-auto'
             : '-translate-y-full opacity-0 pointer-events-none'
-        }`}
+          }`}
       >
         <div className="relative w-full py-2.5 sm:py-3 min-h-10 sm:min-h-11 flex items-center">
           {/* ── NAVBAR ROW ── */}
@@ -237,8 +240,8 @@ export default function Navbar() {
             <nav
               aria-label="Primary Navigation"
               className={`hidden lg:flex items-center justify-center shrink-0 gap-6 xl:gap-8 font-primary text-sm xl:text-[15px] tracking-normal capitalize transition-all duration-300 ${searchOpen
-                  ? 'opacity-0 invisible pointer-events-none'
-                  : 'opacity-100 visible pointer-events-auto'
+                ? 'opacity-0 invisible pointer-events-none'
+                : 'opacity-100 visible pointer-events-auto'
                 } ${isWhiteNav ? 'text-white/80' : 'text-primary/80'}`}
             >
               {NAV_LINKS.map((item) => {
@@ -251,12 +254,12 @@ export default function Navbar() {
                     key={item.label}
                     href={item.href}
                     className={`group relative py-1 transition-colors duration-200 ${isWhiteNav
-                        ? isActive
-                          ? 'text-white font-semibold'
-                          : 'text-white/80 hover:text-white font-normal'
-                        : isActive
-                          ? 'text-primary font-semibold'
-                          : 'text-primary/75 hover:text-primary font-normal'
+                      ? isActive
+                        ? 'text-white font-semibold'
+                        : 'text-white/80 hover:text-white font-normal'
+                      : isActive
+                        ? 'text-primary font-semibold'
+                        : 'text-primary/75 hover:text-primary font-normal'
                       }`}
                   >
                     {item.label}
@@ -285,10 +288,10 @@ export default function Navbar() {
                 aria-label={searchOpen ? 'Close search' : 'Search products'}
                 title={searchOpen ? 'Close search' : 'Search'}
                 className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer ${isWhiteNav && !searchOpen
-                    ? 'text-white hover:bg-white/15'
-                    : searchOpen
-                      ? 'text-primary bg-black/5 hover:bg-black/10'
-                      : 'text-primary/80 hover:text-primary hover:bg-black/5'
+                  ? 'text-white hover:bg-white/15'
+                  : searchOpen
+                    ? 'text-primary bg-black/5 hover:bg-black/10'
+                    : 'text-primary/80 hover:text-primary hover:bg-black/5'
                   }`}
               >
                 {searchOpen ? (
@@ -313,7 +316,7 @@ export default function Navbar() {
               {/* Cart Icon */}
               <button
                 type="button"
-                aria-label={`Shopping Cart (${totalItems} items)`}
+                aria-label={`Shopping Cart (${cartBadgeCount} items)`}
                 title="Cart"
                 className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${searchOpen ? 'hidden sm:flex' : 'flex'
                   } items-center justify-center cursor-pointer ${isWhiteNav
@@ -326,9 +329,9 @@ export default function Navbar() {
                 }}
               >
                 <CartIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
-                {totalItems > 0 && (
+                {cartBadgeCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-botanical-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                    {totalItems > 99 ? '99+' : totalItems}
+                    {cartBadgeCount > 99 ? '99+' : cartBadgeCount}
                   </span>
                 )}
               </button>
