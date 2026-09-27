@@ -112,7 +112,7 @@ export default function ProductCardV2({
                             <span>Added to bag</span>
                         </>
                     ) : (
-                        <span>Add to bag</span>
+                        <span>+ Add to bag</span>
                     )}
                 </button>
             </div>

@@ -284,7 +284,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         <div className="flex-1 min-w-0 w-full relative">
                             <div
                                 ref={emblaRef}
-                                className="overflow-hidden w-full cursor-grab active:cursor-grabbing rounded-lg select-none touch-pan-y bg-[#FAFAF8]"
+                                className="overflow-hidden w-full cursor-grab active:cursor-grabbing rounded-lg select-none touch-pan-y bg-[#ffffff]"
                             >
                                 <div className="flex items-stretch h-[360px] sm:h-[440px] lg:h-[460px] xl:h-[500px]">
                                     {images.map((src, i) => (
@@ -351,11 +351,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                         onClick={() => selectThumbnail(i)}
                                         aria-label={`View product image ${i + 1}`}
                                         aria-pressed={activeImageIndex === i}
-                                        className={`relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg border transition-colors duration-300 cursor-pointer bg-white ${
-                                            activeImageIndex === i
+                                        className={`relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg border transition-colors duration-300 cursor-pointer bg-white ${activeImageIndex === i
                                                 ? 'border-accent-gold'
                                                 : 'border-secondary/30 opacity-70 hover:opacity-100 hover:border-accent-gold/60'
-                                        }`}
+                                            }`}
                                     >
                                         <Image src={src} alt="" fill sizes="96px" className="object-contain p-1.5" />
                                     </button>
@@ -383,11 +382,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     key={t}
                                     type="button"
                                     onClick={() => setActiveTab(t)}
-                                    className={`font-primary text-xs sm:text-sm uppercase tracking-wider transition-all pb-2 border-b-2 cursor-pointer ${
-                                        activeTab === t
+                                    className={`font-primary text-xs sm:text-sm uppercase tracking-wider transition-all pb-2 border-b-2 cursor-pointer ${activeTab === t
                                             ? 'border-accent-gold text-primary font-semibold'
                                             : 'border-transparent text-primary/50 hover:text-primary'
-                                    }`}
+                                        }`}
                                 >
                                     {t}
                                 </button>
@@ -616,11 +614,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     type="button"
                                     onClick={() => setSelectedVolume(vol)}
                                     aria-pressed={selectedVolume === vol}
-                                    className={`py-3.5 px-2 text-center rounded-md text-xs font-medium border transition-all cursor-pointer ${
-                                        selectedVolume === vol
+                                    className={`py-3.5 px-2 text-center rounded-md text-xs font-medium border transition-all cursor-pointer ${selectedVolume === vol
                                             ? 'bg-secondary/10 text-primary border-accent-gold'
                                             : 'bg-transparent text-primary/60 border-secondary/40 hover:border-accent-gold'
-                                    }`}
+                                        }`}
                                 >
                                     {vol.split(' / ')[0]}
                                 </button>
@@ -660,11 +657,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 type="button"
                                 onClick={toggleWishlist}
                                 aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
-                                className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${
-                                    isSaved
+                                className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${isSaved
                                         ? 'border-accent-gold bg-secondary/10 text-primary'
                                         : 'border-secondary/40 bg-white text-primary/60 hover:text-primary hover:border-accent-gold'
-                                }`}
+                                    }`}
                             >
                                 <svg
                                     className="w-5 h-5"
@@ -688,11 +684,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     onClick={handleShare}
                                     aria-label="Share product"
                                     title={copied ? 'Link copied!' : 'Share formulation'}
-                                    className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${
-                                        copied
+                                    className={`h-11 w-11 shrink-0 flex items-center justify-center rounded-full border transition-all cursor-pointer ${copied
                                             ? 'border-accent-gold bg-secondary/15 text-primary'
                                             : 'border-secondary/40 bg-white text-primary/60 hover:text-primary hover:border-accent-gold'
-                                    }`}
+                                        }`}
                                 >
                                     {copied ? (
                                         <svg
@@ -740,11 +735,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                             <button
                                 type="button"
                                 onClick={handleAddToCart}
-                                className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                                    addedToCart
+                                className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${addedToCart
                                         ? 'bg-primary/85 text-white'
                                         : 'bg-primary text-white hover:bg-primary/90 active:scale-[0.99]'
-                                }`}
+                                    }`}
                             >
                                 {addedToCart ? (
                                     <>
@@ -845,11 +839,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                             key={src + idx}
                                             type="button"
                                             onClick={() => setLightboxIndex(idx)}
-                                            className={`relative h-16 w-14 sm:h-20 sm:w-18 shrink-0 overflow-hidden rounded-lg bg-white/10 transition-all border-2 cursor-pointer ${
-                                                isActive
+                                            className={`relative h-16 w-14 sm:h-20 sm:w-18 shrink-0 overflow-hidden rounded-lg bg-white/10 transition-all border-2 cursor-pointer ${isActive
                                                     ? 'border-accent-gold opacity-100 ring-2 ring-accent-gold/50'
                                                     : 'border-white/20 opacity-50 hover:opacity-100 hover:border-white/50'
-                                            }`}
+                                                }`}
                                         >
                                             <Image
                                                 src={src}

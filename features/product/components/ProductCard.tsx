@@ -121,58 +121,55 @@ export default function ProductCard({
                         className="object-cover object-center w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                     />
                 </Link>
-
-                {/* Full Card Width Button Overlay on Image Bottom with Smooth Hover Fade-in */}
-                <button
-                    type="button"
-                    onClick={handleAddToCart}
-                    disabled={added}
-                    aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
-                    className={`absolute bottom-0 inset-x-0 w-full py-3.5 px-4 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center gap-2 cursor-pointer z-10 shadow-xs border-t border-white/20 active:scale-[0.99] ${added
-                        ? 'bg-botanical-gold text-white opacity-100 translate-y-0'
-                        : 'bg-rich-black backdrop-blur-md text-white hover:bg-neutral-800 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'
-                        }`}
-                >
-                    {added ? (
-                        <>
-                            <svg
-                                className="w-3.5 h-3.5 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <polyline
-                                    points="20 6 9 17 4 12"
-                                    strokeWidth="2.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                            <span>Added to bag</span>
-                        </>
-                    ) : (
-                        <>
-                            <span>Add to bag</span>
-                            <svg
-                                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                            </svg>
-                        </>
-                    )}
-                </button>
             </div>
 
-            {/* Thin Horizontal Divider */}
-            <div className="w-full border-t border-[#EAEAEA]" />
+            {/* Add to Bag Button: Visible below image, ghost version by default, black on hover */}
+            <button
+                type="button"
+                onClick={handleAddToCart}
+                disabled={added}
+                aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
+                className={`group/btn relative w-full py-3 sm:py-3.5 px-4 text-[11px] sm:text-xs font-primary font-medium tracking-[0.18em] uppercase transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer z-10 border-t border-b border-[#E5E5E5] active:scale-[0.99] ${added
+                    ? 'bg-botanical-gold text-white border-botanical-gold'
+                    : 'bg-transparent text-rich-black border-[#E5E5E5] hover:bg-primary/75 hover:text-white hover:border-rich-black'
+                    }`}
+            >
+                {added ? (
+                    <>
+                        <svg
+                            className="w-3.5 h-3.5 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <polyline
+                                points="20 6 9 17 4 12"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                        <span>Added to bag</span>
+                    </>
+                ) : (
+                    <>
+                        <span>+ Add to bag</span>
+                        <svg
+                            className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                            />
+                        </svg>
+                    </>
+                )}
+            </button>
 
             {/* Product Details: Title, Description & Price */}
             <div className="w-full flex flex-col items-center text-center pt-5 pb-6 sm:pt-6 sm:pb-7 px-4 sm:px-6">
@@ -199,10 +196,10 @@ export default function ProductCard({
                         product.comparePrice &&
                         Number(product.comparePrice) > Number(product.price || 0)
                     ) && (
-                        <span className="font-primary text-xs text-primary/40 line-through">
-                            Rs. {Number(product.comparePrice).toLocaleString()}
-                        </span>
-                    )}
+                            <span className="font-primary text-xs text-primary/40 line-through">
+                                Rs. {Number(product.comparePrice).toLocaleString()}
+                            </span>
+                        )}
                 </div>
             </div>
         </div>

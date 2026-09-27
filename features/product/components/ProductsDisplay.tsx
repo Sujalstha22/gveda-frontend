@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTransitionState } from "next-transition-router";
 import { useLenis } from "@/shared/providers/LenisProvider";
@@ -14,8 +14,11 @@ import {
   toCardProduct,
 } from "..";
 
+type SortOption = "featured" | "price-low-high" | "price-high-low" | "name-asc" | "name-desc" | "newest";
+
 const ProductsDisplay: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<SortOption>("featured");
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get("category") || "all";
   const { stage } = useTransitionState();
@@ -49,6 +52,30 @@ const ProductsDisplay: React.FC = () => {
     setCurrentPage(1);
   };
 
+  // Sort products based on selected sort option
+  const sortedProducts = useMemo(() => {
+    const list = [...products];
+    switch (sortBy) {
+      case "price-low-high":
+        return list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
+      case "price-high-low":
+        return list.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+      case "name-asc":
+        return list.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+      case "name-desc":
+        return list.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+      case "newest":
+        return list.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
+      case "featured":
+      default:
+        return list;
+    }
+  }, [products, sortBy]);
+
   // Wait for the transition's scroll-to-top reset before following category links.
   useEffect(() => {
     if (stage !== "none" || !lenis || categoriesQuery.isLoading || active.isLoading) return;
@@ -70,8 +97,8 @@ const ProductsDisplay: React.FC = () => {
     return () => cancelAnimationFrame(frame);
   }, [stage, lenis, categoriesQuery.isLoading, active.isLoading, selectedCategory]);
 
-  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
-  const paginatedProducts = products.slice(
+  const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = sortedProducts.slice(
     (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage * PRODUCTS_PER_PAGE
   );
@@ -79,6 +106,7 @@ const ProductsDisplay: React.FC = () => {
   const resetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
+    setSortBy("featured");
     setCurrentPage(1);
   };
 
@@ -92,17 +120,17 @@ const ProductsDisplay: React.FC = () => {
           description="Pure, biocompatible botanical formulations designed to nourish and protect skin and hair health naturally."
         />
 
-        {/* ── Filter Bar ── */}
-        <div className="w-full mb-8 sm:mb-10 lg:mb-[2.2vw] flex items-center justify-center p-3.5 sm:p-4 rounded-4xl bg-editorial">
-          {/* Category Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
+        {/* ── Filter Bar: Categories on Left, Sort by on Right ── */}
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          {/* Category Pills (Left) */}
+          <div className="flex flex-wrap items-center justify-start gap-2">
             <button
               type="button"
               onClick={() => setSelectedCategory("all")}
               aria-pressed={selectedCategory === "all"}
               className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${selectedCategory === "all"
-                  ? "bg-primary text-white shadow-xs"
-                  : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
+                ? "bg-primary/70 text-white shadow-xs"
+                : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
                 }`}
             >
               All
@@ -117,8 +145,8 @@ const ProductsDisplay: React.FC = () => {
                   onClick={() => setSelectedCategory(cat.slug)}
                   aria-pressed={isSelected}
                   className={`px-4 py-2 rounded-full text-xs font-primary font-medium tracking-wider uppercase transition-all cursor-pointer ${isSelected
-                      ? "bg-primary text-white shadow-xs"
-                      : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
+                    ? "bg-primary text-white shadow-xs"
+                    : "bg-transparent text-primary/70 hover:text-primary hover:bg-black/5"
                     }`}
                 >
                   {cat.name.trim()}
@@ -126,6 +154,41 @@ const ProductsDisplay: React.FC = () => {
               );
             })}
           </div>
+
+          {/* Sort By Bar (Right) */}
+          <div className="flex items-center gap-2.5 self-end md:self-auto shrink-0">
+            <label htmlFor="sort-by-select" className="font-primary text-xs uppercase tracking-wider text-primary/60 font-medium whitespace-nowrap">
+              Sort By:
+            </label>
+            <div className="relative">
+              <select
+                id="sort-by-select"
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value as SortOption);
+                  setCurrentPage(1);
+                }}
+                className="appearance-none bg-white border border-secondary/35 hover:border-secondary text-primary text-xs font-primary font-medium rounded-full pl-4 pr-9 py-2 cursor-pointer outline-none focus:border-primary transition-all shadow-2xs"
+              >
+                <option value="featured">Featured</option>
+                <option value="price-low-high">Price: Low to High</option>
+                <option value="price-high-low">Price: High to Low</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="name-desc">Name: Z to A</option>
+                <option value="newest">Newest First</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-primary/60">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Span Line Below ── */}
+        <div className="w-full mb-8 sm:mb-10 lg:mb-[2.2vw] pb-3.5 border-b border-black/10 flex items-center justify-between">
+
         </div>
 
         {/* ── Products Grid ── */}
@@ -147,7 +210,7 @@ const ProductsDisplay: React.FC = () => {
                 Try again
               </button>
             </div>
-          ) : products.length > 0 ? (
+          ) : sortedProducts.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-[1.5vw]">
                 {paginatedProducts.map((product) => (
@@ -163,7 +226,7 @@ const ProductsDisplay: React.FC = () => {
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={setCurrentPage}
-                  totalItems={products.length}
+                  totalItems={sortedProducts.length}
                   pageSize={PRODUCTS_PER_PAGE}
                   itemName="Formulations"
                   scrollTargetId="products-display-section"
