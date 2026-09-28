@@ -149,7 +149,7 @@ export default function Testimonial() {
                                     {/* Testimonial Card */}
                                     <div
                                         onClick={() => scrollTo(index)}
-                                        className={`relative  rounded-3xl lg:rounded-[1.2vw] border border-secondary/85 p-6 pt-14 sm:p-8 sm:pt-16 lg:p-[1.8vw] lg:pt-[3vw] flex flex-col items-center text-center transition-all duration-500 cursor-pointer h-full justify-between  ${selectedIndex === index
+                                        className={`relative  rounded-3xl bg-secondary/25 lg:rounded-[1.2vw] border border-secondary/85 p-6 pt-14 sm:p-8 sm:pt-16 lg:p-[1.8vw] lg:pt-[3vw] flex flex-col items-center text-center transition-all duration-500 cursor-pointer h-full justify-between  ${selectedIndex === index
                                             ? 'border-black/10 scale-[1.03] '
                                             : 'opacity-85 hover:opacity-100'
                                             }`}

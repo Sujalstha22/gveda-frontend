@@ -115,7 +115,7 @@ export default function FeaturedV2() {
     return (
         <section
             aria-label="Featured Products Editorial Showcase"
-            className="relative w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-warm-ivory"
+            className="relative w-full py-16 sm:py-20 lg:py-[5vw] select-none bg-[#ffffff]"
         >
             <div className="relative z-10 w-full px-4 sm:px-8 lg:px-[5vw]">
                 {/* ── Top Header: Editorial Title ── */}
@@ -128,7 +128,7 @@ export default function FeaturedV2() {
                 </div>
 
                 {/* ── Editorial Grid Layout Following Navbar & Global Layout ── */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {bestsellersList.map((product) => (
                         <ProductCardV2
                             key={product.id}

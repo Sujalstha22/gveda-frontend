@@ -71,7 +71,7 @@ export default function NotFound() {
                     ease: "easeInOut",
                   },
                 }}
-                className="absolute inset-0 m-auto w-[110%] sm:w-[120%] lg:w-[130%] h-[110%] sm:h-[120%] lg:h-[130%] z-20 flex items-center justify-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.95)]"
+                className="absolute inset-0 m-auto w-[110%] sm:w-[120%] lg:w-[130%] h-[110%] sm:h-[120%] lg:h-[130%] z-10 flex items-center justify-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.95)] pointer-events-none"
               >
                 {/* Radial Golden Halo behind Product */}
                 <div
@@ -79,14 +79,14 @@ export default function NotFound() {
                   aria-hidden="true"
                 />
 
-                <div className="relative w-full h-full flex items-center justify-center scale-110 sm:scale-130 lg:scale-145">
+                <div className="relative w-full h-full flex items-center justify-center scale-110 sm:scale-130 lg:scale-145 pointer-events-none">
                   <Image
                     src="/images/home/abtsection/abt-img.png"
                     alt="GVEDA Signature Botanical Formulation"
                     fill
                     priority
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 45vw"
-                    className="object-contain"
+                    className="object-contain pointer-events-none"
                   />
                 </div>
               </motion.div>
@@ -97,7 +97,7 @@ export default function NotFound() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-bold text-[35vw] sm:text-[40vh] md:text-[50vh] lg:text-[65vh] leading-none text-white/[0.08] select-none tracking-tighter"
+              className="font-heading font-bold text-[35vw] sm:text-[40vh] md:text-[50vh] lg:text-[65vh] leading-none text-white/[0.08] select-none tracking-tighter pointer-events-none"
             >
               4
             </motion.span>
@@ -109,7 +109,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center mt-2 sm:mt-4 lg:mt-6"
+          className="relative z-30 flex flex-col items-center text-center mt-2 sm:mt-4 lg:mt-6"
         >
           {/* Eyebrow */}
           <span className="font-madison italic text-xl sm:text-2xl lg:text-[1.5vw] text-botanical-gold font-normal mb-1">
@@ -127,11 +127,11 @@ export default function NotFound() {
           </p>
 
           {/* Action Link to Home Page */}
-          <Link href="/">
+          <Link href="/" className="relative z-30 inline-block">
             <Button
               variant="secondary"
               size="lg"
-              className="!h-12 sm:!h-13 !px-8 sm:!px-10 text-xs sm:text-[13px] tracking-[0.18em] uppercase flex items-center justify-center gap-2 group shadow-lg hover:shadow-botanical-gold/20"
+              className="!h-12 sm:!h-13 !px-8 sm:!px-10 text-xs sm:text-[13px] tracking-[0.18em] uppercase flex items-center justify-center gap-2 group shadow-lg hover:shadow-botanical-gold/20 cursor-pointer"
             >
               <span>Explore the Botanicals</span>
               <svg

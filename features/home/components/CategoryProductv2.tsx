@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
+import React, { useEffect, useCallback, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Title from "@/shared/ui/Title";
+import Button from "@/shared/ui/Button";
 import { useProductCategories } from "@/features/product";
 
 interface EditorialCategoryItem {
@@ -143,8 +144,6 @@ const FALLBACK_CATEGORIES: EditorialCategoryItem[] = [
 
 export default function CategoryProductv2() {
     const { data } = useProductCategories();
-    const [isPaused, setIsPaused] = useState(false);
-    const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     const apiCategories = data?.results ?? [];
     const categoriesList: EditorialCategoryItem[] =
@@ -163,7 +162,7 @@ export default function CategoryProductv2() {
             })
             : FALLBACK_CATEGORIES;
 
-    // Embla Carousel Setup: Strict 1-card snap per drag/swipe matching button controls
+    // Embla Carousel Setup: Strict start at index 0
     const [emblaRef, emblaApi] = useEmblaCarousel({
         align: "start",
         startIndex: 0,
@@ -173,12 +172,13 @@ export default function CategoryProductv2() {
         loop: false,
     });
 
-    // Ensure carousel always starts at index 0 upon initial load or data arrival
+    // Ensure carousel strictly resets and stays at index 0 upon initial load or data arrival
     useEffect(() => {
         if (emblaApi) {
+            emblaApi.reInit();
             emblaApi.scrollTo(0, true);
         }
-    }, [emblaApi, categoriesList.length]);
+    }, [emblaApi, data]);
 
     const scrollPrev = useCallback(() => {
         if (emblaApi) emblaApi.scrollPrev();
@@ -221,28 +221,6 @@ export default function CategoryProductv2() {
         () => true
     );
 
-    // Simple horizontal auto-movement that smoothly ends at the last card
-    useEffect(() => {
-        if (!emblaApi || isPaused) {
-            if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
-            return;
-        }
-
-        autoplayTimerRef.current = setInterval(() => {
-            if (emblaApi) {
-                if (emblaApi.canScrollNext()) {
-                    emblaApi.scrollNext();
-                } else if (autoplayTimerRef.current) {
-                    clearInterval(autoplayTimerRef.current);
-                }
-            }
-        }, 3600);
-
-        return () => {
-            if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
-        };
-    }, [emblaApi, isPaused]);
-
     return (
         <section
             aria-label="Shop by Category"
@@ -258,28 +236,22 @@ export default function CategoryProductv2() {
                     />
                 </div>
 
-                {/* ── Editorial Grid-Based Carousel Container ── */}
-                <div
-                    className="relative w-full"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                    onTouchStart={() => setIsPaused(true)}
-                    onTouchEnd={() => setIsPaused(false)}
-                >
-                    {/* Main Grid Carousel with Gaps and Rounded Cards */}
+                {/* ── Editorial Carousel Container ── */}
+                <div className="relative w-full">
+                    {/* Main Flex Carousel with Gaps and Rounded Cards */}
                     <div className="w-full">
                         <div
                             ref={emblaRef}
                             className="overflow-hidden w-full cursor-grab active:cursor-grabbing py-2 px-1"
                         >
-                            <div className="grid grid-flow-col auto-cols-[90%] min-[480px]:auto-cols-[70%] sm:auto-cols-[54%] md:auto-cols-[38%] lg:auto-cols-[30%] gap-4 sm:gap-5 lg:gap-6">
+                            <div className="flex gap-4">
                                 {categoriesList.map((category) => {
                                     const categoryHref = `/product?category=${encodeURIComponent(category.slug)}#products-display-section`;
 
                                     return (
                                         <div
                                             key={category.id}
-                                            className="min-w-0 group relative flex flex-col justify-between bg-white border border-[#E5E5E5] transition-all duration-500 hover:border-black/40 "
+                                            className="flex-[0_0_90%] min-[480px]:flex-[0_0_70%] sm:flex-[0_0_54%] md:flex-[0_0_38%] lg:flex-[0_0_30%] min-w-0 group relative flex flex-col justify-between bg-white border border-[#E5E5E5] transition-all duration-500 hover:border-black/40"
                                         >
                                             {/* Product Image Section: Full width and height, no padding */}
                                             <div className="relative w-full aspect-[4/4.8] bg-neutral-100 overflow-hidden block ">
@@ -299,22 +271,30 @@ export default function CategoryProductv2() {
 
                                                 <Link
                                                     href={categoryHref}
-                                                    className="absolute bottom-0 inset-x-0 w-full py-3.5 px-4 bg-rich-black backdrop-blur-md border-t border-white/20 text-white flex items-center justify-center gap-2 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 cursor-pointer z-10 shadow-xs"
+                                                    className="absolute bottom-0 inset-x-0 w-full z-10 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer"
                                                 >
-                                                    <span>Explore Discoveries</span>
-                                                    <svg
-                                                        className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
+                                                    <Button
+                                                        variant="primary"
+                                                        iconPosition="right"
+                                                        icon={
+                                                            <svg
+                                                                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth="2"
+                                                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                                                />
+                                                            </svg>
+                                                        }
+                                                        className="!rounded-none !w-full !py-3.5 !px-4 !bg-rich-black hover:!bg-neutral-800 !text-white !border-t !border-white/20 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                                                     >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                                        />
-                                                    </svg>
+                                                        Explore Discoveries
+                                                    </Button>
                                                 </Link>
                                             </div>
 

@@ -15,7 +15,7 @@ export default function FooterNav() {
           <Link
             key={link.label}
             href={link.href}
-            className="group inline-flex items-center gap-1.5 font-primary text-sm font-medium lg:text-[1vw] text-white/80 hover:text-white transition-colors duration-200"
+            className="group inline-flex items-center gap-1.5 font-primary text-sm  lg:text-[1vw] text-white/80 hover:text-white transition-colors duration-200"
           >
             <span>{link.label}</span>
             <ArrowUpRight

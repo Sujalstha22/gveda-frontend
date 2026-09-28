@@ -46,7 +46,7 @@ export default function Footer() {
             className="object-cover object-center opacity-40 brightness-75"
             priority={false}
           />
-          <div className="absolute inset-0 bg-primary/55 pointer-events-none" />
+          <div className="absolute inset-0 bg-primary/25 pointer-events-none" />
         </div>
 
         {/* ── UPPER SECTION: Links, Policies, Newsletter (h-auto) ── */}

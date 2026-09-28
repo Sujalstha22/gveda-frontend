@@ -180,7 +180,7 @@ export default function RelatedProducts({ currentProductSlug, categorySlug }: Re
                         ref={emblaRef}
                         className="overflow-hidden w-full cursor-grab active:cursor-grabbing py-2 px-1"
                     >
-                        <div className="grid grid-flow-col auto-cols-[85%] min-[480px]:auto-cols-[65%] sm:auto-cols-[45%] md:auto-cols-[32%] lg:auto-cols-[24%] gap-4 sm:gap-6 lg:gap-[1.5vw]">
+                        <div className="grid grid-flow-col auto-cols-[85%] min-[480px]:auto-cols-[65%] sm:auto-cols-[45%] md:auto-cols-[32%] lg:auto-cols-[24%] gap-4">
                             {allRelated.map((product) => (
                                 <div key={product._id} className="min-w-0 h-full flex flex-col">
                                     <ProductCard product={toCardProduct(product)} />

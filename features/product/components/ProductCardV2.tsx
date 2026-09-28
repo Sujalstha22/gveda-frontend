@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/shared/context/CartContext';
+import Button from '@/shared/ui/Button';
 import type { Product } from './ProductCard';
 
 export interface ProductCardV2Props {
@@ -84,18 +85,14 @@ export default function ProductCardV2({
                 </Link>
 
                 {/* Full Card Width Button Overlay above image bottom with Slow & Controlled Fade-in */}
-                <button
+                <Button
                     type="button"
                     onClick={handleAddToCart}
                     disabled={added}
-                    aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
-                    className={`absolute bottom-0 inset-x-0 w-full py-3 px-4 text-[11px] sm:text-xs font-medium tracking-[0.16em] uppercase transition-all duration-700 ease-out cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99] z-20 ${added
-                        ? 'bg-botanical-gold text-white border-t border-botanical-gold opacity-100'
-                        : 'bg-primary text-white border-t border-primary hover:bg-neutral-800 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-2 sm:group-hover:translate-y-0'
-                        }`}
-                >
-                    {added ? (
-                        <>
+                    variant={added ? 'secondary' : 'primary'}
+                    iconPosition="left"
+                    icon={
+                        added ? (
                             <svg
                                 className="w-3.5 h-3.5 text-white"
                                 fill="none"
@@ -109,16 +106,20 @@ export default function ProductCardV2({
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            <span>Added to bag</span>
-                        </>
-                    ) : (
-                        <span>+ Add to bag</span>
-                    )}
-                </button>
+                        ) : undefined
+                    }
+                    aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
+                    className={`!rounded-none absolute bottom-0 inset-x-0 !w-full !py-3 !px-4 text-[11px] sm:text-xs font-medium tracking-[0.16em] uppercase transition-all duration-700 ease-out cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99] z-20 ${added
+                        ? '!bg-botanical-gold !text-white !border-t !border-botanical-gold opacity-100'
+                        : '!bg-primary hover:!text-secondary !text-white !border-t !border-primary hover:!bg-neutral-800 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-2 sm:group-hover:translate-y-0'
+                        }`}
+                >
+                    {added ? 'Added to bag' : '+ Add to bag'}
+                </Button>
             </div>
 
             {/* Bottom: Title, Description & Price Details */}
-            <div className="w-full flex flex-col items-center text-center pt-4 pb-5 px-4 sm:px-6 bg-warm-ivory/50">
+            <div className="w-full flex flex-col items-center text-center pt-4 pb-5 px-4 sm:px-6 bg-warm-ivory">
                 <Link
                     href={productHref}
                     onClick={() => onProductClick?.()}
@@ -134,7 +135,7 @@ export default function ProductCardV2({
                 )}
 
                 <div className="mt-2 flex items-baseline gap-2">
-                    <span className="font-primary text-xs sm:text-sm lg:text-[0.88vw] font-medium text-primary">
+                    <span className="font-primary text-xs sm:text-sm lg:text-[0.88vw] font-bold text-primary">
                         {formattedPrice}
                     </span>
                     {Boolean(

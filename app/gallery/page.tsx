@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import GalleryGrid from '@/features/gallery/components/GalleryGrid';
+import GalleryHero from '@/features/gallery/components/GalleryHero';
 
 export const metadata: Metadata = {
     title: 'Gallery — GVEDA',
@@ -7,6 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
-    return <GalleryGrid />;
+    return (
+        <>
+            <GalleryHero />
+            <GalleryGrid />
+        </>
+    );
 }
 

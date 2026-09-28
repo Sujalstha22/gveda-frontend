@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/shared/context/CartContext';
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 export default function CartDrawer() {
-  const { items, isCartOpen, closeCart, removeFromCart, updateQuantity, subtotal, totalItems } =
+  const { items, isCartOpen, closeCart, removeFromCart, updateQuantity, subtotal } =
     useCart();
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
@@ -41,9 +41,8 @@ export default function CartDrawer() {
     <>
       {/* Backdrop Overlay */}
       <div
-        className={`fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-500 z-[998] ${
-          isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-500 z-[998] ${isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         onClick={closeCart}
         aria-hidden="true"
       />
@@ -52,9 +51,8 @@ export default function CartDrawer() {
       <aside
         aria-label="Shopping Cart Drawer"
         aria-hidden={!isCartOpen}
-        className={`fixed top-0 right-0 bottom-0 w-full sm:w-[440px] md:w-[460px] bg-[#FAF9F6] shadow-2xl flex flex-col z-[999] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          isCartOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 bottom-0 w-full sm:w-[440px] md:w-[460px] bg-[#FAF9F6] shadow-2xl flex flex-col z-[999] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         {/* Drawer Header */}
         <div className="p-5 sm:p-6 border-b border-rich-black/10 flex items-center justify-between bg-white shrink-0">
@@ -63,7 +61,7 @@ export default function CartDrawer() {
               GVEDA Rituals
             </span>
             <h2 className="font-heading text-lg sm:text-xl font-medium text-rich-black tracking-wide flex items-center gap-2">
-              Your Selection <span className="font-editorial italic font-normal text-botanical-gold border-b border-botanical-gold/20 pb-0.5">({totalItems})</span>
+              Your Selection
             </h2>
           </div>
 
@@ -206,19 +204,13 @@ export default function CartDrawer() {
         {items.length > 0 && (
           <div className="p-5 sm:p-6 bg-white border-t border-rich-black/10 shrink-0 space-y-4">
             <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs text-rich-black/60 font-primary">
-                <span>Shipping</span>
-                <span>Calculated at checkout</span>
-              </div>
+
               <div className="flex items-center justify-between text-base sm:text-lg font-bold font-heading text-rich-black pt-1">
                 <span>Subtotal</span>
-                <span>Rs. {subtotal.toFixed(2)}</span>
+                <span className='font-primary'>Rs. {subtotal.toFixed(2)}</span>
               </div>
             </div>
 
-            <p className="font-primary text-[11px] text-rich-black/60 italic text-center">
-              Complimentary botanical sample included with every order.
-            </p>
 
             <div className="space-y-3 pt-1">
               <Link
@@ -233,7 +225,7 @@ export default function CartDrawer() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
-                  <span className="font-primary font-bold text-xs sm:text-sm text-botanical-gold group-hover:text-warm-ivory transition-colors">
+                  <span className="font-primary font-bold text-xs sm:text-sm text-white group-hover:text-warm-ivory transition-colors">
                     Rs. {subtotal.toFixed(2)}
                   </span>
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-botanical-gold group-hover:text-rich-black transition-all duration-300">
@@ -251,21 +243,7 @@ export default function CartDrawer() {
                 </div>
               </Link>
 
-              <div className="flex items-center justify-center gap-2 font-primary text-[10px] tracking-wider uppercase text-rich-black/50">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-3 h-3 text-botanical-gold"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>Encrypted & Climate-Controlled</span>
-              </div>
+
             </div>
           </div>
         )}

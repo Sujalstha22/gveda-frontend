@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/shared/context/CartContext';
+import Button from '@/shared/ui/Button';
 
 export interface Product {
     id: number | string;
@@ -33,20 +34,20 @@ export interface ProductCardProps {
 export default function ProductCard({
     product,
     className = '',
-    sizes = '(max-width: 640px) 80vw, (max-width: 1024px) 33vw, 22vw',
+    sizes = '(max-width: 640px) 85vw, (max-width: 1024px) 33vw, 25vw',
     onProductClick,
 }: ProductCardProps) {
     const router = useRouter();
     const [added, setAdded] = useState(false);
     const { addToCart } = useCart();
-    const href = product.href || (product.slug ? `/product/${product.slug}` : '/product');
+    const productHref = product.href || (product.slug ? `/product/${product.slug}` : '/product');
 
     const handleCardClick = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('button, a')) {
             return;
         }
         onProductClick?.();
-        router.push(href);
+        router.push(productHref);
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
@@ -80,21 +81,12 @@ export default function ProductCard({
     return (
         <div
             onClick={handleCardClick}
-            className={`min-w-0 group relative flex flex-col justify-between bg-white border border-[#E5E5E5] transition-all duration-500 hover:border-black/40 cursor-pointer h-full ${className}`}
+            className={`min-w-0 group relative flex flex-col justify-between bg-white transition-colors duration-300 hover:bg-neutral-50/40 cursor-pointer h-full ${className}`}
         >
-            {/* Base Link for SEO & right-click / middle-click tab support */}
-            <Link
-                href={href}
-                onClick={() => onProductClick?.()}
-                className="absolute inset-0 z-0"
-                aria-label={product.name}
-                tabIndex={-1}
-            />
-
-            {/* Product Image Section: Full width and height, no padding */}
-            <div className="relative w-full aspect-[4/4.8] sm:aspect-[4/5] bg-neutral-100 overflow-hidden block">
+            {/* Top: Clean Product Image with Integrated Slow-Fade Hover Button */}
+            <div className="relative w-full aspect-[4/5] flex items-center justify-center bg-white overflow-hidden border-b border-black/10">
                 <Link
-                    href={href}
+                    href={productHref}
                     onClick={() => onProductClick?.()}
                     className="relative w-full h-full flex items-center justify-center overflow-hidden"
                     aria-label={`View ${product.name}`}
@@ -104,78 +96,62 @@ export default function ProductCard({
                         alt={product.name}
                         fill
                         sizes={sizes}
-                        className="object-cover object-center w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                        className="object-contain w-full h-full p-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                     />
                 </Link>
+
+                {/* Full Card Width Button Overlay above image bottom with Slow & Controlled Fade-in */}
+                <Button
+                    type="button"
+                    onClick={handleAddToCart}
+                    disabled={added}
+                    variant={added ? 'secondary' : 'primary'}
+                    iconPosition="left"
+                    icon={
+                        added ? (
+                            <svg
+                                className="w-3.5 h-3.5 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <polyline
+                                    points="20 6 9 17 4 12"
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        ) : undefined
+                    }
+                    aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
+                    className={`!rounded-none absolute bottom-0 inset-x-0 !w-full !py-3 !px-4 text-[11px] sm:text-xs font-medium tracking-[0.16em] uppercase transition-all duration-700 ease-out cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99] z-20 ${added
+                        ? '!bg-botanical-gold !text-white !border-t !border-botanical-gold opacity-100'
+                        : '!bg-primary hover:!text-secondary !text-white !border-t !border-primary hover:!bg-neutral-800 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-2 sm:group-hover:translate-y-0'
+                        }`}
+                >
+                    {added ? 'Added to bag' : '+ Add to bag'}
+                </Button>
             </div>
 
-            {/* Add to Bag Button: Visible below image, ghost version by default, black on hover */}
-            <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={added}
-                aria-label={added ? `Added ${product.name} to bag` : `Add ${product.name} to bag`}
-                className={`group/btn relative w-full py-3 sm:py-3.5 px-4 text-[11px] sm:text-xs font-primary font-medium tracking-[0.18em] uppercase transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer z-10 border-t border-b border-[#E5E5E5] active:scale-[0.99] ${added
-                    ? 'bg-botanical-gold text-white border-botanical-gold'
-                    : 'bg-transparent text-rich-black border-[#E5E5E5] hover:bg-primary/75 hover:text-white hover:border-rich-black'
-                    }`}
-            >
-                {added ? (
-                    <>
-                        <svg
-                            className="w-3.5 h-3.5 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <polyline
-                                points="20 6 9 17 4 12"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
-                        <span>Added to bag</span>
-                    </>
-                ) : (
-                    <>
-                        <span>+ Add to bag</span>
-                        <svg
-                            className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
-                    </>
-                )}
-            </button>
-
-            {/* Product Details: Title, Description & Price */}
-            <div className="w-full flex flex-col items-center text-center pt-5 pb-6 sm:pt-6 sm:pb-7 px-4 sm:px-6">
+            {/* Bottom: Title, Description & Price Details */}
+            <div className="w-full flex flex-col items-center text-center pt-4 pb-5 px-4 sm:px-6 bg-warm-ivory">
                 <Link
-                    href={href}
+                    href={productHref}
                     onClick={() => onProductClick?.()}
-                    className="font-heading text-base sm:text-lg font-semibold text-rich-black hover:text-botanical-gold transition-colors duration-200 leading-snug line-clamp-1 w-full"
+                    className="font-primary text-sm sm:text-base lg:text-[0.92vw] text-primary/90 font-medium hover:text-primary transition-colors leading-snug line-clamp-1 w-full"
                 >
                     {product.name}
                 </Link>
 
                 {Boolean(product.description || product.subtitle) && (
-                    <p className="font-primary text-xs sm:text-[13px] font-normal text-neutral-500 leading-relaxed mt-2 max-w-[260px] line-clamp-2 min-h-[36px]">
+                    <p className="font-primary font-normal text-xs text-neutral-500 mt-1.5 line-clamp-2 leading-relaxed max-w-[240px]">
                         {product.description || product.subtitle}
                     </p>
                 )}
 
-                {/* Price Display */}
-                <div className="mt-3 flex items-baseline justify-center gap-2">
-                    <span className="font-primary text-sm sm:text-base font-semibold text-primary">
+                <div className="mt-2 flex items-baseline gap-2">
+                    <span className="font-primary text-xs sm:text-sm lg:text-[0.88vw] font-bold text-primary">
                         {formattedPrice}
                     </span>
                     {Boolean(

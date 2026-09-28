@@ -96,7 +96,7 @@ export default function Featured() {
             ref={emblaRef}
             className="overflow-hidden w-full cursor-grab active:cursor-grabbing"
           >
-            <div className="flex gap-4 sm:gap-6 lg:gap-[1.5vw]">
+            <div className="flex gap-4">
               {bestsellers.map((product) => (
                 <div
                   key={product.id}

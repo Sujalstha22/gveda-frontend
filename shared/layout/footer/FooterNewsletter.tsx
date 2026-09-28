@@ -123,7 +123,7 @@ export default function FooterNewsletter() {
       <h3 className="font-heading font-semibold text-xl lg:text-[2vw] text-white mb-3 sm:mb-4 lg:mb-[0.8vw]">
         Stay Connected
       </h3>
-      <p className="font-primary text-sm font-medium lg:text-[1vw] text-white/80 leading-relaxed max-w-sm mb-4 lg:mb-[1vw]">
+      <p className="font-primary text-sm  lg:text-[1vw] text-white/80 leading-relaxed max-w-sm mb-4 lg:mb-[1vw]">
         Be the first to discover botanical releases and exclusive skincare
         rituals.
       </p>

@@ -108,30 +108,28 @@ export default function Navbar() {
 
   // Pages with light top backgrounds that require dark text/logo
   const LIGHT_TOP_PAGES = [
-
     '/blog',
     '/contact',
-    '/gallery',
-    '/events',
     '/cart',
     '/checkout',
     '/login',
     '/policies',
   ];
 
-  const isLightTopPage = LIGHT_TOP_PAGES.some(
-    (prefix) => pathname === prefix || pathname?.startsWith(prefix + '/')
-  );
+  const isLightTopPage =
+    LIGHT_TOP_PAGES.some(
+      (prefix) => pathname === prefix || pathname?.startsWith(prefix + '/')
+    ) ||
+    Boolean(pathname?.startsWith('/gallery/')) ||
+    Boolean(pathname?.startsWith('/events/'));
 
   const isSolidPage =
     pathname?.startsWith('/product/') ||
-    pathname === '/gallery' ||
     pathname?.startsWith('/gallery/') ||
-    pathname === '/events' ||
     pathname?.startsWith('/events/');
   const isTransparent = !isSolidPage && !scrolled && !mobileOpen && !searchOpen;
 
-  // Dark background pages (home '/', '/about', and 404/not-found) use white logo, white text & white icons
+  // Dark background hero pages (home '/', '/about', '/gallery', '/events', '/product', and 404) use white logo, white text & white icons
   const isWhiteNav = isTransparent && !isLightTopPage;
 
   // Sync scroll state on route changes

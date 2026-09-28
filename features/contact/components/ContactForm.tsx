@@ -197,7 +197,7 @@ const ContactForm = () => {
       </AnimatePresence>
 
       {/* ── 50vw White Card with Subtle Botanical Accents ── */}
-      <div className="relative w-full max-w-[94vw] lg:w-[70vw] mx-auto bg-secondary-light rounded-2xl sm:rounded-3xl lg:rounded-[1.6vw] p-8 sm:p-12 lg:p-[3.5vw] border border-[#ECE4DA] shadow-[0_10px_40px_rgba(0,0,0,0.03)] overflow-hidden">
+      <div className="relative w-full max-w-[94vw] lg:w-[70vw] mx-auto bg-secondary-light rounded-2xl sm:rounded-3xl lg:rounded-[1.6vw] p-8 sm:p-12 lg:p-[3.5vw] border border-[#ECE4DA] shadow-[0_10px_40px_rgba(0,0,0,0.03)] overflow-visible">
         {/* Subtle Botanical Corner Elements */}
         <div className="absolute -top-8 -right-8 w-32 h-32 lg:w-[12vw] lg:h-[12vw] opacity-15 pointer-events-none select-none z-0">
           <Image

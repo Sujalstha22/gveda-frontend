@@ -38,9 +38,8 @@ function GalleryCard({ item, index, priority }: GalleryCardProps) {
                 <div className={`relative w-full ${cardAspect} overflow-hidden bg-[#F2EDE4]`}>
                     {/* Soft botanical placeholder - static to eliminate compositor repaint loops */}
                     <div
-                        className={`absolute inset-0 bg-[#F2EDE4] transition-opacity duration-500 pointer-events-none ${
-                            isLoaded ? 'opacity-0' : 'opacity-100'
-                        }`}
+                        className={`absolute inset-0 bg-[#F2EDE4] transition-opacity duration-500 pointer-events-none ${isLoaded ? 'opacity-0' : 'opacity-100'
+                            }`}
                     />
 
                     {/* Native high-performance image with browser-level lazy loading */}
@@ -53,20 +52,16 @@ function GalleryCard({ item, index, priority }: GalleryCardProps) {
                         decoding="async"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         onLoad={() => setIsLoaded(true)}
-                        className={`object-cover transition-all duration-500 ease-out group-hover:scale-[1.03] transform-gpu ${
-                            isLoaded ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`object-cover transition-all duration-500 ease-out group-hover:scale-[1.03] transform-gpu ${isLoaded ? 'opacity-100' : 'opacity-0'
+                            }`}
                     />
 
-                    {/* Bottom Dark Scrim for Perfect Typography Contrast */}
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none" />
+                    {/* Bottom Dark Scrim for Perfect Typography Contrast - Appears on Hover */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
 
-                    {/* Title & Metadata Inside Image Bottom */}
-                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 lg:p-[1.4vw] flex flex-col justify-end text-white z-10">
-                        <span className="font-primary text-[10px] tracking-[0.2em] uppercase text-botanical-gold font-medium block mb-1">
-                            Archive {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <h3 className="font-heading text-lg sm:text-xl font-medium text-white line-clamp-2 group-hover:text-botanical-gold transition-colors">
+                    {/* Title & Metadata Inside Image Bottom - Revealed on Hover */}
+                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 lg:p-[1.4vw] flex flex-col justify-end text-white z-10 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                        <h3 className="font-heading text-lg sm:text-xl font-medium text-white line-clamp-2  transition-colors">
                             {item.title.trim()}
                         </h3>
                     </div>
@@ -110,52 +105,52 @@ export default function GalleryGrid() {
 
     return (
         <section className="w-full min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-24 select-none">
-            <div className="w-full px-4 sm:px-8 lg:px-[5vw] mx-auto">
-                <Title
-                    eyebrow="Moments"
-                    title="Gallery"
-                    description="A visual journey through sacred botanicals, mindful craftsmanship, and luminous skin."
-                    className="mb-12 sm:mb-16"
-                />
 
-                {isLoading ? (
-                    <div className="py-20 flex flex-col items-center justify-center gap-3">
-                        <div className="w-6 h-6 border-2 border-botanical-gold border-t-transparent rounded-full animate-spin" />
-                        <p className="font-primary text-primary/50 text-xs tracking-wider uppercase">Loading Archive…</p>
+            <Title
+                eyebrow="Moments"
+                title="Gallery"
+                description="A visual journey through sacred botanicals, mindful craftsmanship, and luminous skin."
+                className="mb-12 sm:mb-16"
+            />
+
+            {isLoading ? (
+                <div className="py-20 flex flex-col items-center justify-center gap-3">
+                    <div className="w-6 h-6 border-2 border-botanical-gold border-t-transparent rounded-full animate-spin" />
+                    <p className="font-primary text-primary/50 text-xs tracking-wider uppercase">Loading Archive…</p>
+                </div>
+            ) : isError ? (
+                <div className="text-center py-16">
+                    <p className="font-primary text-primary/60 text-sm mb-4">Couldn&apos;t load the gallery.</p>
+                    <button
+                        type="button"
+                        onClick={() => refetch()}
+                        className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                    >
+                        Try again
+                    </button>
+                </div>
+            ) : (
+                <>
+                    <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-8 lg:gap-[2vw]">
+                        {visibleGalleries.map((g, index) => (
+                            <GalleryCard
+                                key={g._id}
+                                item={g}
+                                index={index}
+                                priority={index < 4}
+                            />
+                        ))}
                     </div>
-                ) : isError ? (
-                    <div className="text-center py-16">
-                        <p className="font-primary text-primary/60 text-sm mb-4">Couldn&apos;t load the gallery.</p>
-                        <button
-                            type="button"
-                            onClick={() => refetch()}
-                            className="px-5 py-2 text-xs uppercase tracking-wider font-medium text-primary border border-black/20 rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
-                        >
-                            Try again
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 sm:gap-8 lg:gap-[2vw]">
-                            {visibleGalleries.map((g, index) => (
-                                <GalleryCard
-                                    key={g._id}
-                                    item={g}
-                                    index={index}
-                                    priority={index < 4}
-                                />
-                            ))}
+
+                    {/* Infinite scroll load sentinel */}
+                    {hasMore && (
+                        <div ref={sentinelRef} className="w-full py-12 flex items-center justify-center">
+                            <div className="w-5 h-5 border-2 border-botanical-gold border-t-transparent rounded-full animate-spin opacity-60" />
                         </div>
+                    )}
+                </>
+            )}
 
-                        {/* Infinite scroll load sentinel */}
-                        {hasMore && (
-                            <div ref={sentinelRef} className="w-full py-12 flex items-center justify-center">
-                                <div className="w-5 h-5 border-2 border-botanical-gold border-t-transparent rounded-full animate-spin opacity-60" />
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
         </section>
     );
 }

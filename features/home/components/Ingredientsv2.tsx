@@ -150,12 +150,12 @@ export default function Ingredientsv2() {
                   delay: 0.2 + index * 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group relative flex flex-col lg:items-end p-6 sm:p-7 lg:p-[1.6vw] rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] hover:border-secondary/40 hover:bg-white/[0.06] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-500 ease-out"
+                className="group relative flex flex-col lg:items-end p-6 sm:p-7 lg:p-[1.6vw] rounded-2xl bg-white/[0.03]  border border-white/[0.08] hover:border-secondary/40 hover:bg-white/[0.06] transition-all duration-500 ease-out"
               >
                 <div className="flex items-center gap-3 sm:gap-4 lg:justify-end w-full">
-                  <span className="font-editorial italic text-3xl sm:text-4xl lg:text-[2.2vw] lg:leading-none text-white font-normal order-2 lg:order-1 tracking-tight">
-                    {item.number}
-                  </span>
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl lg:text-[1.5vw] lg:leading-snug text-white">
+                    {item.title}
+                  </h3>
                   <div className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-[3.2vw] lg:h-[3.2vw] rounded-full bg-botanical-gold/15 backdrop-blur-md border border-botanical-gold/40 flex items-center justify-center p-2.5 group-hover:border-botanical-gold group-hover:bg-botanical-gold/25 group-hover:scale-105 transition-all duration-500 shrink-0 order-1 lg:order-2 shadow-xs">
                     <div className="relative w-full h-full">
                       <Image
@@ -169,16 +169,6 @@ export default function Ingredientsv2() {
                   </div>
                 </div>
 
-                <div className="mt-3 lg:mt-[0.6vw]">
-                  {item.tag && (
-                    <span className="font-primary font-light text-[10px] sm:text-[11px] lg:text-[0.62vw] uppercase tracking-[0.2em] text-botanical-gold/90 block mb-1">
-                      {item.tag}
-                    </span>
-                  )}
-                  <h3 className="font-heading font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-white">
-                    {item.title}
-                  </h3>
-                </div>
 
                 <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.82vw] lg:leading-[1.65] text-white/75 leading-relaxed mt-2 lg:mt-[0.5vw]">
                   {item.description}
@@ -367,7 +357,7 @@ export default function Ingredientsv2() {
                   delay: 0.2 + index * 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group relative flex flex-col lg:items-start p-6 sm:p-7 lg:p-[1.6vw] rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] hover:border-secondary/40 hover:bg-white/[0.06] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-500 ease-out"
+                className="group relative flex flex-col lg:items-start p-6 sm:p-7 lg:p-[1.6vw] rounded-2xl bg-white/[0.03]  border border-white/[0.08] hover:border-secondary/40 hover:bg-white/[0.06]  transition-all duration-500 ease-out"
               >
                 <div className="flex items-center gap-3 sm:gap-4 lg:justify-start w-full">
                   <div className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-[3.2vw] lg:h-[3.2vw] rounded-full bg-botanical-gold/15 backdrop-blur-md border border-botanical-gold/40 flex items-center justify-center p-2.5 group-hover:border-botanical-gold group-hover:bg-botanical-gold/25 group-hover:scale-105 transition-all duration-500 shrink-0 shadow-xs">
@@ -381,21 +371,11 @@ export default function Ingredientsv2() {
                       />
                     </div>
                   </div>
-                  <span className="font-editorial italic text-3xl sm:text-4xl lg:text-[2.2vw] lg:leading-none text-white font-normal tracking-tight">
-                    {item.number}
-                  </span>
-                </div>
-
-                <div className="mt-3 lg:mt-[0.6vw]">
-                  {item.tag && (
-                    <span className="font-primary font-light text-[10px] sm:text-[11px] lg:text-[0.62vw] uppercase tracking-[0.2em] text-botanical-gold/90 block mb-1">
-                      {item.tag}
-                    </span>
-                  )}
-                  <h3 className="font-heading font-medium text-xl sm:text-2xl lg:text-[1.3vw] lg:leading-snug text-white">
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl lg:text-[1.5vw] lg:leading-snug text-white">
                     {item.title}
                   </h3>
                 </div>
+
 
                 <p className="font-primary font-normal text-xs sm:text-sm lg:text-[0.82vw] lg:leading-[1.65] text-white/75 leading-relaxed mt-2 lg:mt-[0.5vw]">
                   {item.description}

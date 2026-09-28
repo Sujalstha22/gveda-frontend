@@ -11,7 +11,7 @@ export default function EventsList() {
     const events = data?.results ?? [];
 
     return (
-        <section className="w-full min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-24 select-none">
+        <section className="w-full py-16 sm:py-24 select-none">
             <div className="w-full px-4 sm:px-8 lg:px-[5vw] mx-auto">
                 <Title
                     eyebrow="Gather"
