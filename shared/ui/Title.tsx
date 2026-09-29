@@ -25,7 +25,7 @@ export default function Title({
     >
       {eyebrow && (
         <span
-          className={`font-madison italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw] ${eyebrowClassName}`}
+          className={`font-great-vibes italic text-2xl sm:text-3xl lg:text-[1.8vw] lg:leading-[1.2] text-accent-gold font-normal mb-1 lg:mb-[0.3vw] ${eyebrowClassName}`}
         >
           {eyebrow}
         </span>

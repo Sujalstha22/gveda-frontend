@@ -18,20 +18,6 @@ const TABS = [
 ] as const;
 type Tab = (typeof TABS)[number];
 
-/* ── Bottle Volume Configuration for Dynamic Pricing ── */
-export interface VolumeOption {
-    id: string;
-    label: string;       // e.g. "300 ml"
-    volume: string;      // e.g. "300 ml / 10.1 fl. oz."
-    multiplier: number;  // Multiplier for price scaling
-}
-
-const VOLUME_OPTIONS: VolumeOption[] = [
-    { id: '300ml', label: '300 ml', volume: '300 ml / 10.1 fl. oz.', multiplier: 1.0 },
-    { id: '450ml', label: '450 ml', volume: '450 ml / 15.2 fl. oz.', multiplier: 1.45 },
-    { id: '600ml', label: '600 ml', volume: '600 ml / 20.3 fl. oz.', multiplier: 1.85 },
-];
-
 const SUITABILITY_ITEMS = [
     {
         name: 'Sensitive & Reactive Skin',
@@ -99,17 +85,50 @@ const BOTANICAL_FEATURES = [
     'Formulated and dermatologically evaluated for modern sensitive skin',
 ];
 
+export interface DynamicProductTab {
+    id: string;
+    title: string;
+    content: string | React.ReactNode;
+}
+
 export default function ProductDetail({ slug }: { slug: string }) {
     const { data, isLoading, isError } = useProduct(slug);
     const product = data?.results;
     const { addToCart } = useCart();
 
-    const visibleTabs = TABS.filter((tab) => slug !== 'hair-growth-oil' || tab !== 'Description');
-    const [selectedTab, setActiveTab] = useState<Tab>('Description');
-    const activeTab = visibleTabs.includes(selectedTab) ? selectedTab : visibleTabs[0];
+    /* ── Dynamic Tabs: Built from backend data (defaulting to Description) ── */
+    const tabs = useMemo<DynamicProductTab[]>(() => {
+        const list: DynamicProductTab[] = [
+            {
+                id: 'description',
+                title: 'Description',
+                content: product?.description ||
+                    'An uncompromising botanical formula designed to harmonize with your skin’s natural biological rhythm. Provides intensive moisture, lipid barrier reinforcement, and continuous environmental defense.',
+            },
+        ];
 
-    // Dynamic Volume & Price State
-    const [selectedVolumeOption, setSelectedVolumeOption] = useState<VolumeOption>(VOLUME_OPTIONS[0]);
+        // Check if backend sends additional tabs
+        const rawProduct = product as (typeof product & { tabs?: Array<{ title?: string; name?: string; content?: string; body?: string }> }) | undefined;
+        if (rawProduct?.tabs && Array.isArray(rawProduct.tabs)) {
+            rawProduct.tabs.forEach((tab, index) => {
+                const title = tab.title || tab.name || `Tab ${index + 1}`;
+                const body = tab.content || tab.body || '';
+                if (body) {
+                    list.push({
+                        id: `dynamic-tab-${index}-${title.toLowerCase().replace(/\s+/g, '-')}`,
+                        title,
+                        content: body,
+                    });
+                }
+            });
+        }
+
+        return list;
+    }, [product]);
+
+    const [activeTabId, setActiveTabId] = useState<string>('description');
+    const activeTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
+
     const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(1);
     const [isSaved, setIsSaved] = useState<boolean>(false);
@@ -118,7 +137,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
     const [copied, setCopied] = useState<boolean>(false);
 
-    // Expandable Accordions State (All closed by default)
+    // Expandable Accordions State (Commented out for now)
     const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
         suitability: false,
         matrix: false,
@@ -134,13 +153,19 @@ export default function ProductDetail({ slug }: { slug: string }) {
         }));
     };
 
-    /* ── Product Images Extractor ── */
+    /* ── Product Images Extractor (Uses backend images with static fallback) ── */
     const images = useMemo(() => {
-        if (!product) return ['/images/product/product1.jpeg'];
+        const staticFallbacks = [
+            '/images/product/product1.jpeg',
+            '/images/product/product2.jpeg',
+            '/images/product/product3.jpeg',
+            '/images/product/product4.jpeg',
+        ];
+        if (!product) return staticFallbacks;
         const list = (product.images ?? [])
             .map((img) => staticUrl(img.name))
             .filter(Boolean) as string[];
-        return list.length > 0 ? Array.from(new Set(list)) : ['/images/product/product1.jpeg'];
+        return list.length > 0 ? Array.from(new Set(list)) : staticFallbacks;
     }, [product]);
 
     /* ── Embla Carousel Setup ── */
@@ -157,6 +182,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
     if (prevSlug !== slug) {
         setPrevSlug(slug);
         setActiveImageIndex(0);
+        setQuantity(1);
     }
 
     // Ensure gallery always starts at the first image on load or product change
@@ -230,20 +256,19 @@ export default function ProductDetail({ slug }: { slug: string }) {
         };
     }, [lightboxOpen, images.length]);
 
-    /* ── Dynamic Price Calculation ── */
-    const basePrice = Number(product?.price || 490);
-    const dynamicPrice = Math.round(basePrice * selectedVolumeOption.multiplier);
-
-    const baseComparePrice = product?.comparePrice ? Number(product.comparePrice) : null;
-    const dynamicComparePrice = baseComparePrice
-        ? Math.round(baseComparePrice * selectedVolumeOption.multiplier)
-        : null;
-    const hasDiscount = dynamicComparePrice !== null && dynamicComparePrice > dynamicPrice;
+    /* ── Pricing & Stock Calculations ── */
+    const price = Number(product?.price ?? 0);
+    const comparePrice = product?.comparePrice != null ? Number(product.comparePrice) : null;
+    const hasDiscount = comparePrice !== null && comparePrice > price;
     const discountPercentage = hasDiscount
-        ? Math.round(((dynamicComparePrice! - dynamicPrice) / dynamicComparePrice!) * 100)
+        ? Math.round(((comparePrice! - price) / comparePrice!) * 100)
         : null;
+
+    const isOutOfStock = product ? product.stock <= 0 && !product.allowBackorder : false;
+    const isLowStock = product ? product.stock > 0 && product.stock <= 5 && !product.allowBackorder : false;
 
     const handleAddToCart = () => {
+        if (isOutOfStock) return;
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
 
@@ -253,10 +278,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
         addToCart({
             id: String(product?._id || slug || productName),
             name: productName,
-            price: dynamicPrice,
+            price: price,
             image: mainImage,
             category: product?.category?.name || 'Botanical Skincare',
-            size: selectedVolumeOption.volume,
             quantity: quantity,
             slug: slug,
         });
@@ -298,9 +322,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
         return (
             <main className="w-full min-h-screen pt-24 sm:pt-28 pb-20 px-4 sm:px-8 lg:px-[5vw] select-none bg-background">
                 <div className="w-full flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
-                    <div className="hidden lg:flex w-20 flex-col gap-3">
+                    <div className="hidden sm:flex w-20 lg:w-24 flex-col gap-3">
                         {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="aspect-square w-20 rounded-xl animate-pulse bg-secondary/20" />
+                            <div key={i} className="aspect-square w-full rounded-xl animate-pulse bg-secondary/20" />
                         ))}
                     </div>
                     <div className="flex-1 aspect-[4/5] rounded-2xl animate-pulse bg-secondary/20 w-full" />
@@ -343,6 +367,8 @@ export default function ProductDetail({ slug }: { slug: string }) {
             ? rawCategory
             : null;
 
+    const brandDisplay = product.brand && product.brand.toLowerCase() !== 'gveda' ? product.brand : 'GVEDA';
+
     return (
         <main className="w-full min-h-screen pt-24 sm:pt-28 pb-20 px-4 sm:px-8 lg:px-[5vw] bg-background text-primary select-none">
 
@@ -350,9 +376,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
             <div className="mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 pb-14 sm:pb-18 border-b border-secondary/25">
 
                 {/* ── LEFT: Product Gallery (7 Columns) ── */}
-                <div className="lg:col-span-7 w-full flex flex-col items-start gap-4 xl:gap-5">
+                <div className="lg:col-span-7 w-full flex flex-col sm:flex-row-reverse items-stretch gap-3 sm:gap-4 xl:gap-5">
                     {/* Carousel Stage */}
-                    <div className="w-full relative">
+                    <div className="flex-1 min-w-0 relative">
                         <div
                             ref={emblaRef}
                             className="overflow-hidden w-full cursor-grab active:cursor-grabbing rounded-xl select-none touch-pan-y bg-white border border-secondary/20"
@@ -413,9 +439,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         )}
                     </div>
 
-                    {/* Thumbnail Strip */}
+                    {/* Thumbnail Strip (Slider on the Left) */}
                     {images.length > 1 && (
-                        <div className="flex w-full gap-3 overflow-x-auto py-1 scrollbar-none">
+                        <div className="w-full sm:w-20 lg:w-24 shrink-0 flex flex-row sm:flex-col gap-2.5 sm:gap-3 overflow-x-auto sm:overflow-y-auto max-h-none sm:max-h-[450px] lg:max-h-[480px] xl:max-h-[520px] scrollbar-none py-1 sm:py-0">
                             {images.map((src, i) => (
                                 <button
                                     key={src + i}
@@ -423,7 +449,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     onClick={() => selectThumbnail(i)}
                                     aria-label={`View product image ${i + 1}`}
                                     aria-pressed={activeImageIndex === i}
-                                    className={`relative h-20 w-20 sm:h-22 sm:w-22 shrink-0 overflow-hidden rounded-lg border transition-all duration-300 cursor-pointer bg-white ${activeImageIndex === i
+                                    className={`relative h-20 w-20 sm:h-20 sm:w-full lg:h-24 shrink-0 overflow-hidden rounded-lg border transition-all duration-300 cursor-pointer bg-white ${activeImageIndex === i
                                         ? 'border-accent-gold shadow-xs ring-1 ring-accent-gold/40'
                                         : 'border-secondary/30 opacity-70 hover:opacity-100 hover:border-accent-gold/60'
                                         }`}
@@ -435,7 +461,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                     )}
                 </div>
 
-                {/* ── RIGHT: Purchasing Options & Dynamic Price (5 Columns - Naturally Scrolled) ── */}
+                {/* ── RIGHT: Purchasing Details & Info (5 Columns - Naturally Scrolled) ── */}
                 <div className="lg:col-span-5 w-full flex flex-col gap-6 sm:gap-7">
 
                     {/* Breadcrumb */}
@@ -451,8 +477,23 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         </span>
                     </div>
 
-                    {/* Title & Reviews */}
+                    {/* Title, Badges & Stock Status */}
                     <div>
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <span className="text-[11px] font-medium tracking-widest uppercase text-accent-gold">
+                                {brandDisplay}{product.type ? ` • ${product.type}` : ''}
+                            </span>
+                            {product.newProduct && (
+                                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-secondary/15 text-primary border border-secondary/30">
+                                    New Formulation
+                                </span>
+                            )}
+                            {product.onSale && (
+                                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-accent-gold/15 text-primary border border-accent-gold/30">
+                                    Special Offer
+                                </span>
+                            )}
+                        </div>
                         <h1 className="font-heading text-3xl sm:text-4xl xl:text-[40px] text-primary font-normal leading-[1.15] tracking-[-0.02em] text-balance">
                             {product.title}
                         </h1>
@@ -464,58 +505,33 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     </svg>
                                 ))}
                             </span>
-                            <span className="text-xs text-primary/60 font-primary">Botanical Formulation • In Stock</span>
+                            <span className="text-xs font-primary">
+                                {isOutOfStock ? (
+                                    <span className="text-neutral-500">Currently Out of Stock</span>
+                                ) : isLowStock ? (
+                                    <span className="text-accent-gold font-medium">Only {product.stock} units left in stock</span>
+                                ) : (
+                                    <span className="text-primary/60">Botanical Formulation • In Stock</span>
+                                )}
+                            </span>
                         </div>
                     </div>
 
-                    {/* Dynamic Price Display */}
+                    {/* Price Display */}
                     <div className="flex flex-wrap items-baseline gap-3 border-b border-secondary/25 pb-6">
                         <span className="text-3xl font-normal text-primary font-heading transition-all duration-300">
-                            Rs. {dynamicPrice.toLocaleString()}
+                            Rs. {price.toLocaleString()}
                         </span>
                         {hasDiscount && (
                             <>
                                 <span className="text-base font-normal text-primary/40 line-through">
-                                    Rs. {dynamicComparePrice!.toLocaleString()}
+                                    Rs. {comparePrice!.toLocaleString()}
                                 </span>
                                 <span className="text-xs font-semibold px-2 py-0.5 rounded bg-botanical-gold/15 text-primary">
                                     Save {discountPercentage}%
                                 </span>
                             </>
                         )}
-                    </div>
-
-                    {/* Bottle Size Selector (Dynamic Selection) */}
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between text-xs font-medium">
-                            <span className="uppercase tracking-wider text-primary/70">Select Bottle Size</span>
-                            <span className="text-accent-gold font-semibold">{selectedVolumeOption.volume}</span>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2.5">
-                            {VOLUME_OPTIONS.map((opt) => {
-                                const isSelected = selectedVolumeOption.id === opt.id;
-                                const optPrice = Math.round(basePrice * opt.multiplier);
-                                return (
-                                    <button
-                                        key={opt.id}
-                                        type="button"
-                                        onClick={() => setSelectedVolumeOption(opt)}
-                                        aria-pressed={isSelected}
-                                        className={`py-3 px-2 text-center rounded-lg border transition-all duration-200 cursor-pointer flex flex-col items-center justify-center gap-1 ${isSelected
-                                            ? 'bg-secondary/15 text-primary border-accent-gold shadow-2xs'
-                                            : 'bg-white/80 text-primary/70 border-secondary/35 hover:border-accent-gold hover:bg-white'
-                                            }`}
-                                    >
-                                        <span className="font-primary text-xs sm:text-sm font-semibold">
-                                            {opt.label}
-                                        </span>
-                                        <span className="font-primary text-[11px] text-primary/55 font-medium">
-                                            Rs. {optPrice.toLocaleString()}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
                     </div>
 
                     {/* Quantity & CTA Action Buttons */}
@@ -527,8 +543,8 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     type="button"
                                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                                     aria-label="Decrease quantity"
-                                    disabled={quantity === 1}
-                                    className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer"
+                                    disabled={quantity <= 1 || isOutOfStock}
+                                    className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                 >
                                     −
                                 </button>
@@ -539,7 +555,11 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     type="button"
                                     onClick={() => setQuantity((q) => q + 1)}
                                     aria-label="Increase quantity"
-                                    className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer"
+                                    disabled={
+                                        isOutOfStock ||
+                                        (!product.allowBackorder && product.stock > 0 && quantity >= product.stock)
+                                    }
+                                    className="w-6 h-6 flex items-center justify-center text-primary/60 hover:text-primary transition-colors text-sm font-bold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                 >
                                     +
                                 </button>
@@ -627,12 +647,17 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         <button
                             type="button"
                             onClick={handleAddToCart}
-                            className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${addedToCart
-                                ? 'bg-primary/85 text-white'
-                                : 'bg-primary text-white hover:bg-neutral-800 active:scale-[0.99] shadow-xs'
+                            disabled={isOutOfStock}
+                            className={`w-full h-14 rounded-full font-primary text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 ${isOutOfStock
+                                ? 'bg-secondary/30 text-primary/40 cursor-not-allowed'
+                                : addedToCart
+                                    ? 'bg-primary/85 text-white cursor-pointer'
+                                    : 'bg-primary text-white hover:bg-neutral-800 active:scale-[0.99] shadow-xs cursor-pointer'
                                 }`}
                         >
-                            {addedToCart ? (
+                            {isOutOfStock ? (
+                                'Out of Stock'
+                            ) : addedToCart ? (
                                 <>
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
@@ -640,7 +665,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                     Added to Bag
                                 </>
                             ) : (
-                                `+ Add to Bag `
+                                '+ Add to Bag'
                             )}
                         </button>
                     </div>
@@ -648,116 +673,103 @@ export default function ProductDetail({ slug }: { slug: string }) {
                 </div>
             </div>
 
-            {/* ── 2. EDITORIAL DETAILS & TABS SECTION (Revealed as you scroll down) ── */}
+            {/* ── 2. DYNAMIC TABS SECTION (Driven by Backend Data) ── */}
             <div className="mx-auto max-w-[1600px] pt-12 sm:pt-16 space-y-12 sm:space-y-16">
 
                 {/* ── THE TAB BAR ── */}
                 <div className="w-full">
                     <div className="flex flex-wrap gap-x-6 sm:gap-x-8 gap-y-2 border-b border-secondary/30 pb-3">
-                        {visibleTabs.map((t) => (
+                        {tabs.map((t) => (
                             <button
-                                key={t}
+                                key={t.id}
                                 type="button"
-                                onClick={() => setActiveTab(t)}
-                                className={`font-primary text-xs sm:text-sm uppercase tracking-wider transition-all pb-2 border-b-2 cursor-pointer ${activeTab === t
+                                onClick={() => setActiveTabId(t.id)}
+                                className={`font-primary text-xs sm:text-sm uppercase tracking-wider transition-all pb-2 border-b-2 cursor-pointer ${activeTab?.id === t.id
                                     ? 'border-accent-gold text-primary font-semibold'
                                     : 'border-transparent text-primary/50 hover:text-primary'
                                     }`}
                             >
-                                {t}
+                                {t.title}
                             </button>
                         ))}
                     </div>
 
                     <div className="mt-6 text-sm sm:text-base leading-relaxed text-primary/80 font-primary">
-                        {activeTab === 'Description' && (
+                        {typeof activeTab?.content === 'string' ? (
                             <div className="space-y-4">
                                 <p className="whitespace-pre-line leading-relaxed">
-                                    {product.description ||
-                                        'An uncompromising botanical formula designed to harmonize with your skin’s natural biological rhythm. Provides intensive moisture, lipid barrier reinforcement, and continuous environmental defense.'}
-                                </p>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
-                                    <div className="p-4 rounded-lg bg-white border border-secondary/25">
-                                        <span className="text-xs uppercase tracking-widest text-accent-gold font-medium block mb-1">
-                                            Texture Profile
-                                        </span>
-                                        <span className="text-sm font-medium text-primary">
-                                            Silky, fast-absorbing botanical lipid emulsion
-                                        </span>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-white border border-secondary/25">
-                                        <span className="text-xs uppercase tracking-widest text-accent-gold font-medium block mb-1">
-                                            Aromatic Essence
-                                        </span>
-                                        <span className="text-sm font-medium text-primary">
-                                            Subtle, unfragranced raw herbal notes
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'Active Botanicals' && (
-                            <div className="space-y-4">
-                                <p>
-                                    Every botanical active is harvested with care and cold-extracted to preserve its living molecular integrity without thermal breakdown.
-                                </p>
-                                <ul className="space-y-2.5 pt-2">
-                                    <li className="flex items-start gap-2.5">
-                                        <span className="text-accent-gold font-bold">•</span>
-                                        <span><strong>Plant Squalane:</strong> Biomimetic hydrator that matches skin sebum for instant, weightless absorption.</span>
-                                    </li>
-                                    <li className="flex items-start gap-2.5">
-                                        <span className="text-accent-gold font-bold">•</span>
-                                        <span><strong>Cold-Pressed Seed Oils:</strong> Abundant in essential linoleic and oleic fatty acids to rebuild cracked barriers.</span>
-                                    </li>
-                                    <li className="flex items-start gap-2.5">
-                                        <span className="text-accent-gold font-bold">•</span>
-                                        <span><strong>Botanical Antioxidants:</strong> Vitamin E and adaptogenic polyphenols countering UV oxidative stress.</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
-
-                        {activeTab === 'Ritual & Application' && (
-                            <div className="space-y-4">
-                                <p>
-                                    Incorporate into your morning and evening skincare ritual for optimal barrier restoration.
-                                </p>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                                    <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
-                                        <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 01</span>
-                                        <h4 className="font-heading text-xl font-normal text-primary mb-1">Dispense & Warm</h4>
-                                        <p className="text-xs text-primary/70">Place 3–4 drops into palms and gently warm together.</p>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
-                                        <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 02</span>
-                                        <h4 className="font-heading text-xl font-normal text-primary mb-1">Press In</h4>
-                                        <p className="text-xs text-primary/70">Press into clean face, neck, and chest in upward lifting motions.</p>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
-                                        <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 03</span>
-                                        <h4 className="font-heading text-xl font-normal text-primary mb-1">Seal & Protect</h4>
-                                        <p className="text-xs text-primary/70">Follow with daily sunscreen in morning or night cream at dusk.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'Clinical Science' && (
-                            <div className="space-y-3">
-                                <p>
-                                    GVEDA bridges ancient botanical knowledge with modern clinical biocompatibility. Our pH 5.5 formulation respects the skin’s acid mantle, ensuring beneficial microflora thrive while preventing bacterial colonization.
-                                </p>
-                                <p className="text-xs text-primary/65 pt-2">
-                                    100% Vegan • Cruelty-Free • Non-Comedogenic • Free of Artificial Fragrance & Phthalates
+                                    {activeTab.content}
                                 </p>
                             </div>
+                        ) : (
+                            activeTab?.content
                         )}
                     </div>
                 </div>
 
-                {/* ── 3. EXPANDABLE ACCORDIONS FOR ALL OTHER SPECIFICATIONS ── */}
+                {/* ── PREVIOUS STATIC TABS (COMMENTED OUT FOR NOW) ── */}
+                {/*
+                {activeTab?.title === 'Active Botanicals' && (
+                    <div className="space-y-4">
+                        <p>
+                            Every botanical active is harvested with care and cold-extracted to preserve its living molecular integrity without thermal breakdown.
+                        </p>
+                        <ul className="space-y-2.5 pt-2">
+                            <li className="flex items-start gap-2.5">
+                                <span className="text-accent-gold font-bold">•</span>
+                                <span><strong>Plant Squalane:</strong> Biomimetic hydrator that matches skin sebum for instant, weightless absorption.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="text-accent-gold font-bold">•</span>
+                                <span><strong>Cold-Pressed Seed Oils:</strong> Abundant in essential linoleic and oleic fatty acids to rebuild cracked barriers.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="text-accent-gold font-bold">•</span>
+                                <span><strong>Botanical Antioxidants:</strong> Vitamin E and adaptogenic polyphenols countering UV oxidative stress.</span>
+                            </li>
+                        </ul>
+                    </div>
+                )}
+
+                {activeTab?.title === 'Ritual & Application' && (
+                    <div className="space-y-4">
+                        <p>
+                            Incorporate into your morning and evening skincare ritual for optimal barrier restoration.
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                            <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
+                                <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 01</span>
+                                <h4 className="font-heading text-xl font-normal text-primary mb-1">Dispense & Warm</h4>
+                                <p className="text-xs text-primary/70">Place 3–4 drops into palms and gently warm together.</p>
+                            </div>
+                            <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
+                                <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 02</span>
+                                <h4 className="font-heading text-xl font-normal text-primary mb-1">Press In</h4>
+                                <p className="text-xs text-primary/70">Press into clean face, neck, and chest in upward lifting motions.</p>
+                            </div>
+                            <div className="p-4 rounded-lg bg-white border border-secondary/25 text-center sm:text-left">
+                                <span className="font-editorial italic text-2xl text-accent-gold block mb-1">Step 03</span>
+                                <h4 className="font-heading text-xl font-normal text-primary mb-1">Seal & Protect</h4>
+                                <p className="text-xs text-primary/70">Follow with daily sunscreen in morning or night cream at dusk.</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab?.title === 'Clinical Science' && (
+                    <div className="space-y-3">
+                        <p>
+                            GVEDA bridges ancient botanical knowledge with modern clinical biocompatibility. Our pH 5.5 formulation respects the skin’s acid mantle, ensuring beneficial microflora thrive while preventing bacterial colonization.
+                        </p>
+                        <p className="text-xs text-primary/65 pt-2">
+                            100% Vegan • Cruelty-Free • Non-Comedogenic • Free of Artificial Fragrance & Phthalates
+                        </p>
+                    </div>
+                )}
+                */}
+
+                {/* ── 3. EXPANDABLE ACCORDIONS FOR ALL OTHER SPECIFICATIONS (COMMENTED OUT FOR NOW) ── */}
+                {/*
                 <div className="w-full pt-4">
                     <div className="mb-6">
                         <h3 className="font-heading text-2xl sm:text-3xl font-normal text-secondary tracking-tight">
@@ -767,7 +779,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     <div className="border-t border-secondary/25 divide-y divide-secondary/25">
 
-                        {/* ── ACCORDION 1: Skin Type & Target Suitability ── */}
                         <div className="w-full py-2">
                             <button
                                 type="button"
@@ -814,7 +825,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
                             )}
                         </div>
 
-                        {/* ── ACCORDION 2: Ritual Focus Matrix ── */}
                         <div className="w-full py-2">
                             <button
                                 type="button"
@@ -859,7 +869,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
                             )}
                         </div>
 
-                        {/* ── ACCORDION 3: Key Botanical Highlights ── */}
                         <div className="w-full py-2">
                             <button
                                 type="button"
@@ -894,7 +903,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
                             )}
                         </div>
 
-                        {/* ── ACCORDION 4: Formulation Integrity & Standards ── */}
                         <div className="w-full py-2">
                             <button
                                 type="button"
@@ -935,7 +943,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
                             )}
                         </div>
 
-                        {/* ── ACCORDION 5: Storage, Delivery & Botanical Guarantee ── */}
                         <div className="w-full py-2">
                             <button
                                 type="button"
@@ -974,6 +981,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
 
                     </div>
                 </div>
+                */}
 
             </div>
 
@@ -1040,7 +1048,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                                 aria-label="Next image"
                                 className="absolute right-3 sm:right-6 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 border border-white/20 text-white shadow-2xl backdrop-blur-xs transition-all hover:bg-white hover:text-black active:scale-95 cursor-pointer"
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
                             </button>

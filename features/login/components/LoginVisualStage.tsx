@@ -293,8 +293,8 @@ export default function LoginVisualStage() {
                   onClick={() => triggerTransition(idx)}
                   aria-label={`Story ${idx + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${activeStoryIndex === idx
-                      ? 'w-6 bg-primary shadow-xs'
-                      : 'w-2 bg-primary/25 hover:bg-primary/60'
+                    ? 'w-6 bg-primary shadow-xs'
+                    : 'w-2 bg-primary/25 hover:bg-primary/60'
                     }`}
                 />
               ))}

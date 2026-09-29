@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/shared/ui/Button";
 import Title from "@/shared/ui/Title";
 
@@ -17,13 +16,20 @@ const ContactForm = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { id, value } = e.target;
-    setForm({ ...form, [id]: value });
+    setForm((prev) => ({ ...prev, [id]: value }));
+
+    if (status) {
+      setStatus(null);
+    }
 
     // Clear error for this field when user types
     if (errors[id]) {
@@ -84,16 +90,21 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (!validate()) {
+      setStatus({
+        type: "error",
+        message: "Please correct the errors above and try again.",
+      });
+      return;
+    }
 
     setLoading(true);
-    setSuccess(false);
+    setStatus(null);
 
     try {
       // Simulate form submission sending delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setSuccess(true);
       setForm({
         firstName: "",
         lastName: "",
@@ -102,22 +113,26 @@ const ContactForm = () => {
         message: "",
       });
       setErrors({});
-
-      // Auto-hide success message after 5 seconds
-      setTimeout(() => {
-        setSuccess(false);
-      }, 5000);
+      setStatus({
+        type: "success",
+        message: "Message sent successfully. We will be in touch soon.",
+      });
     } catch (error) {
       console.error("Submission error:", error);
+      setStatus({
+        type: "error",
+        message: "Failed to send message. Please try again.",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   const inputClass = (field: string) =>
-    `w-full bg-transparent border-0 border-b ${errors[field]
-      ? "border-b-red-400 focus:border-b-red-400"
-      : "border-b-black/20 focus:border-b-primary"
+    `w-full bg-transparent border-0 border-b ${
+      errors[field]
+        ? "border-b-red-400 focus:border-b-red-400"
+        : "border-b-black/20 focus:border-b-primary"
     } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.88vw] text-primary placeholder:text-primary/85 font-primary outline-none focus:outline-none focus:ring-0 transition-colors rounded-none`;
 
   return (
@@ -132,69 +147,6 @@ const ContactForm = () => {
         description="We’d love to hear from you. Send us a message and our specialists will be in touch."
         className="mb-10 sm:mb-14 lg:mb-[3vw]"
       />
-
-      {/* ── Success Modal ── */}
-      <AnimatePresence>
-        {success && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-            onClick={() => setSuccess(false)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 20 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative bg-[#0A0A0A] border border-white/10 p-8 lg:p-[2.5vw] max-w-md lg:max-w-[30vw] w-full text-center space-y-6 lg:space-y-[1.5vw] rounded-xl lg:rounded-[1vw]"
-            >
-              {/* Checkmark icon */}
-              <div className="mx-auto w-16 h-16 lg:w-[3.8vw] lg:h-[3.8vw] rounded-full border-2 border-foreground flex items-center justify-center">
-                <motion.svg
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                  className="w-8 h-8 lg:w-[1.8vw] lg:h-[1.8vw] text-foreground"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <motion.path
-                    d="M5 13l4 4L19 7"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                  />
-                </motion.svg>
-              </div>
-
-              <div className="space-y-2 lg:space-y-[0.5vw]">
-                <h3 className="text-white text-lg md:text-xl lg:text-[1.2vw] font-light tracking-[0.2em] uppercase">
-                  Message Sent
-                </h3>
-                <p className="text-foreground/70 text-sm lg:text-[0.8vw] leading-relaxed">
-                  Thank you for reaching out. Our team will get back to you shortly.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSuccess(false)}
-                className="mt-2 lg:mt-[0.5vw] px-8 py-2.5 lg:px-[2vw] lg:py-[0.6vw] text-xs lg:text-[0.75vw] tracking-[0.25em] uppercase text-white/80 border border-white/20 hover:border-white/40 hover:text-white transition-all duration-300 cursor-pointer"
-              >
-                Close
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ── 50vw White Card with Subtle Botanical Accents ── */}
       <div className="relative w-full max-w-[94vw] lg:w-[70vw] mx-auto bg-secondary-light rounded-2xl sm:rounded-3xl lg:rounded-[1.6vw] p-8 sm:p-12 lg:p-[3.5vw] border border-[#ECE4DA] shadow-[0_10px_40px_rgba(0,0,0,0.03)] overflow-visible">
@@ -217,7 +169,10 @@ const ContactForm = () => {
         </div>
 
         {/* ── Form Inputs ── */}
-        <form onSubmit={handleSubmit} className="relative z-10 space-y-6 sm:space-y-8 lg:space-y-[2vw]">
+        <form
+          onSubmit={handleSubmit}
+          className="relative z-10 space-y-6 sm:space-y-8 lg:space-y-[2vw]"
+        >
           {/* Row 1: First Name & Last Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 lg:gap-[3vw]">
             <div className="flex flex-col">
@@ -296,10 +251,11 @@ const ContactForm = () => {
               rows={4}
               value={form.message}
               onChange={handleChange}
-              className={`w-full bg-transparent border-0 border-b ${errors.message
-                ? "border-b-red-400 focus:border-b-red-400"
-                : "border-b-black/20 focus:border-b-primary"
-                } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.88vw] text-primary placeholder:text-primary/80 font-primary outline-none focus:outline-none focus:ring-0 transition-colors resize-none rounded-none`}
+              className={`w-full bg-transparent border-0 border-b ${
+                errors.message
+                  ? "border-b-red-400 focus:border-b-red-400"
+                  : "border-b-black/20 focus:border-b-primary"
+              } py-3 sm:py-3.5 lg:py-[0.8vw] text-sm sm:text-base lg:text-[0.88vw] text-primary placeholder:text-primary/80 font-primary outline-none focus:outline-none focus:ring-0 transition-colors resize-none rounded-none`}
             />
             {errors.message && (
               <p className="text-red-500 text-xs lg:text-[0.75vw] mt-1 lg:mt-[0.25vw]">
@@ -308,13 +264,29 @@ const ContactForm = () => {
             )}
           </div>
 
-          {/* Bottom Actions: Right-aligned Send Button */}
-          <div className="flex items-center justify-end pt-4 sm:pt-6 lg:pt-[1.5vw]">
+          {/* Bottom Actions: Status Span and Send Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 lg:pt-[1.5vw]">
+            <div className="flex items-center min-h-[1.5rem]">
+              {status && (
+                <span
+                  role="status"
+                  aria-live="polite"
+                  className={`text-xs sm:text-sm lg:text-[0.85vw] font-primary font-medium tracking-wide ${
+                    status.type === "success"
+                      ? "text-green-600"
+                      : "text-red-500"
+                  }`}
+                >
+                  {status.message}
+                </span>
+              )}
+            </div>
+
             <Button
               type="submit"
               disabled={loading}
               variant="primary"
-              className="px-8 sm:px-10 lg:px-[2.5vw] py-3 lg:py-[0.7vw] rounded-full text-xs sm:text-sm lg:text-[0.8vw] tracking-wider uppercase"
+              className="w-full sm:w-auto px-8 sm:px-10 lg:px-[2.5vw] py-3 lg:py-[0.7vw] rounded-full text-xs sm:text-sm lg:text-[0.8vw] tracking-wider uppercase cursor-pointer"
             >
               {loading ? "Sending..." : "Send"}
             </Button>

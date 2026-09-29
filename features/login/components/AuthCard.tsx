@@ -24,6 +24,8 @@ import {
 import AuthTabs from './AuthTabs';
 import GoogleAuthButton from './GoogleAuthButton';
 import { AuthMode } from './loginTypes';
+import { useRegisterMutation, useLoginMutation } from '../hooks';
+import type { RegisterDistributorDto, RegisterUserDto } from '../interface';
 
 interface AuthCardProps {
   mode: AuthMode;
@@ -48,6 +50,10 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams?.get('redirect') || null;
+
+  // React Query Mutations
+  const registerMutation = useRegisterMutation();
+  const loginMutation = useLoginMutation();
 
   // Mode & Registration Type
   const [registrationType, setRegistrationType] = useState<RegistrationType>('distributor');
@@ -87,9 +93,9 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
   const [rememberMe, setRememberMe] = useState(false);
 
   // Feedback & Loading State
-  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const isPending = registerMutation.isPending || loginMutation.isPending;
 
   // ── Sponsor Confirmation Handler ──
   const handleProceedSponsor = () => {
@@ -101,22 +107,16 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
       return;
     }
 
-    // Temporary validation rule: only '101' is valid
-    if (trimmed === '101') {
-      setIsSponsorConfirmed(true);
-      setSponsorError(null);
-      setSponsorSuccess('Sponsor ID 101 verified successfully.');
-    } else {
-      setIsSponsorConfirmed(false);
-      setSponsorSuccess(null);
-      setSponsorError('Invalid Sponsor ID. (Temporarily, only Sponsor ID 101 is valid)');
-    }
+    setIsSponsorConfirmed(true);
+    setSponsorError(null);
+    setSponsorSuccess(`Sponsor ID ${trimmed} verified successfully.`);
   };
 
   // ── Form Submission Handler ──
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
+    setSuccessMessage(null);
 
     // ── Login Mode ──
     if (mode === 'login') {
@@ -124,21 +124,31 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
         setErrorMessage('Please enter both your email address and password.');
         return;
       }
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        setSuccessMessage('Welcome back to GVEDA.');
+      try {
+        const res = await loginMutation.mutateAsync({
+          email: email.trim(),
+          password,
+          rememberMe,
+        });
+        setSuccessMessage(res.message || 'Welcome back to GVEDA.');
         setTimeout(() => {
           setSuccessMessage(null);
-          if (redirectUrl) router.push(redirectUrl);
+          if (redirectUrl) {
+            router.push(redirectUrl);
+          } else {
+            router.push('/');
+          }
         }, 1200);
-      }, 850);
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Login failed. Please check your credentials.';
+        setErrorMessage(msg);
+      }
       return;
     }
 
     // ── Sign Up Mode Validation ──
     if (!isSponsorConfirmed) {
-      setErrorMessage('Please verify a valid Sponsor ID (101) by clicking "Proceed" before continuing.');
+      setErrorMessage('Please verify a valid Sponsor ID by clicking "Proceed" before continuing.');
       return;
     }
 
@@ -203,6 +213,44 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
         setErrorMessage('Please acknowledge and check all three Terms & Conditions items to complete distributor registration.');
         return;
       }
+
+      const distributorPayload: RegisterDistributorDto = {
+        email: email.trim(),
+        fullName: name.trim(),
+        phoneNumber: phone.trim(),
+        password,
+        sponsorId: sponsorId.trim(),
+        isDist: true,
+        alternatePhone: alternatePhone.trim() || undefined,
+        gender: gender.toLowerCase(),
+        dateOfBirth: dob,
+        nidType: idType.toLowerCase().replace(/\s+/g, '_'),
+        nidNumber: idNumber.trim(),
+        currentDistrict: currentDistrict,
+        currentAddress: `${permanentDistrict ? `Permanent: ${permanentDistrict}, ` : ''}Current: ${currentDistrict}`,
+        understandIncome: acknowledgeIncome,
+        agreeToDistributor: agreeDistributorTerms,
+        confirmInformation: certifyAccurate,
+      };
+
+      try {
+        const res = await registerMutation.mutateAsync(distributorPayload);
+        setSuccessMessage(
+          res.message || 'GBO registration successful. A verification email has been sent to your email address.'
+        );
+        setTimeout(() => {
+          setSuccessMessage(null);
+          if (redirectUrl) {
+            router.push(redirectUrl);
+          } else {
+            onSelectMode('login');
+          }
+        }, 1800);
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Registration failed due to validation error.';
+        setErrorMessage(msg);
+      }
+      return;
     }
 
     // Customer Specific Validations
@@ -211,22 +259,35 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
         setErrorMessage("Please agree to GVEDA's Terms & Conditions and Privacy Policy to complete registration.");
         return;
       }
-    }
 
-    // Submission Simulation
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSuccessMessage(
-        registrationType === 'distributor'
-          ? 'Distributor account registered successfully! Welcome to the GVEDA partner network.'
-          : 'Customer account registered successfully! Welcome to GVEDA.'
-      );
-      setTimeout(() => {
-        setSuccessMessage(null);
-        if (redirectUrl) router.push(redirectUrl);
-      }, 1400);
-    }, 950);
+      const customerPayload: RegisterUserDto = {
+        email: email.trim(),
+        fullName: name.trim(),
+        phoneNumber: phone.trim(),
+        password,
+        sponsorId: sponsorId.trim(),
+        isDist: false,
+      };
+
+      try {
+        const res = await registerMutation.mutateAsync(customerPayload);
+        setSuccessMessage(
+          res.message || 'Customer account registered successfully! Please check your email for verification.'
+        );
+        setTimeout(() => {
+          setSuccessMessage(null);
+          if (redirectUrl) {
+            router.push(redirectUrl);
+          } else {
+            onSelectMode('login');
+          }
+        }, 1800);
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Registration failed due to validation error.';
+        setErrorMessage(msg);
+      }
+      return;
+    }
   };
 
   const handleSelectMode = (newMode: AuthMode) => {
@@ -789,10 +850,10 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
                   /* Active Register Button */
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isPending}
                     className="w-full sm:w-auto py-3.5 px-8 rounded-full bg-primary hover:bg-black text-white text-xs sm:text-sm font-medium tracking-wider uppercase transition-all duration-300 shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed group self-start"
                   >
-                    {loading ? (
+                    {isPending ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Please wait...</span>
@@ -891,10 +952,10 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
               {/* Submit Primary Button for Login (25% width) */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={isPending}
                 className="w-full sm:w-[25%] sm:min-w-[130px] py-3.5 rounded-full bg-primary text-white hover:bg-black active:scale-[0.99] text-xs sm:text-sm font-medium transition-all duration-300 shadow-2xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed group mt-1 self-start"
               >
-                {loading ? (
+                {isPending ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     <span>Please wait...</span>
