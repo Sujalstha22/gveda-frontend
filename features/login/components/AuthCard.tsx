@@ -26,6 +26,7 @@ import GoogleAuthButton from './GoogleAuthButton';
 import { AuthMode } from './loginTypes';
 import { useRegisterMutation, useLoginMutation } from '../hooks';
 import type { RegisterDistributorDto, RegisterUserDto } from '../interface';
+import { saveAuthSession } from '@/features/auth/session';
 
 interface AuthCardProps {
   mode: AuthMode;
@@ -124,21 +125,66 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
         setErrorMessage('Please enter both your email address and password.');
         return;
       }
+
+      // Check for demo credentials
+      const normalizedEmail = email.trim().toLowerCase();
+      if (
+        (normalizedEmail === 'customer@gveda.com' ||
+          normalizedEmail === 'demo@gveda.com' ||
+          normalizedEmail === 'sophia@gveda.com') &&
+        (password === 'password123' || password === 'demo123' || password === 'gveda123')
+      ) {
+        saveAuthSession({
+          id: 'gv_demo_customer_01',
+          fullName: 'Sophia Maharjan',
+          email: normalizedEmail,
+          phoneNumber: '+977 9841234567',
+          isDist: false,
+          provinceName: 'Bagmati Province',
+          districtName: 'Kathmandu',
+          typeName: 'Metropolitan City',
+          localLevelName: 'Ward 4',
+          streetAddress: 'Baluwatar Road',
+        });
+
+        setSuccessMessage('Welcome back to GVEDA, Sophia.');
+        setTimeout(() => {
+          setSuccessMessage(null);
+          if (redirectUrl) {
+            router.push(redirectUrl);
+          } else {
+            router.push('/account');
+          }
+        }, 800);
+        return;
+      }
+
       try {
         const res = await loginMutation.mutateAsync({
           email: email.trim(),
           password,
           rememberMe,
         });
+
+        // Save authenticated customer / GBO session
+        saveAuthSession({
+          id: (res.user?.id || res.user?._id || res.results?.user?.id || `gv_${Date.now()}`) as string,
+          fullName: res.user?.fullName || res.results?.user?.fullName || (email.split('@')[0]),
+          email: res.user?.email || res.results?.user?.email || email.trim(),
+          phoneNumber: res.user?.phoneNumber || res.results?.user?.phoneNumber || '',
+          isDist: res.user?.isDist ?? res.results?.user?.isDist ?? false,
+          token: res.token || res.accessToken || res.results?.token || res.results?.accessToken,
+        });
+
         setSuccessMessage(res.message || 'Welcome back to GVEDA.');
         setTimeout(() => {
           setSuccessMessage(null);
           if (redirectUrl) {
             router.push(redirectUrl);
           } else {
-            router.push('/');
+            router.push('/account');
           }
-        }, 1200);
+        }, 1000);
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : 'Login failed. Please check your credentials.';
         setErrorMessage(msg);
@@ -946,6 +992,25 @@ export default function AuthCard({ mode, onSelectMode }: AuthCardProps) {
                   className="text-xs text-primary/60 hover:text-secondary transition-colors font-primary font-medium cursor-pointer"
                 >
                   Forgot password?
+                </button>
+              </div>
+
+              {/* Quick Demo Credentials Pill */}
+              <div className="p-3 rounded-xl bg-warm-ivory/80 border border-secondary/25 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="text-[11px] text-primary/70">
+                  <span className="font-semibold text-primary">Demo Account:</span>{' '}
+                  <span className="font-mono text-secondary font-medium">customer@gveda.com</span> /{' '}
+                  <span className="font-mono text-primary/70">password123</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('customer@gveda.com');
+                    setPassword('password123');
+                  }}
+                  className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-secondary/15 text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                >
+                  Auto Fill
                 </button>
               </div>
 

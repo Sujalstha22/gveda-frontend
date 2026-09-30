@@ -11,7 +11,7 @@ export default function Login() {
   const [mode, setMode] = useState<AuthMode>('login');
 
   return (
-    <main className="w-full min-h-screen bg-warm-ivory select-none pt-[84px] sm:pt-[88px] lg:pt-[92px] pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-10">
+    <main className="w-full min-h-screen bg-warm-ivory select-none pt-[84px] sm:pt-[88px] lg:pt-[96px] pb-12 sm:pb-16 px-4 sm:px-8 lg:px-[5vw]">
       {/* Hidden preloader for smooth Next.js image caching */}
       <div className="hidden" aria-hidden="true">
         {LOGIN_SLIDES.map((slide) => (
@@ -26,9 +26,9 @@ export default function Login() {
         ))}
       </div>
 
-      <div className="w-full max-w-[1540px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-4 items-start">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
         {/* ── Left Column (40% Width): Visual Image Stage (Sticky below Navbar) ── */}
-        <aside className="w-full lg:col-span-5 lg:sticky lg:top-[92px] self-start order-1">
+        <aside className="w-full lg:col-span-5 lg:sticky lg:top-[96px] self-start order-1">
           <LoginVisualStage />
         </aside>
 

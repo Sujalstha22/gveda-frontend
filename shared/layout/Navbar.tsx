@@ -9,6 +9,7 @@ import SearchBar from './navbar/SearchBar';
 import { NAV_LINKS } from './navbar/navData';
 import { useCart } from '@/shared/context/CartContext';
 import { usePreloader } from '@/shared/context/PreloaderContext';
+import { useAuthSession } from '@/features/auth/session';
 
 const emptySubscribe = () => () => {};
 
@@ -78,6 +79,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
+  const session = useAuthSession();
   const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const cartBadgeCount = isMounted ? totalItems : 0;
   const { heroReady } = usePreloader();
@@ -113,6 +115,7 @@ export default function Navbar() {
     '/cart',
     '/checkout',
     '/login',
+    '/account',
     '/policies',
   ];
 
@@ -334,15 +337,15 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* User / Login Icon */}
+              {/* User / Login / Account Icon */}
               <Link
-                href="/login"
-                aria-label="Account / Login"
-                title="Account"
+                href={session ? "/account" : "/login"}
+                aria-label={session ? "Customer Account Dashboard" : "Account / Login"}
+                title={session ? `Account (${session.fullName.split(' ')[0]})` : "Account"}
                 className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${searchOpen ? 'hidden sm:flex' : 'flex'
                   } items-center justify-center cursor-pointer ${isWhiteNav
                     ? 'text-white hover:bg-white/15'
-                    : pathname === '/login'
+                    : pathname === '/login' || pathname === '/account'
                       ? 'text-primary bg-black/10'
                       : 'text-primary/80 hover:text-primary hover:bg-black/5'
                   }`}

@@ -51,6 +51,7 @@ export default function CartDrawer() {
       <aside
         aria-label="Shopping Cart Drawer"
         aria-hidden={!isCartOpen}
+        data-lenis-prevent
         className={`fixed top-0 right-0 bottom-0 w-full sm:w-[440px] md:w-[460px] bg-[#FAF9F6] shadow-2xl flex flex-col z-[999] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
       >
@@ -85,7 +86,7 @@ export default function CartDrawer() {
         </div>
 
         {/* Drawer Body / Cart Items List */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
+        <div data-lenis-prevent className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4">
               <div className="w-16 h-16 rounded-full bg-botanical-gold/10 border border-botanical-gold/20 flex items-center justify-center mb-4 text-botanical-gold">

@@ -9,82 +9,6 @@ import { staticUrl } from '@/shared/api';
 import RelatedProducts from './RelatedProducts';
 import { useCart } from '@/shared/context/CartContext';
 
-/* ── Tab Definitions & Content ── */
-const TABS = [
-    'Description',
-    'Active Botanicals',
-    'Ritual & Application',
-    'Clinical Science',
-] as const;
-type Tab = (typeof TABS)[number];
-
-const SUITABILITY_ITEMS = [
-    {
-        name: 'Sensitive & Reactive Skin',
-        note: 'Hypoallergenic lipid matrix calms redness and reactive flares.',
-        icon: (
-            <svg className="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 0 0 9-9c0-4.97-4.03-9-9-9-4.97 0-9 4.03-9 9 0 4.97 4.03 9 9 9Z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 14c3.5 0 6-2.5 6-6" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18c-3.5 0-6-2.5-6-6" />
-            </svg>
-        ),
-    },
-    {
-        name: 'Barrier-Compromised Skin',
-        note: 'Bio-identical ceramides and plant squalane repair damaged barriers.',
-        icon: (
-            <svg className="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-            </svg>
-        ),
-    },
-    {
-        name: 'Dehydrated & Dry Skin',
-        note: 'Multi-depth cellular hydration locks moisture for up to 48 hours.',
-        icon: (
-            <svg className="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 2.25c-5.25 7.5-7.5 11.25-7.5 14.25a7.5 7.5 0 0 0 15 0c0-3-2.25-6.75-7.5-14.25Z" />
-            </svg>
-        ),
-    },
-    {
-        name: 'Normal to Combination Skin',
-        note: 'Regulates sebum naturally without pore-clogging heavy residues.',
-        icon: (
-            <svg className="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m-8-5 4-7 4 7H4Zm12 0 4-7 4 7h-8ZM4 18h16" />
-            </svg>
-        ),
-    },
-    {
-        name: 'Environmental Stress / City Living',
-        note: 'Potent polyphenols neutralize free radicals and urban pollution.',
-        icon: (
-            <svg className="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-            </svg>
-        ),
-    },
-];
-
-const RITUAL_GAUGES = [
-    { label: 'Nourish', score: '6 / 6' },
-    { label: 'Protect', score: '6 / 6' },
-    { label: 'Restore', score: '6 / 6' },
-    { label: 'Balance', score: '5 / 6' },
-];
-
-const BOTANICAL_FEATURES = [
-    'Cold-pressed whole-plant extraction to preserve living cellular vitality',
-    '100% biocompatible lipid matrix matching skin’s natural lipid bilayer',
-    'Free from parabens, phthalates, synthetic fragrance, sulfates, and mineral oils',
-    'Rich in omega-3, 6, 9 fatty acids, botanical squalane, and active vitamin E',
-    'Housed in UV-protective amber recyclable glass to prevent photo-oxidation',
-    'Formulated and dermatologically evaluated for modern sensitive skin',
-];
-
 export interface DynamicProductTab {
     id: string;
     title: string;
@@ -136,22 +60,6 @@ export default function ProductDetail({ slug }: { slug: string }) {
     const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
     const [copied, setCopied] = useState<boolean>(false);
-
-    // Expandable Accordions State (Commented out for now)
-    const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-        suitability: false,
-        matrix: false,
-        botanicals: false,
-        standards: false,
-        delivery: false,
-    });
-
-    const toggleAccordion = (key: string) => {
-        setOpenAccordions((prev) => ({
-            ...prev,
-            [key]: !prev[key],
-        }));
-    };
 
     /* ── Product Images Extractor (Uses backend images with static fallback) ── */
     const images = useMemo(() => {

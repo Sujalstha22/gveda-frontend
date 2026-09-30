@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_LINKS } from './navData';
 import { useCart } from '@/shared/context/CartContext';
+import { useAuthSession } from '@/features/auth/session';
 
 import Button from '@/shared/ui/Button';
 
@@ -17,6 +18,7 @@ interface MobileDrawerProps {
 
 export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
   const pathname = usePathname();
+  const session = useAuthSession();
   const previousPathname = useRef(pathname);
   const asideRef = useRef<HTMLElement>(null);
   const { openCart, totalItems } = useCart();
@@ -75,6 +77,7 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
         aria-label="Mobile Navigation Menu"
         aria-hidden={!open}
         inert={!open}
+        data-lenis-prevent
         className={[
           'fixed top-0 right-0 bottom-0 z-1040 lg:hidden',
           'w-[85vw] max-w-80 h-full flex flex-col justify-between shadow-xl',
@@ -142,13 +145,17 @@ export default function MobileDrawer({ open, onClose }: MobileDrawerProps) {
               >
                 CART {cartBadgeCount > 0 ? `(${cartBadgeCount})` : ''}
               </Button>
-              <Link href="/login" onClick={onClose} className="w-full">
+              <Link
+                href={session ? "/account" : "/login"}
+                onClick={onClose}
+                className="w-full"
+              >
                 <Button
                   variant="primary"
                   size="md"
                   className="w-full tracking-widest text-xs py-3"
                 >
-                  LOGIN
+                  {session ? "ACCOUNT" : "LOGIN"}
                 </Button>
               </Link>
             </div>
